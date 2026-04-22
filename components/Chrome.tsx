@@ -21,7 +21,7 @@ export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) =
   return (
     <header role="banner">
       {/* Top Branding Bar */}
-      <div className="fixed top-0 left-0 w-full z-[4000] p-4 pt-8 flex justify-between items-center pointer-events-none">
+      <div className="fixed top-0 left-0 w-full z-[9998] p-4 pt-8 flex justify-between items-center pointer-events-none">
         <button
           onClick={() => { setPage('home'); window.scrollTo({top: 0, behavior: 'smooth'}); }}
           className="pointer-events-auto ml-4 focus-visible:outline-orange-light rounded-lg transition-transform hover:scale-105 active:scale-95"

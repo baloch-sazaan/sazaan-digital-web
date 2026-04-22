@@ -60,7 +60,8 @@ export const FloatingNav = ({
           duration: 0.2,
         }}
         className={cn(
-          "flex flex-col md:flex-row w-[90%] md:max-w-fit fixed top-8 md:top-12 inset-x-0 mx-auto border border-white/[0.1] rounded-3xl md:rounded-full bg-black/60 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[5000] px-6 py-3 md:py-3 items-center justify-center overflow-hidden transition-all duration-300",
+          "flex flex-col md:flex-row w-[90%] md:max-w-fit fixed top-8 md:top-12 inset-x-0 mx-auto border border-white/[0.1] rounded-3xl md:rounded-full bg-black/80 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[9999] px-6 py-3 md:py-3 items-center justify-center overflow-hidden transition-all duration-300 pointer-events-auto",
+          visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
           open ? "max-h-[400px]" : "max-h-[64px] md:max-h-[80px]",
           className
         )}
