@@ -60,46 +60,43 @@ export const FloatingNav = ({
           duration: 0.2,
         }}
         className={cn(
-          "flex flex-col md:flex-row w-[92%] md:w-full md:max-w-4xl fixed top-6 md:top-10 inset-x-0 mx-auto border border-white/[0.1] rounded-2xl md:rounded-full bg-black/60 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[5000] px-6 py-3 md:py-3 items-center justify-between overflow-hidden transition-all duration-300",
-          open ? "max-h-[400px]" : "max-h-[64px] md:max-h-[70px]",
+          "flex flex-col md:flex-row w-[90%] md:max-w-fit fixed top-8 md:top-12 inset-x-0 mx-auto border border-white/[0.1] rounded-3xl md:rounded-full bg-black/60 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[5000] px-6 py-3 md:py-3 items-center justify-center overflow-hidden transition-all duration-300",
+          open ? "max-h-[400px]" : "max-h-[64px] md:max-h-[80px]",
           className
         )}
       >
-        {/* Brand/Logo Section - Always visible */}
-        <div className="flex w-full md:w-auto items-center justify-between">
-            <button 
-              onClick={() => { setPage('home'); window.scrollTo({top: 0, behavior: 'smooth'}); setOpen(false); }}
-              className="group flex items-center gap-2 focus:outline-none"
-            >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-light to-[#FF8C42] flex items-center justify-center font-black text-black text-xs">S</div>
-              <span className="text-sm font-bold tracking-widest text-white group-hover:text-orange-light transition-colors">SAZAAN <span className="hidden sm:inline font-light text-white/50 group-hover:text-orange-light/50 transition-colors">DIGITAL</span></span>
-            </button>
-            
+        {/* Mobile Toggle - Only visible on small screens */}
+        <div className="flex w-full md:hidden items-center justify-between">
+            <span className="text-xs font-black tracking-widest text-orange-light">MENU</span>
             <button 
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
                 aria-label={open ? "Close menu" : "Open menu"}
-                className="md:hidden p-2 text-white hover:text-orange-light transition-colors"
+                className="p-2 text-white hover:text-orange-light transition-colors"
             >
                 {open ? <X size={20} /> : <Menu size={20} />}
             </button>
         </div>
 
-        {/* Nav Items - Collapsible on Mobile, Visible on Desktop */}
+        {/* Nav Items - Centered for both views */}
         <div className={cn(
-            "flex flex-col md:flex-row items-center gap-4 md:gap-8 mt-6 md:mt-0 transition-all duration-300",
+            "flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-6 md:mt-0 transition-all duration-300",
             !open && "opacity-0 md:opacity-100 h-0 md:h-auto overflow-hidden md:overflow-visible pointer-events-none md:pointer-events-auto"
         )}>
           {navItems.map((navItem, idx: number) => (
             <button
               key={`link=${idx}`}
               onClick={() => {
-                const targetPage = navItem.name.toLowerCase();
-                setPage(targetPage);
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                if (navItem.action) {
+                  navItem.action();
+                } else if (navItem.link) {
+                  const element = document.getElementById(navItem.link.replace('#', ''));
+                  if(element) element.scrollIntoView({ behavior: 'smooth' });
+                  else window.location.href = navItem.link;
+                }
                 setOpen(false);
               }}
-              className="relative px-4 py-2 text-sm font-bold uppercase tracking-widest text-gray-400 transition-all duration-200 hover:text-white active:scale-95 flex items-center justify-center w-full md:w-auto"
+              className="relative px-2 py-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-400 transition-all duration-200 hover:text-orange-light active:scale-95 flex items-center justify-center w-full md:w-auto"
             >
               {navItem.name}
             </button>

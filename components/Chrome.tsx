@@ -20,6 +20,39 @@ export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) =
 
   return (
     <header role="banner">
+      {/* Top Branding Bar */}
+      <div className="fixed top-0 left-0 w-full z-[4000] p-4 pt-8 flex justify-between items-center pointer-events-none">
+        <button
+          onClick={() => { setPage('home'); window.scrollTo({top: 0, behavior: 'smooth'}); }}
+          className="pointer-events-auto ml-4 focus-visible:outline-orange-light rounded-lg transition-transform hover:scale-105 active:scale-95"
+          aria-label="Sazaan Digital - Home"
+          style={{ display: 'flex', alignItems: 'center', gap: 10 }}
+        >
+          <Logo />
+        </button>
+
+        <nav className="pointer-events-auto flex gap-3 mr-4" aria-label="Social Links">
+          {[
+            { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaandigital' },
+            { name: 'mail', label: 'Contact', action: () => { setPage('contact'); window.scrollTo({top: 0, behavior: 'smooth'}); } }
+          ].map(s => {
+            const Tag = s.url ? 'a' : 'button';
+            const props = s.url ? { href: s.url, target: '_blank', rel: 'noopener noreferrer' } : { onClick: s.action };
+            return (
+              <Tag 
+                key={s.name}
+                {...props as any}
+                aria-label={s.label}
+                className="w-12 h-12 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-center text-white/40 hover:text-orange-light hover:border-orange-light/20 transition-all duration-300"
+              >
+                <Icon name={s.name} size={18} />
+              </Tag>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Smart Floating Nav */}
       <nav aria-label="Main Navigation">
         <FloatingNav navItems={navItems} setPage={setPage} />
       </nav>
