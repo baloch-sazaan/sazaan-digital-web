@@ -20,24 +20,26 @@ export const FloatingNav = ({
   }[];
   className?: string;
 }) => {
-  const { scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [open, setOpen] = useState(false);
 
-  useMotionValueEvent(scrollYProgress, "change", (current) => {
-    if (typeof current === "number") {
-      let direction = current! - (scrollYProgress.getPrevious() ?? 0);
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    const diff = current - previous;
 
-      if (scrollYProgress.get() < 0.05) {
-        setVisible(true);
-      } else {
-        if (direction < 0) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-          setOpen(false); // Close menu on scroll down
-        }
-      }
+    // Show at the very top
+    if (current < 10) {
+      setVisible(true);
+      return;
+    }
+
+    // Hide when scrolling down, Show when scrolling up
+    if (diff > 5) {
+      setVisible(false);
+      setOpen(false);
+    } else if (diff < -5) {
+      setVisible(true);
     }
   });
 
