@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   m,
   useScroll,
@@ -20,6 +20,33 @@ export const Header = () => {
   );
 };
 
+/* Mobile: flat 2-column grid — no scroll-linked transforms, no springs */
+const MobileGallery = ({ products }: { products: { title: string; link: string; thumbnail: string }[] }) => (
+  <section className="px-4 pt-6 pb-20">
+    <div className="grid grid-cols-2 gap-4 mt-2">
+      {products.slice(0, 6).map((p) => (
+        <a
+          key={p.title}
+          href={p.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative rounded-2xl overflow-hidden aspect-[4/3] block"
+        >
+          <img
+            src={p.thumbnail}
+            alt={p.title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover object-left-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+          <span className="absolute bottom-2 left-3 text-white text-xs font-semibold truncate max-w-[90%]">{p.title}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+);
+
 export const HeroParallax = ({
   products,
 }: {
@@ -28,6 +55,39 @@ export const HeroParallax = ({
     link: string;
     thumbnail: string;
   }[];
+}) => {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < 768
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  if (isMobile) return (
+    <>
+      <div className="max-w-7xl relative mx-auto pt-10 pb-2 px-4 w-full">
+        <h2 className="text-2xl font-bold text-white leading-tight">
+          Our <span className="text-[#FFB07C]">Intelligence</span>
+        </h2>
+        <p className="max-w-2xl text-base mt-3 text-neutral-400">
+          Everything you need. <br /> nothing you don't.
+        </p>
+      </div>
+      <MobileGallery products={products} />
+    </>
+  );
+
+  return <HeroParallaxDesktop products={products} />;
+};
+
+const HeroParallaxDesktop = ({
+  products,
+}: {
+  products: { title: string; link: string; thumbnail: string }[];
 }) => {
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
@@ -40,77 +100,55 @@ export const HeroParallax = ({
 
   const springConfig = { stiffness: 120, damping: 25, bounce: 0 };
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, isMobile ? 500 : 1000]),
+    useTransform(scrollYProgress, [0, 1], [0, 1000]),
     springConfig
   );
   const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, isMobile ? -500 : -1000]),
+    useTransform(scrollYProgress, [0, 1], [0, -1000]),
     springConfig
   );
-
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [isMobile ? 2 : 10, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [10, 0]),
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.02], [isMobile ? 0.85 : 0, 1]),
+    useTransform(scrollYProgress, [0, 0.02], [0, 1]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [isMobile ? 1 : 15, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [15, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [isMobile ? 20 : 350, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [350, 0]),
     springConfig
   );
+
   return (
     <div
       ref={ref}
-      className="h-[150vh] md:h-[280vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="h-[280vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
       <div className="sticky top-0 z-20">
         <m.div style={{ opacity: useTransform(scrollYProgress, [0, 0.25], [1, 0]) }}>
-           <Header />
+          <Header />
         </m.div>
       </div>
-      <m.div
-        style={{
-          rotateX,
-          rotateZ,
-          translateY,
-          opacity,
-        }}
-        className="px-8 md:px-0"
-      >
+      <m.div style={{ rotateX, rotateZ, translateY, opacity }}>
         <m.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {firstRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
+            <ProductCard product={product} translate={translateX} key={product.title} />
           ))}
         </m.div>
         <m.div className="flex flex-row mb-20 space-x-20">
           {secondRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateXReverse}
-              key={product.title}
-            />
+            <ProductCard product={product} translate={translateXReverse} key={product.title} />
           ))}
         </m.div>
         <m.div className="flex flex-row-reverse space-x-reverse space-x-20">
           {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
+            <ProductCard product={product} translate={translateX} key={product.title} />
           ))}
         </m.div>
       </m.div>
