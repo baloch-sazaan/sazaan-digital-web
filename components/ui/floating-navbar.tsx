@@ -60,7 +60,7 @@ export const FloatingNav = ({ navItems, className, setPage }: FloatingNavProps) 
     // Outer wrapper: always in DOM, always positioned, never blocks clicks when hidden
     <div
       className={cn(
-        "fixed inset-x-0 top-6 md:top-10 z-[9999] flex justify-center pointer-events-none",
+        "fixed inset-x-0 top-6 md:top-10 z-[999999] flex justify-center pointer-events-none",
         className
       )}
     >

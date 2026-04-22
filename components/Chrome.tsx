@@ -12,18 +12,18 @@ const Logo = () => (
 
 export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) => void }) => {
   const navItems = [
-    { name: 'Home', action: () => { setPage('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); } },
-    { name: 'Services', action: () => { setPage('services'); window.scrollTo({ top: 0, behavior: 'smooth' }); } },
-    { name: 'Work', action: () => { setPage('work'); window.scrollTo({ top: 0, behavior: 'smooth' }); } },
-    { name: 'Contact', action: () => { setPage('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); } },
+    { name: 'Home', action: () => { console.log('Navigating to Home'); setPage('home'); window.scrollTo(0, 0); } },
+    { name: 'Services', action: () => { console.log('Navigating to Services'); setPage('services'); window.scrollTo(0, 0); } },
+    { name: 'Work', action: () => { console.log('Navigating to Work'); setPage('work'); window.scrollTo(0, 0); } },
+    { name: 'Contact', action: () => { console.log('Navigating to Contact'); setPage('contact'); window.scrollTo(0, 0); } },
   ];
 
   return (
     <header role="banner">
       {/* Top Branding Bar */}
-      <div className="fixed top-0 left-0 w-full z-[9998] p-4 pt-8 flex justify-between items-center pointer-events-none">
+      <div className="fixed top-0 left-0 w-full z-[999998] p-4 pt-8 flex justify-between items-center pointer-events-none">
         <button
-          onClick={() => { setPage('home'); window.scrollTo({top: 0, behavior: 'smooth'}); }}
+          onClick={() => { console.log('Logo click - Home'); setPage('home'); window.scrollTo(0, 0); }}
           className="pointer-events-auto ml-4 focus-visible:outline-orange-light rounded-lg transition-transform hover:scale-105 active:scale-95"
           aria-label="Sazaan Digital - Home"
           style={{ display: 'flex', alignItems: 'center', gap: 10 }}
@@ -34,7 +34,7 @@ export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) =
         <nav className="pointer-events-auto flex gap-3 mr-4" aria-label="Social Links">
           {[
             { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaandigital' },
-            { name: 'mail', label: 'Contact', action: () => { setPage('contact'); window.scrollTo({top: 0, behavior: 'smooth'}); } }
+            { name: 'mail', label: 'Contact', action: () => { console.log('Contact click'); setPage('contact'); window.scrollTo(0, 0); } }
           ].map(s => {
             const Tag = s.url ? 'a' : 'button';
             const props = s.url ? { href: s.url, target: '_blank', rel: 'noopener noreferrer' } : { onClick: s.action };

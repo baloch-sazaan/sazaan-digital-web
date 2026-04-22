@@ -198,10 +198,12 @@ export default function App() {
       <div className="relative w-full overflow-x-hidden">
         <motion.div
           aria-hidden="true"
-          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999]"
+          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
           style={{ scaleX }}
         />
         <StructuredData />
+        {isValidPage && <Navbar page={page} setPage={setPage} />}
+        
         <Suspense fallback={null}>
           <CustomCursor />
         </Suspense>
@@ -238,9 +240,7 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="relative w-full overflow-x-hidden" role="presentation">
-          {isValidPage && <Navbar page={page} setPage={setPage} />}
-          <main id="main-content" role="main">
+        <main id="main-content" role="main" className="relative w-full">
             <AnimatePresence mode="wait">
               {page === 'home' && (
                 <ErrorBoundary key="home">
@@ -280,9 +280,8 @@ export default function App() {
                 </Suspense>
               )}
             </AnimatePresence>
-          </main>
           {showFooter && <Footer setPage={setPage} />}
-        </div>
+        </main>
       </div>
     </ReactLenis>
   );
