@@ -48,7 +48,7 @@ export const CustomCursor = () => {
         backgroundColor: '#fff',
       }}
     >
-      <div className="absolute inset-0 w-full h-full rounded-full bg-[#FFB07C]/20 blur-xl scale-[3]" />
+      <div className="absolute inset-0 w-full h-full rounded-full bg-[#FFB07C]/20 blur-xl scale-[3] pointer-events-none" />
     </motion.div>
   );
 };
