@@ -82,7 +82,7 @@ export const FloatingNav = ({ navItems, className, setPage }: FloatingNavProps) 
             <button
               key={idx}
               onClick={() => handleNavClick(item)}
-              className="relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-orange-light transition-colors duration-200 rounded-full hover:bg-white/5 active:scale-95"
+              className="relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-orange-light transition-colors duration-200 rounded-full hover:bg-white/5 active:scale-95 cursor-pointer pointer-events-auto"
             >
               {item.name}
             </button>

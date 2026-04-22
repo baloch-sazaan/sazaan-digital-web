@@ -168,8 +168,8 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       {/* Back Button */}
       <div className="max-w-2xl mx-auto mb-12">
         <button 
-          onClick={() => { setPage('home'); window.scrollTo({top: 0, behavior: 'smooth'}); }}
-          className="group flex items-center gap-3 text-white/40 hover:text-orange-light transition-all duration-300 font-bold tracking-widest text-xs uppercase"
+          onClick={() => { setPage('home'); }}
+          className="group flex items-center gap-3 text-white/40 hover:text-orange-light transition-all duration-300 font-bold tracking-widest text-xs uppercase cursor-pointer"
         >
           <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-orange-light/30 group-hover:bg-orange-light/5 transition-all">
             <Icon name="share" size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform" />

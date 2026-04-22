@@ -208,7 +208,7 @@ export default function App() {
           <CustomCursor />
         </Suspense>
         <Suspense fallback={null}>
-          <ScrollToTop />
+          <ScrollToTop onClick={() => { window.scrollTo(0, 0); }} />
         </Suspense>
         <BackgroundWrapper />
 
