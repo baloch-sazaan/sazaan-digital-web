@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useLenis } from '@studio-freight/react-lenis';
 import { Icon } from './Primitives';
 
 import { FloatingNav } from './ui/floating-navbar';
@@ -19,18 +20,17 @@ export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) =
     { name: 'Contact', action: () => { console.log('Navigating to Contact'); setPage('contact'); window.scrollTo(0, 0); } },
   ];
 
-  const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
 
-  useMotionValueEvent(scrollY, "change", (current) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    const diff = current - previous;
-
-    if (current < 10) {
+  useLenis(({ scroll, velocity, direction }) => {
+    // direction: 1 for down, -1 for up
+    if (scroll < 10) {
       setVisible(true);
-    } else if (diff > 5) {
+    } else if (direction > 0 && velocity > 0.5) {
+      // Scrolling down fast enough
       setVisible(false);
-    } else if (diff < -5) {
+    } else if (direction < 0) {
+      // Any upward movement reveals
       setVisible(true);
     }
   });
