@@ -242,45 +242,47 @@ export default function App() {
         </AnimatePresence>
         <div className="relative w-full overflow-x-hidden" role="presentation">
           {isValidPage && <Navbar page={page} setPage={setPage} />}
-          <AnimatePresence mode="wait">
-            {page === 'home' && (
-              <ErrorBoundary key="home">
-                <HomePage setPage={setPage} />
-              </ErrorBoundary>
-            )}
-            {page === 'services' && (
-              <ErrorBoundary key="services">
-                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_SERVICES...</div>}>
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <ServicesPage setPage={setPage} />
-                  </motion.div>
+          <main id="main-content" role="main">
+            <AnimatePresence mode="wait">
+              {page === 'home' && (
+                <ErrorBoundary key="home">
+                  <HomePage setPage={setPage} />
+                </ErrorBoundary>
+              )}
+              {page === 'services' && (
+                <ErrorBoundary key="services">
+                  <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_SERVICES...</div>}>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <ServicesPage setPage={setPage} />
+                    </motion.div>
+                  </Suspense>
+                </ErrorBoundary>
+              )}
+              {page === 'work' && (
+                <ErrorBoundary key="work">
+                  <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_WORK...</div>}>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <WorkPage setPage={setPage} />
+                    </motion.div>
+                  </Suspense>
+                </ErrorBoundary>
+              )}
+              {page === 'contact' && (
+                <ErrorBoundary key="contact">
+                  <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <ContactPage />
+                    </motion.div>
+                  </Suspense>
+                </ErrorBoundary>
+              )}
+              {!isValidPage && (
+                <Suspense fallback={null}>
+                  <NotFoundPage key="404" setPage={setPage} />
                 </Suspense>
-              </ErrorBoundary>
-            )}
-            {page === 'work' && (
-              <ErrorBoundary key="work">
-                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_WORK...</div>}>
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <WorkPage setPage={setPage} />
-                  </motion.div>
-                </Suspense>
-              </ErrorBoundary>
-            )}
-            {page === 'contact' && (
-              <ErrorBoundary key="contact">
-                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <ContactPage />
-                  </motion.div>
-                </Suspense>
-              </ErrorBoundary>
-            )}
-            {!isValidPage && (
-              <Suspense fallback={null}>
-                <NotFoundPage key="404" setPage={setPage} />
-              </Suspense>
-            )}
-          </AnimatePresence>
+              )}
+            </AnimatePresence>
+          </main>
           {showFooter && <Footer setPage={setPage} />}
         </div>
       </div>

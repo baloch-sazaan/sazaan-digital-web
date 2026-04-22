@@ -92,22 +92,22 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-wrap justify-center gap-4 mt-10 px-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-5 mt-12 px-6 w-full"
             >
               <Magnetic>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary w-full sm:w-auto min-h-[56px]"
                   onClick={() => setPage('contact')}
-                  aria-label="Get started — go to contact page"
+                  aria-label="Contact us to get started with your project"
                 >
                   Get Started <Icon name="arrowRight" size={14} aria-hidden="true" />
                 </button>
               </Magnetic>
               <Magnetic>
                 <button
-                  className="btn btn-ghost"
+                  className="btn btn-ghost w-full sm:w-auto min-h-[56px]"
                   onClick={() => setPage('work')}
-                  aria-label="See our work — go to portfolio page"
+                  aria-label="View our portfolio of digital work"
                 >
                   See Our Work
                 </button>
