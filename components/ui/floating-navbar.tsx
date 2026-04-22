@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
 interface NavItem {
   name: string;
+  href?: string;
   link?: string;
   action?: () => void;
 }
@@ -20,16 +21,22 @@ export const FloatingNav = ({ navItems, className, setPage, visibleExternal }: F
   const [open, setOpen] = useState(false);
   const visible = visibleExternal ?? true;
 
-  const handleNavClick = (item: NavItem) => {
-    // Execute the navigation action
+  const handleNavClick = (e: React.MouseEvent, item: NavItem) => {
+    // Prevent hash jump; SPA navigation handled by action
+    if (!item.link || item.link.startsWith('#')) e.preventDefault();
     if (item.action) {
       item.action();
-    } else if (item.link) {
+    } else if (item.link && !item.link.startsWith('#')) {
       window.location.href = item.link;
     }
-    // Close mobile menu after navigation
     setOpen(false);
   };
+
+  const linkClass =
+    "relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-orange-light transition-colors duration-200 rounded-full hover:bg-white/5 active:scale-95 cursor-pointer pointer-events-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light focus-visible:ring-offset-1 focus-visible:ring-offset-black";
+
+  const mobileLinkClass =
+    "w-full text-left px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] text-white/50 hover:text-orange-light hover:bg-white/5 rounded-xl transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light focus-visible:ring-offset-1 focus-visible:ring-offset-black";
 
   return (
     // Outer wrapper: always in DOM, always positioned, never blocks clicks when hidden
@@ -46,7 +53,6 @@ export const FloatingNav = ({ navItems, className, setPage, visibleExternal }: F
           opacity: visible ? 1 : 0,
         }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        // pointer-events-auto is ONLY on the nav pill itself, not the full-width wrapper
         className={cn(
           "pointer-events-auto w-[92%] md:w-auto border border-white/10 rounded-3xl md:rounded-full bg-black/80 backdrop-blur-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] overflow-hidden",
         )}
@@ -54,13 +60,14 @@ export const FloatingNav = ({ navItems, className, setPage, visibleExternal }: F
         {/* ── Desktop Layout ── */}
         <div className="hidden md:flex items-center gap-1 px-4 py-2">
           {navItems.map((item, idx) => (
-            <button
+            <a
               key={idx}
-              onClick={() => handleNavClick(item)}
-              className="relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-orange-light transition-colors duration-200 rounded-full hover:bg-white/5 active:scale-95 cursor-pointer pointer-events-auto"
+              href={item.href ?? item.link ?? '#'}
+              onClick={(e) => handleNavClick(e, item)}
+              className={linkClass}
             >
               {item.name}
-            </button>
+            </a>
           ))}
         </div>
 
@@ -75,7 +82,7 @@ export const FloatingNav = ({ navItems, className, setPage, visibleExternal }: F
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
               aria-label={open ? "Close navigation menu" : "Open navigation menu"}
-              className="p-2 -mr-1 text-white/60 hover:text-orange-light transition-colors rounded-lg"
+              className="p-2 -mr-1 text-white/60 hover:text-orange-light transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light"
             >
               {open ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -93,13 +100,14 @@ export const FloatingNav = ({ navItems, className, setPage, visibleExternal }: F
               >
                 <div className="flex flex-col py-2 px-3">
                   {navItems.map((item, idx) => (
-                    <button
+                    <a
                       key={idx}
-                      onClick={() => handleNavClick(item)}
-                      className="w-full text-left px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] text-white/50 hover:text-orange-light hover:bg-white/5 rounded-xl transition-all duration-150 active:scale-[0.98]"
+                      href={item.href ?? item.link ?? '#'}
+                      onClick={(e) => handleNavClick(e, item)}
+                      className={mobileLinkClass}
                     >
                       {item.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               </motion.div>

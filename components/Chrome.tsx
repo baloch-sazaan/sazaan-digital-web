@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@studio-freight/react-lenis';
+import { Menu, X } from 'lucide-react';
 import { Icon } from './Primitives';
-
-import { FloatingNav } from './ui/floating-navbar';
 
 const Logo = () => (
   <div className="flex flex-col items-start leading-[0.8]">
@@ -12,75 +11,153 @@ const Logo = () => (
   </div>
 );
 
-export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) => void }) => {
-  const navItems = [
-    { name: 'Home', action: () => { console.log('Navigating to Home'); setPage('home'); window.scrollTo(0, 0); } },
-    { name: 'Services', action: () => { console.log('Navigating to Services'); setPage('services'); window.scrollTo(0, 0); } },
-    { name: 'Work', action: () => { console.log('Navigating to Work'); setPage('work'); window.scrollTo(0, 0); } },
-    { name: 'Contact', action: () => { console.log('Navigating to Contact'); setPage('contact'); window.scrollTo(0, 0); } },
-  ];
+const NAV_LINKS = [
+  { label: 'Home',     id: 'home'     },
+  { label: 'Services', id: 'services' },
+  { label: 'Work',     id: 'work'     },
+  { label: 'Contact',  id: 'contact'  },
+] as const;
 
-  const [visible, setVisible] = useState(true);
+export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) => void }) => {
+  const [visible, setVisible]   = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  // useLenis is proven to fire correctly alongside ReactLenis root
   useLenis(({ scroll, velocity, direction }) => {
-    // direction: 1 for down, -1 for up
-    if (scroll < 10) {
+    if (scroll < 60) {
       setVisible(true);
     } else if (direction > 0 && velocity > 0.5) {
-      // Scrolling down fast enough
       setVisible(false);
+      setMenuOpen(false);
     } else if (direction < 0) {
-      // Any upward movement reveals
       setVisible(true);
     }
   });
 
+  const navigate = (id: string) => {
+    setPage(id);
+    window.scrollTo(0, 0);
+    setMenuOpen(false);
+  };
+
+  const iconBtn =
+    'w-10 h-10 rounded-xl border border-white/10 bg-black/30 flex items-center justify-center ' +
+    'text-white/40 hover:text-orange-light hover:border-orange-light/20 hover:bg-orange-light/5 ' +
+    'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light';
+
+  const navLinkClass = (id: string) =>
+    'px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] rounded-full transition-all duration-200 ' +
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light ' +
+    (page === id
+      ? 'text-orange-light bg-orange-light/10'
+      : 'text-white/50 hover:text-orange-light hover:bg-white/5');
+
+  const mobileNavLinkClass = (id: string) =>
+    'px-4 py-3.5 text-sm font-bold uppercase tracking-[0.15em] rounded-xl transition-all duration-150 ' +
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light ' +
+    (page === id
+      ? 'text-orange-light bg-orange-light/10'
+      : 'text-white/50 hover:text-orange-light hover:bg-white/5');
+
   return (
     <header role="banner">
-      {/* Top Branding Bar */}
-      <motion.div 
-        initial={{ y: 0, opacity: 1 }}
-        animate={{ 
-          y: visible ? 0 : -100,
-          opacity: visible ? 1 : 0
-        }}
+      {/* ── Navbar bar ── */}
+      <motion.div
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 w-full z-[999998] p-4 pt-8 flex justify-between items-center pointer-events-none"
+        className="fixed top-0 left-0 w-full z-[999999] pointer-events-none"
       >
-        <button
-          onClick={() => { console.log('Logo click - Home'); setPage('home'); window.scrollTo(0, 0); }}
-          className="pointer-events-auto ml-4 focus-visible:outline-orange-light rounded-lg transition-transform hover:scale-105 active:scale-95"
-          aria-label="Sazaan Digital - Home"
-          style={{ display: 'flex', alignItems: 'center', gap: 10 }}
-        >
-          <Logo />
-        </button>
+        <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-3 bg-black/70 backdrop-blur-2xl border-b border-white/[0.07] pointer-events-auto">
 
-        <nav className="pointer-events-auto flex gap-3 mr-4" aria-label="Social Links">
-          {[
-            { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaandigital' },
-            { name: 'mail', label: 'Contact', action: () => { console.log('Contact click'); setPage('contact'); window.scrollTo(0, 0); } }
-          ].map(s => {
-            const Tag = s.url ? 'a' : 'button';
-            const props = s.url ? { href: s.url, target: '_blank', rel: 'noopener noreferrer' } : { onClick: s.action };
-            return (
-              <Tag 
-                key={s.name}
-                {...props as any}
-                aria-label={s.label}
-                className="w-12 h-12 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-center text-white/40 hover:text-orange-light hover:border-orange-light/20 transition-all duration-300"
+          {/* Left — Logo */}
+          <button
+            onClick={() => navigate('home')}
+            aria-label="Sazaan Digital — Home"
+            className="flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light hover:opacity-80 transition-opacity active:scale-95"
+          >
+            <Logo />
+          </button>
+
+          {/* Center — Desktop nav links (absolutely centered so logo/icons don't shift it) */}
+          <nav
+            className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2"
+            aria-label="Main Navigation"
+          >
+            {NAV_LINKS.map(link => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(e) => { e.preventDefault(); navigate(link.id); }}
+                aria-current={page === link.id ? 'page' : undefined}
+                className={navLinkClass(link.id)}
               >
-                <Icon name={s.name} size={18} />
-              </Tag>
-            );
-          })}
-        </nav>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right — Social icons + mobile hamburger */}
+          <div className="flex items-center gap-2">
+            <a
+              href="https://instagram.com/sazaandigital"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow on Instagram"
+              className={iconBtn}
+            >
+              <Icon name="share" size={16} />
+            </a>
+            <button
+              onClick={() => navigate('contact')}
+              aria-label="Contact us"
+              className={iconBtn}
+            >
+              <Icon name="mail" size={16} />
+            </button>
+
+            <button
+              className={`md:hidden ${iconBtn}`}
+              onClick={() => setMenuOpen(o => !o)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </div>
       </motion.div>
 
-      {/* Smart Floating Nav */}
-      <nav aria-label="Main Navigation">
-        <FloatingNav navItems={navItems} setPage={setPage} visibleExternal={visible} />
-      </nav>
+      {/* ── Mobile dropdown ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            id="mobile-nav"
+            role="navigation"
+            aria-label="Mobile Navigation"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="fixed top-[57px] left-0 w-full z-[999998] md:hidden bg-black/90 backdrop-blur-2xl border-b border-white/[0.07]"
+          >
+            <div className="flex flex-col py-2 px-4">
+              {NAV_LINKS.map(link => (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={(e) => { e.preventDefault(); navigate(link.id); }}
+                  aria-current={page === link.id ? 'page' : undefined}
+                  className={mobileNavLinkClass(link.id)}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

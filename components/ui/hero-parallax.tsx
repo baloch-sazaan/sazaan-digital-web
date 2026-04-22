@@ -9,7 +9,7 @@ import {
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto pt-20 md:pt-40 pb-24 md:pb-32 px-4 w-full left-0 top-0">
+    <div className="max-w-7xl relative mx-auto pt-16 md:pt-24 pb-6 md:pb-10 px-4 w-full left-0 top-0">
       <h2 className="text-2xl md:text-7xl font-bold text-white leading-tight">
         Our <span className="text-[#FFB07C]">Intelligence</span>
       </h2>
@@ -51,19 +51,19 @@ export const HeroParallax = ({
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0.05, 0.4], [isMobile ? 5 : 10, 0]),
+    useTransform(scrollYProgress, [0, 0.3], [isMobile ? 5 : 10, 0]),
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0.05, 0.2], [0, 1]),
+    useTransform(scrollYProgress, [0, 0.1], [0, 1]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0.05, 0.4], [isMobile ? 2 : 15, 0]),
+    useTransform(scrollYProgress, [0, 0.3], [isMobile ? 2 : 15, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.4], [isMobile ? 300 : 700, 0]),
+    useTransform(scrollYProgress, [0, 0.35], [isMobile ? 150 : 350, 0]),
     springConfig
   );
   return (

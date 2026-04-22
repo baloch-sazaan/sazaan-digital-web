@@ -11,7 +11,8 @@
       "Bash(rm \"C:/Users/HP/Downloads/Sazaan Digital/components/hero-parallax-demo.tsx\")",
       "Bash(rm \"C:/Users/HP/Downloads/Sazaan Digital/components/ui/icon-cloud.tsx\")",
       "Bash(rm \"C:/Users/HP/Downloads/Sazaan Digital/components/ui/3d-card.tsx\")",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(npx vite *)"
     ]
   }
 }
