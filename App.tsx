@@ -19,6 +19,7 @@ const NotFoundPage = lazy(() => import('./components/NotFoundPage').then(m => ({
 const TechStackSection = lazy(() => import('./components/TechStackSection').then((m) => ({ default: m.TechStackSection })));
 const AwardsSection = lazy(() => import('./components/AwardsSection').then((m) => ({ default: m.AwardsSection })));
 const CustomCursor = lazy(() => import('./components/ui/CustomCursor'));
+const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m => ({ default: m.ScrollToTop })));
 
 const VALID_PAGES = ['home', 'services', 'work', 'contact'] as const;
 type Page = typeof VALID_PAGES[number];
@@ -203,6 +204,9 @@ export default function App() {
         <StructuredData />
         <Suspense fallback={null}>
           <CustomCursor />
+        </Suspense>
+        <Suspense fallback={null}>
+          <ScrollToTop />
         </Suspense>
         <BackgroundWrapper />
 
