@@ -235,7 +235,7 @@ export default function App() {
               </div>
               <div className="preloader-progress" role="progressbar" aria-label="Loading Sazaan Digital" />
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.3em', textTransform: 'uppercase', marginTop: '1rem' }}>
-                Sazaan Digital — Est. 2025
+                Sazaan Digital — Est. 2026
               </div>
             </motion.div>
           )}

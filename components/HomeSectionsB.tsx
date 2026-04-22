@@ -186,7 +186,7 @@ export const CTABannerSection = ({ setPage }: { setPage: (p: string) => void }) 
                 </button>
               </Magnetic>
               <Magnetic>
-                <a className="btn btn-ghost" style={{ fontFamily: 'var(--font-button)' }} href="mailto:hello@sazaandigital.com?subject=Project%20inquiry&body=Hi%20Sazaan%2C%0A%0AI'd%20like%20to%20talk%20about...">
+                <a className="btn btn-ghost" style={{ fontFamily: 'var(--font-button)' }} href="mailto:baloch@sazaandigital.com?subject=Project%20inquiry&body=Hi%20Sazaan%2C%0A%0AI'd%20like%20to%20talk%20about...">
                   Email Us
                 </a>
               </Magnetic>

@@ -171,7 +171,7 @@ const ProjectModal = ({ project, onClose }: { project: Project, onClose: () => v
           )}
 
           <button 
-            onClick={() => window.location.href = 'mailto:hello@sazaandigital.com?subject=Project Inquiry: ' + project.title}
+            onClick={() => window.location.href = 'mailto:baloch@sazaandigital.com?subject=Project Inquiry: ' + project.title}
             className="btn btn-primary w-full md:w-auto"
           >
             Discuss project <Icon name="arrowRight" size={14} />

@@ -60,7 +60,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
   const socialLinks = [
     { name: 'globe', label: 'Back to Home', action: () => { setPage('home'); window.scrollTo(0, 0); } },
     { name: 'share', label: 'Follow us on Instagram', url: 'https://instagram.com/sazaandigital' },
-    { name: 'mail', label: 'Email us', url: 'mailto:hello@sazaandigital.com' }
+    { name: 'mail', label: 'Email us', url: 'mailto:baloch@sazaandigital.com' }
   ];
 
   return (
@@ -124,9 +124,9 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
 
         <div>
           <div className="section-label" style={{ marginBottom: 18 }}>Contact</div>
-          <a href="mailto:hello@sazaandigital.com" style={{ color: 'var(--purple-light)', fontSize: 14, display: 'block' }}>hello@sazaandigital.com</a>
+          <a href="mailto:baloch@sazaandigital.com" style={{ color: 'var(--purple-light)', fontSize: 14, display: 'block' }}>baloch@sazaandigital.com</a>
           <div style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 10 }}>Remote — US & UK</div>
-          <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 22, fontFamily: 'var(--font-mono)' }}>© 2025 Sazaan Digital</div>
+          <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 22, fontFamily: 'var(--font-mono)' }}>© 2026 Sazaan Digital</div>
         </div>
       </div>
 
