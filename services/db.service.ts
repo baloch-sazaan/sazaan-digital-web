@@ -48,7 +48,14 @@ export const dbService = {
       savePending(pending);
       return;
     }
-    const { error } = await supabase.from('contact_submissions').insert(data);
+    const { error } = await supabase.from('contact_submissions').insert({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      company: data.company ?? null,
+      phone: data.phone ?? null,
+      message: data.message,
+    });
     if (error) {
       const pending = loadPending();
       pending.push(data);
@@ -64,7 +71,14 @@ export const dbService = {
 
     const remaining: ContactSubmission[] = [];
     for (const item of pending) {
-      const { error } = await supabase.from('contact_submissions').insert(item);
+      const { error } = await supabase.from('contact_submissions').insert({
+        first_name: item.firstName,
+        last_name: item.lastName,
+        email: item.email,
+        company: item.company ?? null,
+        phone: item.phone ?? null,
+        message: item.message,
+      });
       if (error) remaining.push(item);
     }
     savePending(remaining);

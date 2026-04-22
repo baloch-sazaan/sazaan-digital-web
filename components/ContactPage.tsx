@@ -121,8 +121,9 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     const sanitizedCompany = formData.company?.trim() || "-";
     const sanitizedPhone = formData.phone?.trim() || "-";
 
-    // Primary Notification Payload (Internal)
+    // Primary Notification Payload (Internal — sent to YOUR inbox)
     const templateParams = {
+      to_email: 'baloch@sazaandigital.com', // Always routes to agency inbox
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
       company: sanitizedCompany,
@@ -131,8 +132,9 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       time: new Date().toLocaleString(),
     };
 
-    // Autoresponder Payload (Client)
+    // Autoresponder Payload (Client — sent to the USER's email only)
     const autoReplyParams = {
+      to_email: formData.email, // Routes to the user who submitted the form
       name: formData.firstName,
       email: formData.email,
       message: formData.message,
