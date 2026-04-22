@@ -48,29 +48,31 @@ export const HeroParallax = ({
     useTransform(scrollYProgress, [0, 1], [0, -1000]),
     springConfig
   );
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0.05, 0.4], [10, 0]),
+    useTransform(scrollYProgress, [0.05, 0.4], [isMobile ? 5 : 10, 0]),
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0.05, 0.3], [0, 1]),
+    useTransform(scrollYProgress, [0.05, 0.2], [0, 1]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0.05, 0.4], [15, 0]),
+    useTransform(scrollYProgress, [0.05, 0.4], [isMobile ? 2 : 15, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.4], [700, 0]),
+    useTransform(scrollYProgress, [0, 0.4], [isMobile ? 300 : 700, 0]),
     springConfig
   );
   return (
     <div
       ref={ref}
-      className="h-[300vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="h-[250vh] md:h-[300vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
       <div className="sticky top-0 z-20">
-        <motion.div style={{ opacity: useTransform(scrollYProgress, [0, 0.3], [1, 0]) }}>
+        <motion.div style={{ opacity: useTransform(scrollYProgress, [0, 0.25], [1, 0]) }}>
            <Header />
         </motion.div>
       </div>
@@ -83,7 +85,7 @@ export const HeroParallax = ({
         }}
         className=""
       >
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-6 md:space-x-20 mb-6 md:mb-20">
           {firstRow.map((product) => (
             <ProductCard
               product={product}
@@ -92,7 +94,7 @@ export const HeroParallax = ({
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row  mb-20 space-x-20 ">
+        <motion.div className="flex flex-row mb-6 md:mb-20 space-x-6 md:space-x-20">
           {secondRow.map((product) => (
             <ProductCard
               product={product}
@@ -101,7 +103,7 @@ export const HeroParallax = ({
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-6 md:space-x-20">
           {thirdRow.map((product) => (
             <ProductCard
               product={product}
@@ -135,7 +137,7 @@ export const ProductCard = ({
         y: -20,
       }}
       key={product.title}
-      className="group/product h-96 w-[30rem] relative shrink-0"
+      className="group/product h-64 md:h-96 w-[20rem] md:w-[30rem] relative shrink-0"
     >
       <div className="block h-full w-full">
         <img
