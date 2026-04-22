@@ -42,9 +42,14 @@ function savePending(items: ContactSubmission[]) {
 
 export const dbService = {
   async saveContactSubmission(data: ContactSubmission): Promise<void> {
+    if (!supabase) {
+      const pending = loadPending();
+      pending.push(data);
+      savePending(pending);
+      return;
+    }
     const { error } = await supabase.from('contact_submissions').insert(data);
     if (error) {
-      // Persist locally so we can retry next visit
       const pending = loadPending();
       pending.push(data);
       savePending(pending);
@@ -52,8 +57,8 @@ export const dbService = {
     }
   },
 
-  // Call once on app mount — flushes any locally-queued submissions
   async syncPendingSubmissions(): Promise<void> {
+    if (!supabase) return;
     const pending = loadPending();
     if (pending.length === 0) return;
 
@@ -66,6 +71,7 @@ export const dbService = {
   },
 
   async fetchProjects(): Promise<Project[]> {
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from('projects')
       .select('*')
@@ -77,7 +83,7 @@ export const dbService = {
   },
 
   async trackPageView(page: string): Promise<void> {
-    // Fire-and-forget — analytics should never block the UI
+    if (!supabase) return;
     supabase
       .from('page_events')
       .insert({ page, timestamp: new Date().toISOString() })
