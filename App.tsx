@@ -22,7 +22,6 @@ const CustomCursor = lazy(() => import('./components/ui/CustomCursor'));
 const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m => ({ default: m.ScrollToTop })));
 
 const VALID_PAGES = ['home', 'services', 'work', 'contact'] as const;
-type Page = typeof VALID_PAGES[number];
 
 const BackgroundWrapper = () => (
   <div 
@@ -195,7 +194,7 @@ export default function App() {
 
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
-      <LazyMotion features={domAnimation} strict>
+      <LazyMotion features={domAnimation}>
         <div className="relative w-full overflow-x-hidden">
           <m.div
             aria-hidden="true"
@@ -209,7 +208,7 @@ export default function App() {
           <CustomCursor />
         </Suspense>
         <Suspense fallback={null}>
-          <ScrollToTop onClick={() => { window.scrollTo(0, 0); }} />
+          <ScrollToTop />
         </Suspense>
         <BackgroundWrapper />
 

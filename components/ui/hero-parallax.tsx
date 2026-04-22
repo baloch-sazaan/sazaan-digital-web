@@ -9,7 +9,7 @@ import {
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto pt-16 md:pt-24 pb-6 md:pb-10 px-4 w-full left-0 top-0">
+    <div className="max-w-7xl relative mx-auto pt-10 md:pt-16 pb-4 md:pb-8 px-4 w-full left-0 top-0">
       <h2 className="text-2xl md:text-7xl font-bold text-white leading-tight">
         Our <span className="text-[#FFB07C]">Intelligence</span>
       </h2>
@@ -38,38 +38,39 @@ export const HeroParallax = ({
     offset: ["start start", "end start"],
   });
 
-  const springConfig = { stiffness: 100, damping: 30, bounce: 0 };
+  const springConfig = { stiffness: 120, damping: 25, bounce: 0 };
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1000]),
+    useTransform(scrollYProgress, [0, 1], [0, isMobile ? 500 : 1000]),
     springConfig
   );
   const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -1000]),
+    useTransform(scrollYProgress, [0, 1], [0, isMobile ? -500 : -1000]),
     springConfig
   );
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.3], [isMobile ? 5 : 10, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [isMobile ? 2 : 10, 0]),
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.1], [0, 1]),
+    useTransform(scrollYProgress, [0, 0.02], [isMobile ? 0.85 : 0, 1]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.3], [isMobile ? 2 : 15, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [isMobile ? 1 : 15, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.35], [isMobile ? 150 : 350, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [isMobile ? 20 : 350, 0]),
     springConfig
   );
   return (
     <div
       ref={ref}
-      className="h-[250vh] md:h-[300vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="h-[150vh] md:h-[280vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
       <div className="sticky top-0 z-20">
         <m.div style={{ opacity: useTransform(scrollYProgress, [0, 0.25], [1, 0]) }}>

@@ -21,7 +21,7 @@ import efreeinvoiceImg from '@/assets/img/efreeinvoice.webp';
 
 export function HeroParallaxDemo() {
   return (
-    <div className="relative pt-10">
+    <div className="relative pt-0">
       <HeroParallax products={products} />
     </div>
   );
