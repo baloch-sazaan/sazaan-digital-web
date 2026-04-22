@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
+import { useScroll, useTransform, useSpring, motion, MotionValue } from "framer-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -21,10 +21,18 @@ export const ContainerScroll = ({
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Gentle 3D tilt on all devices — lighter angle on mobile
-  const rotate = useTransform(scrollYProgress, [0, 1], isMobile ? [15, 0] : [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.9, 1] : [1.05, 1]);
-  const translate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -60 : -100]);
+  // Spring config: high damping = slow/smooth settle, low stiffness = weighted feel
+  const springConfig = isMobile
+    ? { stiffness: 55, damping: 38, restDelta: 0.001 }
+    : { stiffness: 100, damping: 30, restDelta: 0.001 };
+
+  const rawRotate    = useTransform(scrollYProgress, [0, 1], isMobile ? [18, 0] : [20, 0]);
+  const rawScale     = useTransform(scrollYProgress, [0, 1], isMobile ? [0.88, 1] : [1.05, 1]);
+  const rawTranslate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -60 : -100]);
+
+  const rotate    = useSpring(rawRotate,    springConfig);
+  const scale     = useSpring(rawScale,     springConfig);
+  const translate = useSpring(rawTranslate, springConfig);
 
   return (
     <div
