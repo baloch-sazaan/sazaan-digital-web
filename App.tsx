@@ -271,7 +271,7 @@ export default function App() {
                 <ErrorBoundary key="contact">
                   <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <ContactPage />
+                      <ContactPage setPage={setPage} />
                     </motion.div>
                   </Suspense>
                 </ErrorBoundary>

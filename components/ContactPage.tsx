@@ -61,7 +61,7 @@ const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' 
   </motion.div>
 );
 
-export const ContactPage = () => {
+export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error' | 'info'>('idle');
   const [showModal, setShowModal] = useState(false);
   
@@ -165,6 +165,18 @@ export const ContactPage = () => {
 
   return (
     <div className="relative isolate bg-[#050505] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40">
+      {/* Back Button */}
+      <div className="max-w-2xl mx-auto mb-12">
+        <button 
+          onClick={() => { setPage('home'); window.scrollTo({top: 0, behavior: 'smooth'}); }}
+          className="group flex items-center gap-3 text-white/40 hover:text-orange-light transition-all duration-300 font-bold tracking-widest text-xs uppercase"
+        >
+          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-orange-light/30 group-hover:bg-orange-light/5 transition-all">
+            <Icon name="share" size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+          </div>
+          <span>Back to Home</span>
+        </button>
+      </div>
       {/* Background Ambience */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div
