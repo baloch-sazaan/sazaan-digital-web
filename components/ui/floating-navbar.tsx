@@ -87,27 +87,21 @@ export const FloatingNav = ({
 
         {/* Nav Items - Collapsible on Mobile, Visible on Desktop */}
         <div className={cn(
-            "flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-6 md:mt-0 transition-all duration-300",
+            "flex flex-col md:flex-row items-center gap-4 md:gap-8 mt-6 md:mt-0 transition-all duration-300",
             !open && "opacity-0 md:opacity-100 h-0 md:h-auto overflow-hidden md:overflow-visible pointer-events-none md:pointer-events-auto"
         )}>
           {navItems.map((navItem, idx: number) => (
             <button
               key={`link=${idx}`}
               onClick={() => {
-                if (navItem.action) {
-                  navItem.action();
-                } else if (navItem.link) {
-                  const element = document.getElementById(navItem.link.replace('#', ''));
-                  if(element) element.scrollIntoView({ behavior: 'smooth' });
-                  else window.location.href = navItem.link;
-                }
+                const targetPage = navItem.name.toLowerCase();
+                setPage(targetPage);
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 setOpen(false);
               }}
-              className={cn(
-                "relative items-center flex space-x-1 text-gray-400 hover:text-white transition-colors duration-200 py-2 md:py-0 w-full md:w-auto text-center justify-center font-semibold text-sm uppercase tracking-wider"
-              )}
+              className="relative px-4 py-2 text-sm font-bold uppercase tracking-widest text-gray-400 transition-all duration-200 hover:text-white active:scale-95 flex items-center justify-center w-full md:w-auto"
             >
-              <span>{navItem.name}</span>
+              {navItem.name}
             </button>
           ))}
         </div>
