@@ -13,7 +13,12 @@ export default defineConfig({
     port: 3000,
     open: true
   },
+  esbuild: {
+    // Strip all console.log / debugger calls from the production bundle
+    drop: ['console', 'debugger'],
+  },
   build: {
+    target: 'es2018',
     chunkSizeWarningLimit: 300,
     assetsInlineLimit: 4096,
     rollupOptions: {

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export const CustomCursor = () => {
   const [isVisible, setIsVisible] = useState(false);
-  
+  // Ref tracks visibility inside the effect so we never need to re-register listeners
+  const visibleRef = useRef(false);
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -18,11 +20,14 @@ export const CustomCursor = () => {
     const moveMouse = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
+      }
     };
 
-    const handleExit = () => setIsVisible(false);
-    const handleEnter = () => setIsVisible(true);
+    const handleExit = () => { visibleRef.current = false; setIsVisible(false); };
+    const handleEnter = () => { visibleRef.current = true; setIsVisible(true); };
 
     window.addEventListener('mousemove', moveMouse);
     document.addEventListener('mouseleave', handleExit);
@@ -33,7 +38,7 @@ export const CustomCursor = () => {
       document.removeEventListener('mouseleave', handleExit);
       document.removeEventListener('mouseenter', handleEnter);
     };
-  }, [isVisible]);
+  }, []); // mount once — visibleRef keeps the effect stable
 
   if (!isVisible) return null;
 

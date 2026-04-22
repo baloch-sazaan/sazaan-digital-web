@@ -104,7 +104,6 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     }
 
     setStatus('sending');
-    console.log('[ContactForm] Initiating transmission...');
 
     // 1. Fallback Logic for Optional Fields
     const sanitizedCompany = formData.company?.trim() || "-";
@@ -129,16 +128,10 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       phone: sanitizedPhone,
     };
 
-    // 4. Test & Console Output Verification
-    console.log('[ContactForm] Auto-reply Payload Verification:', autoReplyParams);
-
     try {
-      // 1. Primary Notification (EmailJS)
-      console.log('[ContactForm] Sending notification email...');
       const ejsResult = await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
-      console.log('[ContactForm] Notification sent successfully:', ejsResult.status);
 
-      // 2. Database Persistance (Async/Parallel)
+      // Database persistence (async, non-blocking)
       dbService.saveContactSubmission({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -146,12 +139,11 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
         company: sanitizedCompany,
         phone: sanitizedPhone,
         message: formData.message
-      }).catch(err => console.warn('[ContactForm] Database save failed (persisted locally):', err));
+      }).catch(() => {});
 
-      // 3. Confirmation Email (Non-blocking)
+      // Confirmation email (non-blocking)
       emailjs.send(EJS_SERVICE, EJS_TMPL_CONFIRM, autoReplyParams, EJS_PUBLIC_KEY)
-        .then(() => console.log('[ContactForm] Confirmation email sent'))
-        .catch(err => console.warn('[ContactForm] Confirmation email skipped (check template ID):', err));
+        .catch(() => {});
 
       setStatus('success');
       setShowModal(true);
