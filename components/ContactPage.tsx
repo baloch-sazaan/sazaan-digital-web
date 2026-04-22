@@ -1,0 +1,345 @@
+import React, { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Icon } from "./Primitives"
+import emailjs from '@emailjs/browser';
+import { dbService, type ContactSubmission } from '../services/db.service';
+
+const ChevronDownIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+    <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+  </svg>
+);
+
+const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' | 'error' | 'info', onClose: () => void, title?: string, message?: string }) => (
+  <motion.div 
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-3xl"
+    onClick={onClose}
+  >
+    <motion.div
+      initial={{ scale: 0.9, opacity: 0, y: 30 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      exit={{ scale: 0.9, opacity: 0, y: 30 }}
+      onClick={(e) => e.stopPropagation()}
+      className="relative w-full max-w-md bg-[#0d0d0d] border border-white/10 rounded-[40px] p-12 text-center shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
+    >
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-light to-orange-light/40" />
+      <div className="absolute inset-0 noise opacity-[0.03] pointer-events-none" />
+      
+      <div className={`w-24 h-24 mx-auto mb-10 rounded-3xl rotate-12 flex items-center justify-center border-2 ${status === 'success' ? 'border-orange-light/20 bg-orange-light/5' : status === 'info' ? 'border-blue-500/20 bg-blue-500/5' : 'border-red-500/20 bg-red-500/5'}`}>
+        <motion.div
+           animate={status === 'info' ? { rotate: [0, 10, -10, 10, 0] } : {}}
+           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        >
+          <Icon 
+            name={status === 'success' ? 'check' : status === 'info' ? 'eyeOrbit' : 'share'} 
+            size={48} 
+            className={`${status === 'success' ? 'text-orange-light' : status === 'info' ? 'text-blue-400' : 'text-red-500'} -rotate-12`} 
+          />
+        </motion.div>
+      </div>
+
+      <h3 className="text-4xl font-heading font-black text-white mb-4 uppercase tracking-tighter leading-none">
+        {title || (status === 'success' ? 'Inquiry Sent' : status === 'info' ? 'Almost there' : 'Submission Error')}
+      </h3>
+      
+      <p className="text-white/40 font-medium leading-relaxed mb-12 text-lg px-2">
+        {message || (status === 'success' 
+          ? "Thank you. We've received your request and will reach out shortly."
+          : status === 'info' ? "To continue, please agree to our privacy policy so we can protect your data." : "Something went wrong. Please check your connection and try again.")}
+      </p>
+
+      <button 
+        onClick={onClose}
+        className="w-full py-6 rounded-3xl bg-orange-light text-black font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_40px_rgba(255,176,124,0.2)]"
+      >
+        {status === 'info' ? 'I understand' : 'Dismiss'}
+      </button>
+    </motion.div>
+  </motion.div>
+);
+
+export const ContactPage = () => {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error' | 'info'>('idle');
+  const [showModal, setShowModal] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    phone: '',
+    message: '',
+    agreed: false
+  });
+
+  const EJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+  const EJS_SERVICE = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+  const EJS_TMPL_NOTIFY = import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFY as string;
+  const EJS_TMPL_CONFIRM = import.meta.env.VITE_EMAILJS_TEMPLATE_CONFIRM as string;
+
+  useEffect(() => {
+    emailjs.init(EJS_PUBLIC_KEY);
+  }, [EJS_PUBLIC_KEY]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+      setFormData(prev => ({ ...prev, [name]: (e.target as HTMLInputElement).checked }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === 'sending') return;
+    
+    if (!formData.agreed) {
+      setStatus('info');
+      setShowModal(true);
+      return;
+    }
+
+    setStatus('sending');
+    console.log('[ContactForm] Initiating transmission...');
+
+    // 1. Fallback Logic for Optional Fields
+    const sanitizedCompany = formData.company?.trim() || "-";
+    const sanitizedPhone = formData.phone?.trim() || "-";
+
+    // Primary Notification Payload (Internal)
+    const templateParams = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      company: sanitizedCompany,
+      phone: sanitizedPhone,
+      message: formData.message,
+      time: new Date().toLocaleString(),
+    };
+
+    // Autoresponder Payload (Client)
+    const autoReplyParams = {
+      name: formData.firstName,
+      email: formData.email,
+      message: formData.message,
+      company: sanitizedCompany,
+      phone: sanitizedPhone,
+    };
+
+    // 4. Test & Console Output Verification
+    console.log('[ContactForm] Auto-reply Payload Verification:', autoReplyParams);
+
+    try {
+      // 1. Primary Notification (EmailJS)
+      console.log('[ContactForm] Sending notification email...');
+      const ejsResult = await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
+      console.log('[ContactForm] Notification sent successfully:', ejsResult.status);
+
+      // 2. Database Persistance (Async/Parallel)
+      dbService.saveContactSubmission({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        company: sanitizedCompany,
+        phone: sanitizedPhone,
+        message: formData.message
+      }).catch(err => console.warn('[ContactForm] Database save failed (persisted locally):', err));
+
+      // 3. Confirmation Email (Non-blocking)
+      emailjs.send(EJS_SERVICE, EJS_TMPL_CONFIRM, autoReplyParams, EJS_PUBLIC_KEY)
+        .then(() => console.log('[ContactForm] Confirmation email sent'))
+        .catch(err => console.warn('[ContactForm] Confirmation email skipped (check template ID):', err));
+
+      setStatus('success');
+      setShowModal(true);
+      setFormData({ firstName: '', lastName: '', email: '', company: '', phone: '', message: '', agreed: false });
+    } catch (err) {
+      console.error('[ContactForm] Critical submission error:', err);
+      setStatus('error');
+      setShowModal(true);
+    }
+  };
+
+  return (
+    <div className="relative isolate bg-[#050505] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40">
+      {/* Background Ambience */}
+      <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
+        <div
+          style={{
+            clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+          }}
+          className="relative left-1/2 -z-10 aspect-1155/678 w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#FFB07C] to-[#9089fc] opacity-10 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+        />
+      </div>
+
+      <div className="mx-auto max-w-2xl text-center relative z-10">
+        <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-heading">Let's build something elite</h2>
+        <p className="mt-4 text-lg/8 text-white/40">
+          Ready to dominate your market with high-performance web experiences and AI-driven workflows? Let's talk.
+        </p>
+      </div>
+
+      <form onSubmit={handleFormSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20 relative z-10">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="firstName" className="block text-sm/6 font-semibold text-white">
+              First name
+            </label>
+            <div className="mt-2.5">
+              <input
+                required
+                id="firstName"
+                name="firstName"
+                type="text"
+                autoComplete="given-name"
+                value={formData.firstName}
+                onChange={handleChange}
+                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="lastName" className="block text-sm/6 font-semibold text-white">
+              Last name
+            </label>
+            <div className="mt-2.5">
+              <input
+                required
+                id="lastName"
+                name="lastName"
+                type="text"
+                autoComplete="family-name"
+                value={formData.lastName}
+                onChange={handleChange}
+                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="company" className="block text-sm/6 font-semibold text-white">
+              Company
+            </label>
+            <div className="mt-2.5">
+              <input
+                id="company"
+                name="company"
+                type="text"
+                autoComplete="organization"
+                value={formData.company}
+                onChange={handleChange}
+                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="email" className="block text-sm/6 font-semibold text-white">
+              Email
+            </label>
+            <div className="mt-2.5">
+              <input
+                required
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="phone" className="block text-sm/6 font-semibold text-white">
+              Phone number
+            </label>
+            <div className="mt-2.5">
+              <div className="flex rounded-xl bg-white/5 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-orange-light transition-all">
+                <div className="grid shrink-0 grid-cols-1 focus-within:relative">
+                  <select
+                    id="country"
+                    name="country"
+                    autoComplete="country"
+                    aria-label="Country"
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-xl bg-transparent py-4 pr-7 pl-3.5 text-base text-white/40 focus:outline-none sm:text-sm/6"
+                  >
+                    <option>US</option>
+                    <option>PK</option>
+                    <option>UK</option>
+                  </select>
+                  <div className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-white/20">
+                    <ChevronDownIcon />
+                  </div>
+                </div>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="text"
+                  placeholder="123-456-7890"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="block min-w-0 grow bg-transparent py-4 pr-3 pl-1 text-base text-white placeholder:text-white/20 focus:outline-none sm:text-sm/6"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="message" className="block text-sm/6 font-semibold text-white">
+              Message
+            </label>
+            <div className="mt-2.5">
+              <textarea
+                required
+                id="message"
+                name="message"
+                rows={4}
+                value={formData.message}
+                onChange={handleChange}
+                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+              />
+            </div>
+          </div>
+          <div className="flex gap-x-4 sm:col-span-2 items-center">
+            <div className="flex h-6 items-center">
+              <input
+                id="agreed"
+                name="agreed"
+                type="checkbox"
+                checked={formData.agreed}
+                onChange={handleChange}
+                className="size-4 h-4 w-4 rounded border-white/10 bg-white/5 text-orange-light focus:ring-orange-light focus:ring-offset-[#050505]"
+              />
+            </div>
+            <label htmlFor="agreed" className="text-sm/6 text-white/40">
+              By selecting this, you agree to our{' '}
+              <a href="#" className="font-semibold whitespace-nowrap text-orange-light hover:underline">
+                privacy policy
+              </a>
+              .
+            </label>
+          </div>
+        </div>
+        <div className="mt-10">
+          <button
+            type="submit"
+            disabled={status === 'sending'}
+            className="block w-full rounded-xl bg-orange-light px-3.5 py-4 text-center text-lg font-bold text-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-orange-950/20"
+          >
+            {status === 'sending' ? 'Transmitting...' : "Let's talk"}
+          </button>
+        </div>
+      </form>
+
+      <AnimatePresence>
+        {showModal && (
+          <FeedbackModal 
+            status={status === 'success' ? 'success' : status === 'info' ? 'info' : 'error'} 
+            onClose={() => setShowModal(false)} 
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}

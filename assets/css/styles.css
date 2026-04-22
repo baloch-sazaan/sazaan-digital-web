@@ -1,0 +1,592 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+/* ============ Sazaan Digital — Mobile-First Design System ============ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Object Sans — self-hosted (download from https://www.fontshare.com/fonts/object-sans)
+  Place the .woff2 files in /public/fonts/ and uncomment the @font-face blocks below.
+  Until then, Montserrat is the intentional fallback for all display text.
+
+  @font-face {
+    font-family: 'Object Sans';
+    src: url('/fonts/ObjectSans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Object Sans';
+    src: url('/fonts/ObjectSans-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Object Sans';
+    src: url('/fonts/ObjectSans-Heavy.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+*/
+
+:root {
+  /* Typography — Object Sans requires self-hosted woff2 files (see @font-face above) */
+  --font-display: 'Space Grotesk', 'Montserrat', sans-serif;
+  --font-heading: 'Object Sans', 'Montserrat', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Color Palette */
+  --bg-onyx: #0A0A0A;
+  --bg-surface: #161616;
+  --accent-sunset: #FFB07C;
+  --text-primary: #F5F5F7;
+  --text-muted: #A0A0A0;
+
+  /* Sazaan Tokens */
+  --bg-primary: var(--bg-onyx);
+  --bg-secondary: var(--bg-surface);
+  --border: rgba(255, 176, 124, 0.1);
+  --orange-light: #FFC99D;
+  --accent-sunset: #FFB07C;
+  --purple-border: rgba(255, 176, 124, 0.35);
+}
+
+/* Accessibility: Focus States */
+:focus-visible {
+  outline: 2px solid var(--accent-sunset);
+  outline-offset: 4px;
+}
+
+/* Base Styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  /* Disable native smooth scroll to prevent conflict with Lenis "Butter" engine */
+  scroll-behavior: auto !important;
+  font-size: 16px; 
+}
+
+body {
+  background-color: #000000;
+  background-image: 
+    linear-gradient(
+      60deg,
+      hsla(0, 0%, 0%, 1) 0%,
+      hsla(34, 68%, 60%, 1) 50%,
+      hsla(0, 0%, 0%, 1) 100%
+    );
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100dvh;
+  position: relative;
+}
+
+/* Cinematic Grain Overlay - Optimized for performance */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  /* Simpler noise pattern for better GPU rendering */
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: auto;
+}
+
+/* Typography - Fluid by default */
+h1, h2, .h1, .h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.display { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; }
+.h1 { font-size: clamp(2rem, 6vw, 4.5rem); }
+.h2 { font-size: clamp(1.5rem, 4vw, 3rem); }
+
+/* Containers */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Sections - Mobile First */
+.section { 
+  padding: 4rem 0; 
+  position: relative; 
+}
+
+@media (min-width: 768px) {
+  .section { padding: 10rem 0; }
+  .container { padding-left: 2rem; padding-right: 2rem; max-width: 1400px; }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 3rem 0; }
+  .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+/* Components */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent-sunset);
+  color: var(--bg-onyx);
+  box-shadow: 0 0 20px rgba(255, 176, 124, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 5px 25px rgba(255, 176, 124, 0.35);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.28); }
+
+/* Card System */
+.card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 176, 124, 0.1);
+  border-radius: 24px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+
+.card:hover {
+  border-color: rgba(255, 176, 124, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255, 176, 124, 0.1);
+}
+
+/* Glow Effect on Hover */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 176, 124, 0.08) 0%, transparent 80%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+
+.card:hover::before { opacity: 1; }
+
+.icon-tile-sm {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255, 176, 124, 0.1);
+  border: 1px solid rgba(255, 176, 124, 0.2);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--accent-sunset);
+  transition: transform 0.3s ease;
+}
+.card:hover .icon-tile-sm { transform: scale(1.1) rotate(-5deg); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 176, 124, 0.08);
+  border: 1px solid rgba(255, 176, 124, 0.2);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  color: var(--accent-sunset);
+  letter-spacing: 0.1em;
+}
+
+/* Premium "Diminished" Image Styling */
+img {
+  filter: grayscale(15%) brightness(90%) contrast(105%);
+  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 1rem;
+}
+
+img:hover {
+  filter: grayscale(0%) brightness(100%) contrast(100%);
+}
+
+/* Reveal animations are now handled by Framer Motion in Primitives.tsx */
+
+/* Staggered reveals handled via Framer Motion delay props */
+
+/* Stagger Delays */
+.delay-1 { transition-delay: 100ms; }
+.delay-2 { transition-delay: 200ms; }
+.delay-3 { transition-delay: 300ms; }
+
+/* Utility Effects */
+.noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-sunset) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.warm-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.08) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-dot {
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255, 176, 124, 0.1) 0%, transparent 80%);
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+/* Premium Animations - Optimized for GPU */
+@keyframes aurora-drift-1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(20px, -30px, 0) scale(1.1); }
+  66% { transform: translate3d(-15px, 25px, 0) scale(0.9); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes aurora-drift-2 {
+  0% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50% { transform: translate3d(-40px, 40px, 0) scale(0.95); }
+  100% { transform: translate3d(0, 0, 0) scale(1.05); }
+}
+
+.animate-aurora-drift-1 { animation: aurora-drift-1 25s ease-in-out infinite; }
+.animate-aurora-drift-2 { animation: aurora-drift-2 35s ease-in-out infinite reverse; }
+
+/* Preloader Restoration */
+.preloader-root {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg-onyx);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2.5rem;
+  transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), visibility 0.8s;
+}
+
+.preloader-root.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.uv-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  padding: 2.5rem 5rem;
+  border-radius: 2.5rem;
+  border: 1px solid rgba(255, 176, 124, 0.1);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+}
+
+.uv-loader {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.1rem, 4vw, 1.75rem);
+  color: rgba(255,255,255,0.8);
+  height: clamp(1.5rem, 6vw, 2.5rem);
+}
+
+.uv-words { display: inline-block; min-width: 120px; }
+.uv-word { display: inline; color: var(--accent-sunset); }
+
+.preloader-progress {
+  width: 200px; height: 3px;
+  background: rgba(255,255,255,0.05);
+  position: relative; overflow: hidden; border-radius: 2px;
+}
+
+.preloader-progress::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, var(--accent-sunset), transparent);
+  animation: progress-shimmer 2s infinite ease-in-out;
+}
+
+@keyframes progress-shimmer { to { left: 100%; } }
+
+/* Preloader logo */
+.preloader-logo {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: preloader-pulse 2s ease-in-out infinite;
+}
+
+.preloader-logo-ring {
+  position: absolute;
+  inset: -12px;
+  border-radius: 42px;
+  border: 2px solid rgba(255, 176, 124, 0.25);
+  animation: preloader-ring 2s ease-in-out infinite;
+}
+
+.preloader-logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 54px;
+  border: 1px solid rgba(255, 176, 124, 0.1);
+  animation: preloader-ring 2s ease-in-out infinite 0.3s;
+}
+
+@keyframes preloader-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes preloader-ring {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+/* Email Modal & Forms */
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ============ GPU Performance Optimizations ============ */
+
+/*
+  Only promote elements that ARE actively animating — blanket will-change on all
+  rounded-* elements creates hundreds of stale GPU layers and increases VRAM usage.
+  Framer Motion sets will-change automatically during animation; we only need
+  to hint the nav and preloader which are always present and transform-animated.
+*/
+.card {
+  /* Applied on-hover via JS if needed; removed from static state */
+  will-change: auto;
+}
+
+/* ============ Reduced Motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Kill aurora blobs — heaviest animation on page */
+  [data-aurora] {
+    display: none;
+  }
+
+  /* Reveal elements: skip the slide-up, just show them immediately */
+  [data-reveal],
+  [data-reveal-parent] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Framer Motion scroll-linked transforms */
+  [data-framer-appear-id] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Stop card hover lifts and button transforms */
+  .card:hover,
+  .btn:hover {
+    transform: none !important;
+  }
+
+  /* Preloader: hide instantly instead of fading */
+  .preloader-root.hide {
+    transition: none !important;
+  }
+}
+
+/* Ensure all Framer Motion animated elements use GPU-composited props only */
+.preloader-root,
+.preloader-root * {
+  will-change: opacity;
+}
+
+/* Blur elements: contain paint to avoid triggering layout during scroll */
+.noise,
+.warm-glow,
+.glow-dot,
+.grid-bg {
+  contain: strict;
+  will-change: auto;
+}
+
+/* btn hover uses transform only — no layout-triggering properties */
+.btn {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Fixed/sticky elements: force GPU layer to prevent repaint on scroll */
+nav,
+[data-fixed],
+.preloader-root {
+  transform: translateZ(0);
+}
+
+/* Reveal animation base — GPU-only properties */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Disable smooth scroll on touch/mobile — native momentum is preferred */
+@media (hover: none) and (pointer: coarse) {
+  html { scroll-behavior: auto; }
+}
+
+@layer base {
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+  }
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+  }
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+  }
+  * {
+    border-color: hsl(var(--border) / 0.1);
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
