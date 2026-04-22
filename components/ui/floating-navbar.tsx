@@ -1,109 +1,137 @@
-import React, { useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
-export const FloatingNav = ({
-  navItems,
-  className,
-  setPage,
-}: {
-  navItems: {
-    name: string;
-    link?: string;
-    icon?: React.ReactElement;
-    action?: () => void;
-  }[];
+interface NavItem {
+  name: string;
+  link?: string;
+  action?: () => void;
+}
+
+interface FloatingNavProps {
+  navItems: NavItem[];
   className?: string;
   setPage: (page: string) => void;
-}) => {
-  const { scrollY } = useScroll();
+}
+
+export const FloatingNav = ({ navItems, className, setPage }: FloatingNavProps) => {
   const [visible, setVisible] = useState(true);
   const [open, setOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
-  useMotionValueEvent(scrollY, "change", (current) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    const diff = current - previous;
+  // Smart scroll: hide on scroll-down, reveal on any upward movement
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      const diff = currentY - lastScrollY.current;
 
-    // Show at the very top
-    if (current < 10) {
-      setVisible(true);
-      return;
+      if (currentY < 50) {
+        // Always show at top of page
+        setVisible(true);
+      } else if (diff > 4) {
+        // Scrolling down — hide
+        setVisible(false);
+        setOpen(false);
+      } else if (diff < -4) {
+        // Scrolling up — reveal
+        setVisible(true);
+      }
+
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavClick = (item: NavItem) => {
+    // Execute the navigation action
+    if (item.action) {
+      item.action();
+    } else if (item.link) {
+      window.location.href = item.link;
     }
-
-    // Hide when scrolling down, Show when scrolling up
-    if (diff > 5) {
-      setVisible(false);
-      setOpen(false);
-    } else if (diff < -5) {
-      setVisible(true);
-    }
-  });
+    // Close mobile menu after navigation
+    setOpen(false);
+  };
 
   return (
-    <AnimatePresence mode="wait">
+    // Outer wrapper: always in DOM, always positioned, never blocks clicks when hidden
+    <div
+      className={cn(
+        "fixed inset-x-0 top-6 md:top-10 z-[9999] flex justify-center pointer-events-none",
+        className
+      )}
+    >
       <motion.div
-        initial={{
-          opacity: 1,
-          y: -100,
-        }}
+        initial={{ y: -80, opacity: 0 }}
         animate={{
-          y: visible ? 0 : -100,
+          y: visible ? 0 : -80,
           opacity: visible ? 1 : 0,
         }}
-        transition={{
-          duration: 0.2,
-        }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        // pointer-events-auto is ONLY on the nav pill itself, not the full-width wrapper
         className={cn(
-          "flex flex-col md:flex-row w-[90%] md:max-w-fit fixed top-8 md:top-12 inset-x-0 mx-auto border border-white/[0.1] rounded-3xl md:rounded-full bg-black/80 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[9999] px-6 py-3 md:py-3 items-center justify-center overflow-hidden transition-all duration-300 pointer-events-auto",
-          visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
-          open ? "max-h-[400px]" : "max-h-[64px] md:max-h-[80px]",
-          className
+          "pointer-events-auto w-[92%] md:w-auto border border-white/10 rounded-3xl md:rounded-full bg-black/80 backdrop-blur-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] overflow-hidden",
         )}
       >
-        {/* Mobile Toggle - Only visible on small screens */}
-        <div className="flex w-full md:hidden items-center justify-between">
-            <span className="text-xs font-black tracking-widest text-orange-light">MENU</span>
-            <button 
-                onClick={() => setOpen(!open)}
-                aria-expanded={open}
-                aria-label={open ? "Close menu" : "Open menu"}
-                className="p-2 text-white hover:text-orange-light transition-colors"
-            >
-                {open ? <X size={20} /> : <Menu size={20} />}
-            </button>
-        </div>
-
-        {/* Nav Items - Centered for both views */}
-        <div className={cn(
-            "flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-6 md:mt-0 transition-all duration-300",
-            !open && "opacity-0 md:opacity-100 h-0 md:h-auto overflow-hidden md:overflow-visible pointer-events-none md:pointer-events-auto"
-        )}>
-          {navItems.map((navItem, idx: number) => (
+        {/* ── Desktop Layout ── */}
+        <div className="hidden md:flex items-center gap-1 px-4 py-2">
+          {navItems.map((item, idx) => (
             <button
-              key={`link=${idx}`}
-              onClick={() => {
-                if (navItem.action) {
-                  navItem.action();
-                } else if (navItem.link) {
-                  const element = document.getElementById(navItem.link.replace('#', ''));
-                  if(element) element.scrollIntoView({ behavior: 'smooth' });
-                  else window.location.href = navItem.link;
-                }
-                setOpen(false);
-              }}
-              className="relative px-2 py-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-400 transition-all duration-200 hover:text-orange-light active:scale-95 flex items-center justify-center w-full md:w-auto"
+              key={idx}
+              onClick={() => handleNavClick(item)}
+              className="relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-orange-light transition-colors duration-200 rounded-full hover:bg-white/5 active:scale-95"
             >
-              {navItem.name}
+              {item.name}
             </button>
           ))}
         </div>
+
+        {/* ── Mobile Layout ── */}
+        <div className="flex md:hidden flex-col w-full">
+          {/* Mobile Header Row */}
+          <div className="flex items-center justify-between px-5 py-3">
+            <span className="text-[10px] font-black tracking-[0.25em] text-orange-light uppercase">
+              Menu
+            </span>
+            <button
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+              className="p-2 -mr-1 text-white/60 hover:text-orange-light transition-colors rounded-lg"
+            >
+              {open ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+
+          {/* Mobile Dropdown Links */}
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="overflow-hidden border-t border-white/10"
+              >
+                <div className="flex flex-col py-2 px-3">
+                  {navItems.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleNavClick(item)}
+                      className="w-full text-left px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] text-white/50 hover:text-orange-light hover:bg-white/5 rounded-xl transition-all duration-150 active:scale-[0.98]"
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </motion.div>
-    </AnimatePresence>
+    </div>
   );
 };
