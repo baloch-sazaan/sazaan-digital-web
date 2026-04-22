@@ -105,6 +105,18 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
 
     setStatus('sending');
 
+    // 0. Validation Guard for Production Environment Variables
+    if (!EJS_PUBLIC_KEY || !EJS_SERVICE || !EJS_TMPL_NOTIFY) {
+      console.error('[ContactForm] Missing Environment Variables. Please check Cloudflare Settings.', {
+        hasKey: !!EJS_PUBLIC_KEY,
+        hasService: !!EJS_SERVICE,
+        hasTemplate: !!EJS_TMPL_NOTIFY
+      });
+      setStatus('error');
+      setShowModal(true);
+      return;
+    }
+
     // 1. Fallback Logic for Optional Fields
     const sanitizedCompany = formData.company?.trim() || "-";
     const sanitizedPhone = formData.phone?.trim() || "-";
@@ -148,8 +160,12 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       setStatus('success');
       setShowModal(true);
       setFormData({ firstName: '', lastName: '', email: '', company: '', phone: '', message: '', agreed: false });
-    } catch (err) {
+    } catch (err: any) {
       console.error('[ContactForm] Critical submission error:', err);
+      // Detailed logging for EmailJS specific errors
+      if (err?.text) console.error('[ContactForm] EmailJS Error Text:', err.text);
+      if (err?.status) console.error('[ContactForm] EmailJS Status Code:', err.status);
+      
       setStatus('error');
       setShowModal(true);
     }
