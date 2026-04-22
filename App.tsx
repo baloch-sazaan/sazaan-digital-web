@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Component, ErrorInfo, ReactNode, lazy, Suspense } from 'react';
-import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
+import { AnimatePresence, LazyMotion, domAnimation, m, useScroll, useSpring } from 'framer-motion';
 import { ReactLenis } from '@studio-freight/react-lenis';
 import { Navbar, Footer } from './components/Chrome';
 import { HeroSection } from './components/HomeSectionsA';
@@ -84,7 +84,7 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
 }
 
 const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
-  <motion.main
+  <m.main
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -10 }}
@@ -111,7 +111,7 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     <Suspense fallback={null}>
       <CTABannerSection setPage={setPage} />
     </Suspense>
-  </motion.main>
+  </m.main>
 );
 
 const PreloaderText = () => {
@@ -140,7 +140,7 @@ const PreloaderText = () => {
     <div className="uv-loader">
       <span className="flex items-center gap-2" style={{ fontSize: 18, letterSpacing: '0.05em', color: '#fff', fontWeight: 600 }}>
         Sazaan is <span className="text-[#FFB07C] font-bold">{words[index].substring(0, subIndex)}</span>
-        <motion.span
+        <m.span
           animate={{ opacity: [0, 1, 0] }}
           transition={{ repeat: Infinity, duration: 0.8 }}
           className="inline-block w-[3px] h-[20px] bg-[#FFB07C] ml-1 align-middle"
@@ -195,12 +195,13 @@ export default function App() {
 
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
-      <div className="relative w-full overflow-x-hidden">
-        <motion.div
-          aria-hidden="true"
-          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
-          style={{ scaleX }}
-        />
+      <LazyMotion features={domAnimation} strict>
+        <div className="relative w-full overflow-x-hidden">
+          <m.div
+            aria-hidden="true"
+            className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
+            style={{ scaleX }}
+          />
         <StructuredData />
         {isValidPage && <Navbar page={page} setPage={setPage} />}
         
@@ -214,7 +215,7 @@ export default function App() {
 
         <AnimatePresence>
           {loading && (
-            <motion.div 
+            <m.div 
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
@@ -237,7 +238,7 @@ export default function App() {
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.3em', textTransform: 'uppercase', marginTop: '1rem' }}>
                 Sazaan Digital — Est. 2026
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
         <main id="main-content" role="main" className="relative w-full">
@@ -250,27 +251,27 @@ export default function App() {
               {page === 'services' && (
                 <ErrorBoundary key="services">
                   <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_SERVICES...</div>}>
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       <ServicesPage setPage={setPage} />
-                    </motion.div>
+                    </m.div>
                   </Suspense>
                 </ErrorBoundary>
               )}
               {page === 'work' && (
                 <ErrorBoundary key="work">
                   <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_WORK...</div>}>
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       <WorkPage setPage={setPage} />
-                    </motion.div>
+                    </m.div>
                   </Suspense>
                 </ErrorBoundary>
               )}
               {page === 'contact' && (
                 <ErrorBoundary key="contact">
                   <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       <ContactPage setPage={setPage} />
-                    </motion.div>
+                    </m.div>
                   </Suspense>
                 </ErrorBoundary>
               )}
@@ -283,6 +284,7 @@ export default function App() {
           {showFooter && <Footer setPage={setPage} />}
         </main>
       </div>
+     </LazyMotion>
     </ReactLenis>
   );
 }

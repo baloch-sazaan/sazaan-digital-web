@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { m, useSpring, useMotionValue } from 'framer-motion';
 
 export const CustomCursor = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,7 +43,7 @@ export const CustomCursor = () => {
   if (!isVisible) return null;
 
   return (
-    <motion.div
+    <m.div
       className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[99999] mix-blend-difference hidden md:block"
       style={{
         translateX: cursorX,
@@ -54,7 +54,7 @@ export const CustomCursor = () => {
       }}
     >
       <div className="absolute inset-0 w-full h-full rounded-full bg-[#FFB07C]/20 blur-xl scale-[3] pointer-events-none" />
-    </motion.div>
+    </m.div>
   );
 };
 

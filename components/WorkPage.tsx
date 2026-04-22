@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Reveal, SectionLabel, Icon } from './Primitives';
 import { dbService } from '../services/db.service';
@@ -94,14 +94,14 @@ const FALLBACK_WORK: Project[] = [
 
 const ProjectModal = ({ project, onClose }: { project: Project, onClose: () => void }) => {
   return (
-    <motion.div 
+    <m.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
       className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-xl"
     >
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -177,8 +177,8 @@ const ProjectModal = ({ project, onClose }: { project: Project, onClose: () => v
             Discuss project <Icon name="arrowRight" size={14} />
           </button>
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 };
 

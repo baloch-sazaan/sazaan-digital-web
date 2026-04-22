@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Menu, X } from 'lucide-react';
 import { Icon } from './Primitives';
@@ -62,7 +62,7 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
   return (
     <header role="banner">
       {/* ── Navbar bar ── */}
-      <motion.div
+      <m.div
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -127,12 +127,12 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
             </button>
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* ── Mobile dropdown ── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
+          <m.div
             id="mobile-nav"
             role="navigation"
             aria-label="Mobile Navigation"
@@ -155,7 +155,7 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
                 </a>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

@@ -70,8 +70,11 @@ export const dbService = {
     savePending(remaining);
   },
 
+  _projectsCache: null as Project[] | null,
   async fetchProjects(): Promise<Project[]> {
+    if (this._projectsCache) return this._projectsCache;
     if (!supabase) return [];
+    
     const { data, error } = await supabase
       .from('projects')
       .select('*')
@@ -79,7 +82,8 @@ export const dbService = {
       .order('sort_order', { ascending: true });
 
     if (error) throw error;
-    return (data ?? []) as Project[];
+    this._projectsCache = (data ?? []) as Project[];
+    return this._projectsCache;
   },
 
   async trackPageView(page: string): Promise<void> {

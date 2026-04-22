@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export const Icon = ({ name, size = 16, stroke = 2, className = '', style = {} }: { name: string, size?: number, stroke?: number, className?: string, style?: React.CSSProperties }) => {
   const s = { width: size, height: size, ...style };
@@ -49,7 +49,7 @@ export const SectionLabel = ({ children, center = false }: { children: React.Rea
 
 export const Reveal = ({ children, delay = 0, as: As = 'div', className = '', style = {} }: { children: React.ReactNode, delay?: number, as?: React.ElementType, className?: string, style?: React.CSSProperties }) => {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10% 0px" }}
@@ -62,7 +62,7 @@ export const Reveal = ({ children, delay = 0, as: As = 'div', className = '', st
       style={style}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -87,7 +87,7 @@ export const Magnetic = ({ children }: { children: React.ReactNode }) => {
   const reset = () => setPosition({ x: 0, y: 0 });
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
@@ -95,7 +95,7 @@ export const Magnetic = ({ children }: { children: React.ReactNode }) => {
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 
