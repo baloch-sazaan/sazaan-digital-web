@@ -13,37 +13,12 @@ interface FloatingNavProps {
   navItems: NavItem[];
   className?: string;
   setPage: (page: string) => void;
+  visibleExternal?: boolean;
 }
 
-export const FloatingNav = ({ navItems, className, setPage }: FloatingNavProps) => {
-  const [visible, setVisible] = useState(true);
+export const FloatingNav = ({ navItems, className, setPage, visibleExternal }: FloatingNavProps) => {
   const [open, setOpen] = useState(false);
-  const lastScrollY = useRef(0);
-
-  // Smart scroll: hide on scroll-down, reveal on any upward movement
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      const diff = currentY - lastScrollY.current;
-
-      if (currentY < 50) {
-        // Always show at top of page
-        setVisible(true);
-      } else if (diff > 4) {
-        // Scrolling down — hide
-        setVisible(false);
-        setOpen(false);
-      } else if (diff < -4) {
-        // Scrolling up — reveal
-        setVisible(true);
-      }
-
-      lastScrollY.current = currentY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const visible = visibleExternal ?? true;
 
   const handleNavClick = (item: NavItem) => {
     // Execute the navigation action

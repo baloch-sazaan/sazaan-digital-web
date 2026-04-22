@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Icon } from './Primitives';
 
 import { FloatingNav } from './ui/floating-navbar';
@@ -18,10 +19,34 @@ export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) =
     { name: 'Contact', action: () => { console.log('Navigating to Contact'); setPage('contact'); window.scrollTo(0, 0); } },
   ];
 
+  const { scrollY } = useScroll();
+  const [visible, setVisible] = useState(true);
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    const diff = current - previous;
+
+    if (current < 10) {
+      setVisible(true);
+    } else if (diff > 5) {
+      setVisible(false);
+    } else if (diff < -5) {
+      setVisible(true);
+    }
+  });
+
   return (
     <header role="banner">
       {/* Top Branding Bar */}
-      <div className="fixed top-0 left-0 w-full z-[999998] p-4 pt-8 flex justify-between items-center pointer-events-none">
+      <motion.div 
+        initial={{ y: 0, opacity: 1 }}
+        animate={{ 
+          y: visible ? 0 : -100,
+          opacity: visible ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 w-full z-[999998] p-4 pt-8 flex justify-between items-center pointer-events-none"
+      >
         <button
           onClick={() => { console.log('Logo click - Home'); setPage('home'); window.scrollTo(0, 0); }}
           className="pointer-events-auto ml-4 focus-visible:outline-orange-light rounded-lg transition-transform hover:scale-105 active:scale-95"
@@ -50,11 +75,11 @@ export const Navbar = ({ page, setPage }: { page: string, setPage: (p: string) =
             );
           })}
         </nav>
-      </div>
+      </motion.div>
 
       {/* Smart Floating Nav */}
       <nav aria-label="Main Navigation">
-        <FloatingNav navItems={navItems} setPage={setPage} />
+        <FloatingNav navItems={navItems} setPage={setPage} visibleExternal={visible} />
       </nav>
     </header>
   );
