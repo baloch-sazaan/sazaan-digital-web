@@ -150,12 +150,7 @@ const PreloaderText = () => {
 };
 
 export default function App() {
-  const [page, setPageRaw] = useState<string>(() => {
-    try {
-      const saved = localStorage.getItem('sazaan-page');
-      return saved && (VALID_PAGES as readonly string[]).includes(saved) ? saved : 'home';
-    } catch { return 'home'; }
-  });
+  const [page, setPageRaw] = useState<string>('home');
   const [loading, setLoading] = useState(true);
 
   const { scrollYProgress } = useScroll();
@@ -185,7 +180,6 @@ export default function App() {
 
   const setPage = (p: string) => {
     setPageRaw(p);
-    try { localStorage.setItem('sazaan-page', p); } catch {}
   };
 
   useEffect(() => {
