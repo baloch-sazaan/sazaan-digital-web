@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   m,
   useScroll,
@@ -20,41 +20,78 @@ export const Header = () => {
   );
 };
 
-/* Mobile: flat 2-column grid — no scroll-linked transforms, no springs */
-const MobileGallery = ({ products }: { products: { title: string; link: string; thumbnail: string }[] }) => (
-  <section className="px-4 pt-6 pb-20">
-    <div className="grid grid-cols-2 gap-4 mt-2">
-      {products.slice(0, 6).map((p) => (
-        <a
-          key={p.title}
-          href={p.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="relative rounded-2xl overflow-hidden aspect-[4/3] block"
-        >
-          <img
-            src={p.thumbnail}
-            alt={p.title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover object-left-top"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <span className="absolute bottom-2 left-3 text-white text-xs font-semibold truncate max-w-[90%]">{p.title}</span>
-        </a>
-      ))}
-    </div>
-  </section>
+type Product = { title: string; link: string; thumbnail: string };
+
+/* Horizontal scroll row — slides in direction based on 'dir' prop */
+const SlideRow = ({
+  items,
+  translateX,
+}: {
+  items: Product[];
+  translateX: MotionValue<number>;
+}) => (
+  <m.div
+    style={{ x: translateX }}
+    className="flex gap-3 mb-3 will-change-transform"
+  >
+    {items.map((p) => (
+      <a
+        key={p.title}
+        href={p.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative rounded-2xl overflow-hidden shrink-0 w-[55vw] aspect-[4/3] block"
+      >
+        <img
+          src={p.thumbnail}
+          alt={p.title}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover object-left-top"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        <span className="absolute bottom-2 left-3 text-white text-xs font-semibold truncate max-w-[90%]">
+          {p.title}
+        </span>
+      </a>
+    ))}
+  </m.div>
 );
+
+/* Mobile: 3 scroll-linked horizontal rows — alternating direction */
+const MobileParallaxGallery = ({ products }: { products: Product[] }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const spring = { stiffness: 60, damping: 30, restDelta: 0.001 };
+
+  // Row 1: left → right
+  const r1 = useSpring(useTransform(scrollYProgress, [0, 1], [-60, 80]),  spring);
+  // Row 2: right → left
+  const r2 = useSpring(useTransform(scrollYProgress, [0, 1], [60, -80]),  spring);
+  // Row 3: left → right
+  const r3 = useSpring(useTransform(scrollYProgress, [0, 1], [-60, 80]),  spring);
+
+  const row1 = products.slice(0, 5);
+  const row2 = products.slice(5, 10);
+  const row3 = products.slice(10, 15);
+
+  return (
+    <div ref={ref} className="overflow-hidden px-4 pt-4 pb-20">
+      <SlideRow items={row1} translateX={r1} />
+      <SlideRow items={row2} translateX={r2} />
+      <SlideRow items={row3} translateX={r3} />
+    </div>
+  );
+};
 
 export const HeroParallax = ({
   products,
 }: {
-  products: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  }[];
+  products: Product[];
 }) => {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 768
@@ -77,7 +114,7 @@ export const HeroParallax = ({
           Everything you need. <br /> nothing you don't.
         </p>
       </div>
-      <MobileGallery products={products} />
+      <MobileParallaxGallery products={products} />
     </>
   );
 
