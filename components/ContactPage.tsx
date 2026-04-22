@@ -263,13 +263,13 @@ export const ContactPage = () => {
                     name="country"
                     autoComplete="country"
                     aria-label="Country"
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-xl bg-transparent py-4 pr-7 pl-3.5 text-base text-white/40 focus:outline-none sm:text-sm/6"
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-xl bg-transparent py-4 pr-7 pl-3.5 text-base text-white/60 focus:outline-none sm:text-sm/6 [&>option]:bg-[#0d0d0d] [&>option]:text-white"
                   >
-                    <option>US</option>
-                    <option>PK</option>
-                    <option>UK</option>
+                    <option value="US">US</option>
+                    <option value="PK">PK</option>
+                    <option value="UK">UK</option>
                   </select>
-                  <div className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-white/20">
+                  <div className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-orange-light/40">
                     <ChevronDownIcon />
                   </div>
                 </div>
