@@ -4,7 +4,7 @@ import { SectionLabel } from "../Primitives";
 
 export default function ServicesGlowingGrid() {
   return (
-    <section className="relative pt-0 pb-24 md:pt-0 md:pb-32 bg-transparent -mt-16 md:-mt-44">
+    <section className="relative pt-20 pb-24 md:pt-32 md:pb-32 bg-transparent">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col items-start mb-16 md:mb-24">
           <div className="mb-6">
