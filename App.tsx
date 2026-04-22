@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef, Component, ErrorInfo, ReactNode, lazy, Suspense } from 'react';
 import { AnimatePresence, LazyMotion, domAnimation, m, useScroll, useSpring } from 'framer-motion';
 import { ReactLenis } from '@studio-freight/react-lenis';
+
+const isTouch =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 import { Navbar, Footer } from './components/Chrome';
 import { HeroSection } from './components/HomeSectionsA';
 import { AuroraShader } from "./components/ui/aurora-shader";
@@ -192,18 +196,17 @@ export default function App() {
   const isValidPage = (VALID_PAGES as readonly string[]).includes(page);
   const showFooter = page !== 'contact' && isValidPage;
 
-  return (
-    <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
-      <LazyMotion features={domAnimation}>
-        <div className="relative w-full overflow-x-hidden">
-          <m.div
-            aria-hidden="true"
-            className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
-            style={{ scaleX }}
-          />
+  const inner = (
+    <LazyMotion features={domAnimation}>
+      <div className="relative w-full overflow-x-hidden">
+        <m.div
+          aria-hidden="true"
+          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
+          style={{ scaleX }}
+        />
         <StructuredData />
         {isValidPage && <Navbar page={page} setPage={setPage} />}
-        
+
         <Suspense fallback={null}>
           <CustomCursor />
         </Suspense>
@@ -214,19 +217,19 @@ export default function App() {
 
         <AnimatePresence>
           {loading && (
-            <m.div 
+            <m.div
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
-              className="preloader-root" 
+              className="preloader-root"
               aria-hidden={!loading}
             >
               <div className="preloader-logo">
-                <img 
-                  src="/favicon.webp" 
-                  alt="Sazaan Digital" 
+                <img
+                  src="/favicon.webp"
+                  alt="Sazaan Digital"
                   fetchPriority="high"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 18 }} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 18 }}
                 />
                 <div className="preloader-logo-ring" aria-hidden="true" />
               </div>
@@ -240,50 +243,56 @@ export default function App() {
             </m.div>
           )}
         </AnimatePresence>
+
         <main id="main-content" role="main" className="relative w-full">
-            <AnimatePresence mode="wait">
-              {page === 'home' && (
-                <ErrorBoundary key="home">
-                  <HomePage setPage={setPage} />
-                </ErrorBoundary>
-              )}
-              {page === 'services' && (
-                <ErrorBoundary key="services">
-                  <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_SERVICES...</div>}>
-                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <ServicesPage setPage={setPage} />
-                    </m.div>
-                  </Suspense>
-                </ErrorBoundary>
-              )}
-              {page === 'work' && (
-                <ErrorBoundary key="work">
-                  <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_WORK...</div>}>
-                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <WorkPage setPage={setPage} />
-                    </m.div>
-                  </Suspense>
-                </ErrorBoundary>
-              )}
-              {page === 'contact' && (
-                <ErrorBoundary key="contact">
-                  <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
-                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <ContactPage setPage={setPage} />
-                    </m.div>
-                  </Suspense>
-                </ErrorBoundary>
-              )}
-              {!isValidPage && (
-                <Suspense fallback={null}>
-                  <NotFoundPage key="404" setPage={setPage} />
+          <AnimatePresence mode="wait">
+            {page === 'home' && (
+              <ErrorBoundary key="home">
+                <HomePage setPage={setPage} />
+              </ErrorBoundary>
+            )}
+            {page === 'services' && (
+              <ErrorBoundary key="services">
+                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_SERVICES...</div>}>
+                  <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <ServicesPage setPage={setPage} />
+                  </m.div>
                 </Suspense>
-              )}
-            </AnimatePresence>
+              </ErrorBoundary>
+            )}
+            {page === 'work' && (
+              <ErrorBoundary key="work">
+                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_WORK...</div>}>
+                  <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <WorkPage setPage={setPage} />
+                  </m.div>
+                </Suspense>
+              </ErrorBoundary>
+            )}
+            {page === 'contact' && (
+              <ErrorBoundary key="contact">
+                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
+                  <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <ContactPage setPage={setPage} />
+                  </m.div>
+                </Suspense>
+              </ErrorBoundary>
+            )}
+            {!isValidPage && (
+              <Suspense fallback={null}>
+                <NotFoundPage key="404" setPage={setPage} />
+              </Suspense>
+            )}
+          </AnimatePresence>
           {showFooter && <Footer setPage={setPage} />}
         </main>
       </div>
-     </LazyMotion>
+    </LazyMotion>
+  );
+
+  return (
+    <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true, touchMultiplier: 2 }}>
+      {inner}
     </ReactLenis>
   );
 }
