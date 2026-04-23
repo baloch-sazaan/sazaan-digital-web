@@ -29,8 +29,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           framer: ['framer-motion'],
           lucide: ['lucide-react'],
-          tabler: ['@tabler/icons-react'],
-          lenis:  ['lenis'],
+          lenis:  ['@studio-freight/react-lenis'],
         }
       }
     }

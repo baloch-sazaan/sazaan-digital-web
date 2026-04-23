@@ -1,13 +1,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+/* Fonts: only load what is actually used on the page */
 @import "@fontsource/montserrat/400.css";
-@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
 @import "@fontsource/montserrat/900.css";
-@import "@fontsource/space-grotesk/400.css";
-@import "@fontsource/space-grotesk/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
 
 /* ============ Sazaan Digital — Mobile-First Design System ============ */
 
@@ -44,10 +41,11 @@
 */
 
 :root {
-  /* Typography — Object Sans requires self-hosted woff2 files (see @font-face above) */
-  --font-display: 'Space Grotesk', 'Montserrat', sans-serif;
-  --font-heading: 'Object Sans', 'Montserrat', sans-serif;
+  /* Typography — Montserrat is primary; JetBrains Mono for code/mono */
+  --font-display: 'Montserrat', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
   --font-body: 'Montserrat', sans-serif;
+  --font-button: 'Montserrat', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Color Palette */
@@ -92,20 +90,7 @@ body {
   position: relative;
 }
 
-/* Cinematic Grain Overlay - desktop only (SVG filter is expensive on mobile GPUs) */
-@media (hover: hover) and (pointer: fine) {
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    opacity: 0.03;
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    z-index: 9999;
-    will-change: auto;
-  }
-}
+/* Grain removed from body::after to save GPU memory; consolidated into App.tsx BackgroundWrapper */
 
 /* Typography - Fluid by default */
 h1, h2, .h1, .h2 {
@@ -260,9 +245,10 @@ img:hover {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.015;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* Simplified noise: single octave is 50% faster than double */
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 .grid-bg {
@@ -558,7 +544,7 @@ nav,
 @layer base {
   .theme {
     --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-sans: 'Montserrat', sans-serif;
   }
   :root {
     --background: oklch(1 0 0);

@@ -53,7 +53,10 @@ export const CustomCursor = () => {
         backgroundColor: '#fff',
       }}
     >
-      <div className="absolute inset-0 w-full h-full rounded-full bg-[#FFB07C]/20 blur-xl scale-[3] pointer-events-none" />
+      <div 
+        className="absolute inset-0 w-full h-full rounded-full bg-[#FFB07C]/15 blur-lg scale-[2] pointer-events-none" 
+        style={{ transform: 'translateZ(0)' }}
+      />
     </m.div>
   );
 };

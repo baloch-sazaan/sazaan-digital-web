@@ -4,23 +4,18 @@ import App from './App';
 import './assets/css/styles.css';
 
 const injectFavicon = () => {
-  const faviconUrl = `/favicon.webp?v=${Date.now()}`;
+  const faviconUrl = `/favicon.png?v=${Date.now()}`;
   
   // Standard Icon
-  const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-  // @ts-ignore
-  link.type = 'image/webp';
-  // @ts-ignore
+  const link = (document.querySelector("link[rel*='icon']") as HTMLLinkElement) || document.createElement('link');
+  link.type = 'image/png';
   link.rel = 'icon';
-  // @ts-ignore
   link.href = faviconUrl;
   document.getElementsByTagName('head')[0].appendChild(link);
 
   // Apple Apple Touch Icon
-  const apple = document.querySelector("link[rel*='apple-touch-icon']") || document.createElement('link');
-  // @ts-ignore
+  const apple = (document.querySelector("link[rel*='apple-touch-icon']") as HTMLLinkElement) || document.createElement('link');
   apple.rel = 'apple-touch-icon';
-  // @ts-ignore
   apple.href = faviconUrl;
   document.getElementsByTagName('head')[0].appendChild(apple);
 };

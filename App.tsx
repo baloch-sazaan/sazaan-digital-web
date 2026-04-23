@@ -29,22 +29,18 @@ const VALID_PAGES = ['home', 'services', 'work', 'contact'] as const;
 
 const BackgroundWrapper = () => (
   <div 
-    className="fixed inset-0 z-[-1] pointer-events-none"
+    className="fixed inset-0 z-[-1] pointer-events-none bg-[#050505]"
     style={{
-      backgroundColor: '#050505',
+      backgroundImage: `
+        radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.06), transparent 70%),
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(232, 130, 90, 0.08), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255, 176, 124, 0.08), transparent 55%),
+        linear-gradient(60deg, #000 0%, hsla(34, 68%, 60%, 0.05) 50%, #000 100%)
+      `,
     }}
   >
-    <div 
-      className="absolute inset-0 opacity-40 transition-opacity duration-1000"
-      style={{
-        backgroundImage: 'linear-gradient(60deg, #000 0%, hsla(34, 68%, 60%, 1) 50%, #000 100%)',
-      }}
-    />
-    <div className="absolute inset-0 z-0 opacity-60">
-      <AuroraShader intensity={1.2} />
-    </div>
-    <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(255,176,124,0.1),transparent_70%)]" />
-    <div className="absolute inset-0 z-20 noise opacity-[0.04]" />
+    {/* Noise layer separated to allow for mix-blend-mode if needed, but simplified */}
+    <div className="absolute inset-0 noise opacity-[0.02]" />
   </div>
 );
 
@@ -55,7 +51,7 @@ const StructuredData = () => {
     "name": "Sazaan Digital",
     "description": "Elite Web Design, SEO, and Automation Agency for ambitious local businesses.",
     "url": "https://sazaandigital.com",
-    "logo": "https://sazaandigital.com/favicon.webp",
+    "logo": "https://sazaandigital.com/favicon.png",
     "sameAs": [
       "https://dribbble.com/sazaandigital",
       "https://instagram.com/sazaandigital"
@@ -226,7 +222,7 @@ export default function App() {
             >
               <div className="preloader-logo">
                 <img
-                  src="/favicon.webp"
+                  src="/favicon.png"
                   alt="Sazaan Digital"
                   fetchPriority="high"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 18 }}
