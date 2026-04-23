@@ -1,54 +1,40 @@
+/**
+ * Sazaan Digital: High-Performance Security & SEO Cloudflare Worker
+ * Injects A+ Security Headers and Optimizes Caching at the Edge.
+ */
+
 export default {
   async fetch(request, env, ctx) {
-    const response = await fetch(request);
+    const url = new URL(request.url);
+    // Fetch from assets binding if available, otherwise fallback to global fetch
+    const response = env.ASSETS ? await env.ASSETS.fetch(request) : await fetch(request);
+
+    // 1. Initialize Headers
     const newHeaders = new Headers(response.headers);
 
-    // 1. STRICT SECURITY HEADERS
-    // Content-Security-Policy: Allows self, analytics, and necessary fonts/images
-    newHeaders.set(
-      "Content-Security-Policy",
-      "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline' https://analytics.ahrefs.com https://cdnjs.cloudflare.com; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-      "img-src 'self' data: https:; " +
-      "font-src 'self' data: https://fonts.gstatic.com; " +
-      "connect-src 'self' https://analytics.ahrefs.com https://*.supabase.co; " +
-      "upgrade-insecure-requests;"
-    );
-    
-    // Clickjacking Protection
-    newHeaders.set("X-Frame-Options", "DENY");
-    
-    // Mime-type Sniffing Protection
-    newHeaders.set("X-Content-Type-Options", "nosniff");
-    
-    // Referrer Policy
-    newHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
-    
-    // HSTS (Force HTTPS)
+    // 2. Strict Security Headers (Grade A+)
     newHeaders.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
     
-    // Permissions Policy (Camera/Microphone/Geo blocked for privacy)
+    // Content Security Policy: Self, Google Fonts, and common CDNs
+    newHeaders.set("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://analytics.ahrefs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; upgrade-insecure-requests;");
+    
+    newHeaders.set("X-Frame-Options", "DENY");
+    newHeaders.set("X-Content-Type-Options", "nosniff");
+    newHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    newHeaders.set("X-XSS-Protection", "1; mode=block");
     newHeaders.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()");
 
-    // 2. PERFORMANCE & CACHING HEADERS
-    const url = new URL(request.url);
+    // 3. Dynamic Canonical Header (SEO)
+    newHeaders.set("Link", `<${url.origin}${url.pathname}>; rel="canonical"`);
+    
+    // 4. Performance: Edge Caching for Static Assets
     const extension = url.pathname.split('.').pop();
-    const staticExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'css', 'js', 'woff2', 'ico'];
-
-    if (staticExtensions.includes(extension)) {
-      // Long-term cache for immutable assets (fingerprinted by Vite)
+    const staticAssets = ['webp', 'avif', 'woff2', 'css', 'js', 'png', 'svg', 'ico'];
+    
+    if (staticAssets.includes(extension)) {
       newHeaders.set("Cache-Control", "public, max-age=31536000, immutable");
     } else {
-      // Standard cache for HTML/other files
-      newHeaders.set("Cache-Control", "public, max-age=3600");
-    }
-
-    // 3. CANONICAL & SEO INJECTION (Optional but recommended at edge)
-    // Ensures the canonical matches the actual request URL to prevent duplicate content issues
-    if (response.headers.get("content-type")?.includes("text/html")) {
-      // We could rewrite the HTML here, but we'll stick to headers for reliability
-      // and handle dynamic canonical in the HTML source as requested.
+      newHeaders.set("Cache-Control", "public, max-age=0, must-revalidate");
     }
 
     return new Response(response.body, {
@@ -56,5 +42,5 @@ export default {
       statusText: response.statusText,
       headers: newHeaders,
     });
-  },
+  }
 };
