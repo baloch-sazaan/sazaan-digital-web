@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { m } from 'framer-motion';
+import { m, useMotionValue, useSpring } from 'framer-motion';
 
 export const Icon = ({ name, size = 16, stroke = 2, className = '', style = {} }: { name: string, size?: number, stroke?: number, className?: string, style?: React.CSSProperties }) => {
   const s = { width: size, height: size, ...style };
@@ -50,13 +50,13 @@ export const SectionLabel = ({ children, center = false }: { children: React.Rea
 export const Reveal = ({ children, delay = 0, as: As = 'div', className = '', style = {} }: { children: React.ReactNode, delay?: number, as?: React.ElementType, className?: string, style?: React.CSSProperties }) => {
   return (
     <m.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8% 0px" }}
+      viewport={{ once: true, margin: "-10% 0px" }}
       transition={{ 
-        duration: 0.6, 
+        duration: 0.8, 
         delay, 
-        ease: [0.22, 1, 0.36, 1] 
+        ease: [0.23, 1, 0.32, 1] // Custom refined ease-out
       }}
       className={className}
       style={style}
@@ -69,33 +69,42 @@ export const Reveal = ({ children, delay = 0, as: As = 'div', className = '', st
 
 export const Magnetic = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const rafRef = useRef<number | null>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springConfig = { type: "spring", stiffness: 150, damping: 25, mass: 0.1 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
   const handleMouse = (e: React.MouseEvent) => {
-    if (rafRef.current) return;
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef.current = null;
-      if (!ref.current) return;
-      const { height, width, left, top } = ref.current.getBoundingClientRect();
-      setPosition({ x: (clientX - (left + width / 2)) * 0.35, y: (clientY - (top + height / 2)) * 0.35 });
-    });
+    if (!ref.current) return;
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    // Reduced movement factor for "weight"
+    x.set((clientX - centerX) * 0.25);
+    y.set((clientY - centerY) * 0.25);
   };
 
-  const reset = () => setPosition({ x: 0, y: 0 });
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
     <m.div
       ref={ref}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
-      animate={position}
-      transition={{ type: "spring", stiffness: 200, damping: 20, mass: 0.08 }}
+      style={{
+        x: springX,
+        y: springY,
+      }}
     >
       {children}
     </m.div>
   );
 };
+
 

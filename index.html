@@ -3,54 +3,193 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <meta name="robots" content="index, follow" />
-  <title>Sazaan Digital | Elite Web Design & Digital Strategy Agency</title>
-  <meta name="description" content="Sazaan Digital builds elite, high-performance websites, SEO strategies, and automation for ambitious local businesses. Dominate your market with our Dark Silicon aesthetic and brutalist design." />
-  <meta name="theme-color" content="#FFB07C" />
   
-  <!-- Canonical URL — prevents duplicate-content penalties -->
+  <!-- Indexing & Performance -->
+  <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sazaandigital.com/" />
+  
+  <!-- Primary Meta Tags -->
+  <title>Sazaan Digital | Elite Web Design & SEO for Clinics & Cafes</title>
+  <meta name="title" content="Sazaan Digital | Elite Web Design & SEO for Clinics & Cafes" />
+  <meta name="description" content="Sazaan Digital builds elite, high-performance websites and data-driven SEO strategies for ambitious clinics, cafes, and local businesses. Transform your digital presence." />
+  <meta name="keywords" content="Digital Agency, Web Development for Clinics, Cafe Website Design, SEO Agency, Sazaan Digital, Luxury Web Design, High Performance Websites" />
+  <meta name="theme-color" content="#0A0A0A" />
 
-  <!-- Open Graph / Social -->
+  <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sazaandigital.com/" />
+  <meta property="og:title" content="Sazaan Digital | Elite Web Design & SEO Agency" />
+  <meta property="og:description" content="Websites. SEO. Automation. Building digital legacies for ambitious local businesses with a premium Dark Silicon aesthetic." />
+  <meta property="og:image" content="https://sazaandigital.com/og-image.png" />
   <meta property="og:site_name" content="Sazaan Digital" />
-  <meta property="og:title" content="Sazaan Digital | Elite Web Design & Digital Strategy Agency" />
-  <meta property="og:description" content="Websites. SEO. Automation. Social — for local businesses that want to dominate online." />
-  <meta property="og:image" content="https://sazaandigital.com/assets/img/og-image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Sazaan Digital — Elite Web Design Agency" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@sazaandigital" />
-  <meta name="twitter:title" content="Sazaan Digital | Elite Web Design & Digital Strategy Agency" />
-  <meta name="twitter:description" content="Websites. SEO. Automation. Social — for local businesses that want to dominate online." />
-  <meta name="twitter:image" content="https://sazaandigital.com/assets/img/og-image.png" />
-  <meta name="twitter:image:alt" content="Sazaan Digital — Elite Web Design Agency" />
+  <meta name="twitter:url" content="https://sazaandigital.com/" />
+  <meta name="twitter:title" content="Sazaan Digital | Elite Web Design Agency" />
+  <meta name="twitter:description" content="High-performance web development and SEO for ambitious local businesses." />
+  <meta name="twitter:image" content="https://sazaandigital.com/og-image.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/favicon.png" />
+  <!-- Favicon / Branding -->
+  <link rel="icon" type="image/webp" href="/favicon.webp" />
+  <link rel="apple-touch-icon" href="/favicon.webp" />
 
-  <!-- Fonts are now served locally via @fontsource in styles.css for zero-latency loading -->
-  
+  <!-- Critical Path CSS - Displays branding immediately -->
   <style>
-    /* Prevent FOUC and ensure dark background immediately */
-    body { background: #000; color: #fff; margin: 0; }
-    /* Accessibility: Instant hide for skip link */
+    :root {
+      --accent-orange: #FFB07C;
+      --bg-black: #050505;
+    }
+    body { 
+      background: var(--bg-black); 
+      color: #fff; 
+      margin: 0; 
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      overflow-x: hidden;
+    }
+    
+    /* Splash Screen - Zero Latency Elite Loader */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999999; /* Highest possible */
+      background: var(--bg-black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), visibility 0.8s;
+    }
+    
+    .splash-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 22px;
+      background: rgba(255, 176, 124, 0.08);
+      padding: 18px;
+      border: 1px solid rgba(255, 176, 124, 0.15);
+      animation: splash-pulse 2.5s infinite ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .splash-logo::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 176, 124, 0.1);
+      animation: splash-ring 3s infinite ease-out;
+    }
+
+    .splash-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 15px rgba(255, 176, 124, 0.4));
+    }
+
+    .splash-text {
+      margin-top: 2rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .splash-text span {
+      color: var(--accent-orange);
+      font-weight: 700;
+      animation: splash-blink 1.5s infinite;
+    }
+
+    .splash-loader {
+      margin-top: 1.5rem;
+      width: 140px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .splash-loader::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
+      animation: splash-shimmer 2s infinite linear;
+    }
+
+    @keyframes splash-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    @keyframes splash-ring {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+
+    @keyframes splash-shimmer {
+      to { left: 100%; }
+    }
+
+    @keyframes splash-blink {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
       overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
     }
+
+    /* Hide splash when app is ready */
+    body.app-ready #splash-screen {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <!-- Skip to content — accessibility for keyboard/screen-reader users -->
-  <a href="#root" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-[#FFB07C] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
+  <!-- Accessibility: Skip to main content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#FFB07C] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
+
+  <!-- Splash Screen (Visible immediately) -->
+  <div id="splash-screen" aria-hidden="true">
+    <div class="splash-logo">
+      <img src="/favicon.webp" alt="Sazaan Digital" fetchpriority="high" />
+    </div>
+    <div class="splash-text">
+      Sazaan is <span>Active</span>
+    </div>
+    <div class="splash-loader"></div>
+  </div>
+
   <div id="root"></div>
+  
   <script type="module" src="/main.tsx"></script>
+  
+  <script>
+    // Robust Failsafe: Ensure splash screen is removed even if JS fails or slows down
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.classList.add('app-ready');
+        console.log('Sazaan Digital: Splash failsafe triggered.');
+      }, 3000);
+    });
+  </script>
 </body>
 </html>

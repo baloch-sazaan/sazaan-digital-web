@@ -1,4 +1,5 @@
 import React from 'react';
+import { m } from 'framer-motion';
 import { Reveal, SectionLabel, Icon } from './Primitives';
 
 export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
@@ -15,7 +16,13 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
   ];
 
   return (
-    <main style={{ position: 'relative' }}>
+    <m.main
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      style={{ position: 'relative' }}
+    >
       <section style={{
         minHeight: '55vh', display: 'flex', alignItems: 'flex-end',
         paddingTop: 'clamp(100px, 20vw, 160px)', paddingBottom: 60,
@@ -91,7 +98,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
         </div>
       </section>
 
-    </main>
+    </m.main>
   );
 };
 

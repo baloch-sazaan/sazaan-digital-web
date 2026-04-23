@@ -8,6 +8,7 @@ const isTouch =
 import { Navbar, Footer } from './components/Chrome';
 import { HeroSection } from './components/HomeSectionsA';
 import { AuroraShader } from "./components/ui/aurora-shader";
+import { ProjectModal, Project } from './components/ProjectModal';
 import { dbService } from './services/db.service';
 
 // Lazy-loaded components for better performance
@@ -35,12 +36,15 @@ const BackgroundWrapper = () => (
         radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.06), transparent 70%),
         radial-gradient(ellipse 80% 60% at 20% 80%, rgba(232, 130, 90, 0.08), transparent 60%),
         radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255, 176, 124, 0.08), transparent 55%),
-        linear-gradient(60deg, #000 0%, hsla(34, 68%, 60%, 0.05) 50%, #000 100%)
+        linear-gradient(60deg, #000 0%, hsla(34, 68%, 60%, 0.04) 50%, #000 100%)
       `,
+      willChange: 'transform',
+      transform: 'translateZ(0)', // Force GPU layer
+      backfaceVisibility: 'hidden',
     }}
   >
     {/* Noise layer separated to allow for mix-blend-mode if needed, but simplified */}
-    <div className="absolute inset-0 noise opacity-[0.02]" />
+    <div className="absolute inset-0 noise opacity-[0.015] pointer-events-none" style={{ transform: 'translateZ(0)' }} />
   </div>
 );
 
@@ -51,7 +55,7 @@ const StructuredData = () => {
     "name": "Sazaan Digital",
     "description": "Elite Web Design, SEO, and Automation Agency for ambitious local businesses.",
     "url": "https://sazaandigital.com",
-    "logo": "https://sazaandigital.com/favicon.png",
+    "logo": "https://sazaandigital.com/favicon.webp",
     "sameAs": [
       "https://dribbble.com/sazaandigital",
       "https://instagram.com/sazaandigital"
@@ -90,11 +94,11 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <HeroSection setPage={setPage} />
-    <Suspense fallback={<div className="min-h-[600px] bg-black/20 animate-pulse" />}>
+    <Suspense fallback={<div className="min-h-[400px] bg-white/[0.02] animate-pulse rounded-3xl mx-6" />}>
       <HeroParallaxDemo />
     </Suspense>
     <Suspense fallback={<div className="min-h-[500px]" />}>
-      <ServicesGlowingGrid />
+      <ServicesGlowingGrid setPage={setPage} />
     </Suspense>
     <ErrorBoundary>
       <Suspense fallback={<div className="min-h-[500px]" />}>
@@ -113,45 +117,11 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
   </m.main>
 );
 
-const PreloaderText = () => {
-  const words = ["Building", "Optimizing", "Refining", "Scaling"];
-  const [index, setIndex] = useState(0);
-  const [subIndex, setSubIndex] = useState(0);
-  const [reverse, setReverse] = useState(false);
 
-  useEffect(() => {
-    if (subIndex === words[index].length + 1 && !reverse) {
-      setTimeout(() => setReverse(true), 1200);
-      return;
-    }
-    if (subIndex === 0 && reverse) {
-      setReverse(false);
-      setIndex((prev) => (prev + 1) % words.length);
-      return;
-    }
-    const timeout = setTimeout(() => {
-      setSubIndex((prev) => prev + (reverse ? -1 : 1));
-    }, reverse ? 50 : 100); // Faster typing for better visibility in short window
-    return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse]);
-
-  return (
-    <div className="uv-loader">
-      <span className="flex items-center gap-2" style={{ fontSize: 18, letterSpacing: '0.05em', color: '#fff', fontWeight: 600 }}>
-        Sazaan is <span className="text-[#FFB07C] font-bold">{words[index].substring(0, subIndex)}</span>
-        <m.span
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ repeat: Infinity, duration: 0.8 }}
-          className="inline-block w-[3px] h-[20px] bg-[#FFB07C] ml-1 align-middle"
-        />
-      </span>
-    </div>
-  );
-};
 
 export default function App() {
   const [page, setPageRaw] = useState<string>('home');
-  const [loading, setLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -169,8 +139,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // 1.2s total duration for a premium, non-laggy feel
-    const t = setTimeout(() => setLoading(false), 1200);
+    // Immediate hydration signal for the static splash screen
+    const t = setTimeout(() => {
+      document.body.classList.add('app-ready');
+    }, 100);
     return () => clearTimeout(t);
   }, []);
 
@@ -188,6 +160,16 @@ export default function App() {
       dbService.trackPageView(page);
     }
   }, [page]);
+
+  // Global scroll lock for modals
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedProject]);
 
   const isValidPage = (VALID_PAGES as readonly string[]).includes(page);
   const showFooter = page !== 'contact' && isValidPage;
@@ -211,68 +193,67 @@ export default function App() {
         </Suspense>
         <BackgroundWrapper />
 
-        <AnimatePresence>
-          {loading && (
-            <m.div
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
-              className="preloader-root"
-              aria-hidden={!loading}
-            >
-              <div className="preloader-logo">
-                <img
-                  src="/favicon.png"
-                  alt="Sazaan Digital"
-                  fetchPriority="high"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 18 }}
-                />
-                <div className="preloader-logo-ring" aria-hidden="true" />
-              </div>
-              <div className="uv-card" aria-live="polite">
-                <PreloaderText />
-              </div>
-              <div className="preloader-progress" role="progressbar" aria-label="Loading Sazaan Digital" />
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.3em', textTransform: 'uppercase', marginTop: '1rem' }}>
-                Sazaan Digital — Est. 2026
-              </div>
-            </m.div>
-          )}
-        </AnimatePresence>
+        {/* Splash screen is handled in index.html for maximum performance */}
 
         <main id="main-content" role="main" className="relative w-full">
           <AnimatePresence mode="wait">
             {page === 'home' && (
-              <ErrorBoundary key="home">
-                <HomePage setPage={setPage} />
-              </ErrorBoundary>
+              <m.div 
+                key="home"
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ErrorBoundary>
+                  <HomePage setPage={setPage} />
+                </ErrorBoundary>
+              </m.div>
             )}
             {page === 'services' && (
-              <ErrorBoundary key="services">
-                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_SERVICES...</div>}>
-                  <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <m.div 
+                key="services"
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ErrorBoundary>
+                  <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
                     <ServicesPage setPage={setPage} />
-                  </m.div>
-                </Suspense>
-              </ErrorBoundary>
+                  </Suspense>
+                </ErrorBoundary>
+              </m.div>
             )}
             {page === 'work' && (
-              <ErrorBoundary key="work">
-                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_WORK...</div>}>
-                  <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <WorkPage setPage={setPage} />
-                  </m.div>
-                </Suspense>
-              </ErrorBoundary>
+              <m.div 
+                key="work"
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ErrorBoundary>
+                  <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
+                    <WorkPage setPage={setPage} setSelectedProject={setSelectedProject} />
+                  </Suspense>
+                </ErrorBoundary>
+              </m.div>
             )}
             {page === 'contact' && (
-              <ErrorBoundary key="contact">
-                <Suspense fallback={<div className="fixed inset-0 bg-black z-50 flex items-center justify-center text-orange-light font-mono">LOADING_CONTACT...</div>}>
-                  <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <m.div 
+                key="contact"
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ErrorBoundary>
+                  <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
                     <ContactPage setPage={setPage} />
-                  </m.div>
-                </Suspense>
-              </ErrorBoundary>
+                  </Suspense>
+                </ErrorBoundary>
+              </m.div>
             )}
             {!isValidPage && (
               <Suspense fallback={null}>
@@ -282,6 +263,15 @@ export default function App() {
           </AnimatePresence>
           {showFooter && <Footer setPage={setPage} />}
         </main>
+        
+        <AnimatePresence>
+          {selectedProject && (
+            <ProjectModal 
+              project={selectedProject} 
+              onClose={() => setSelectedProject(null)} 
+            />
+          )}
+        </AnimatePresence>
       </div>
     </LazyMotion>
   );

@@ -1,23 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
-import { useLenis } from '@studio-freight/react-lenis';
+import React, { useState } from 'react';
+import { m } from 'framer-motion';
 import { Reveal, SectionLabel, Icon } from './Primitives';
-import { dbService } from '../services/db.service';
-
-interface Project {
-  id: string;
-  tag: string;
-  cat: string;
-  title: string;
-  description: string;
-  fullSummary?: string;
-  features?: string[];
-  metric: string;
-  status: string;
-  accent: string;
-  published: boolean;
-  screenshot_url?: string;
-}
+import type { Project } from './ProjectModal';
 
 const FALLBACK_WORK: Project[] = [
   { 
@@ -32,7 +16,7 @@ const FALLBACK_WORK: Project[] = [
     status: 'Live', 
     accent: '#FFB07C', 
     published: true,
-    screenshot_url: '/professional_portfolio_mockup_1776819825094.png'
+    screenshot_url: '/professional_portfolio_mockup_1776819825094.webp'
   },
   { 
     id: '2', 
@@ -46,7 +30,7 @@ const FALLBACK_WORK: Project[] = [
     status: 'Live', 
     accent: '#FF9B1A', 
     published: true,
-    screenshot_url: '/agency_crm_dashboard_1776819849378.png'
+    screenshot_url: '/agency_crm_dashboard_1776819849378.webp'
   },
   { 
     id: '5', 
@@ -60,7 +44,7 @@ const FALLBACK_WORK: Project[] = [
     status: 'Live', 
     accent: '#FFC97B', 
     published: true,
-    screenshot_url: '/ai_automation_workflow_1776819873461.png'
+    screenshot_url: '/ai_automation_workflow_1776819873461.webp'
   },
   { 
     id: '3', 
@@ -74,7 +58,7 @@ const FALLBACK_WORK: Project[] = [
     status: 'Live', 
     accent: '#FFC97B', 
     published: true,
-    screenshot_url: '/luxury_real_estate_mockup_1776820888718.png'
+    screenshot_url: '/luxury_real_estate_mockup_1776820888718.webp'
   },
   { 
     id: '4', 
@@ -88,104 +72,13 @@ const FALLBACK_WORK: Project[] = [
     status: 'Live', 
     accent: '#FFB07C', 
     published: true,
-    screenshot_url: '/creative_agency_mockup_1776820859927.png'
+    screenshot_url: '/creative_agency_mockup_1776820859927.webp'
   },
 ];
 
-const ProjectModal = ({ project, onClose }: { project: Project, onClose: () => void }) => {
-  return (
-    <m.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-xl"
-    >
-      <m.div 
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        onClick={(e) => e.stopPropagation()}
-        data-lenis-prevent
-        className="relative w-full max-w-5xl max-h-[90vh] bg-[#0d0d0d] border border-white/10 rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col md:flex-row"
-      >
-        <button 
-          onClick={onClose}
-          className="absolute top-6 right-6 z-20 w-10 h-10 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-black/60 transition-all"
-        >
-          <Icon name="x" size={20} />
-        </button>
-
-        {/* Left Side: Media */}
-        <div className="w-full md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-white/5 border-r border-white/10">
-          {project.screenshot_url ? (
-            <img 
-              src={project.screenshot_url} 
-              alt={project.title}
-              decoding="async"
-              className="w-full h-full object-cover filter brightness-95"
-            />
-          ) : (
-             <div className="w-full h-full flex items-center justify-center opacity-20">
-               <Icon name="globe" size={80} />
-             </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent opacity-60 md:hidden" />
-        </div>
-
-        {/* Right Side: Content */}
-        <div className="flex-1 overflow-y-auto p-8 md:p-12 custom-scrollbar">
-          <SectionLabel>{project.cat}</SectionLabel>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mt-4 mb-6 leading-tight">{project.title}</h2>
-          
-          <div className="grid grid-cols-2 gap-8 mb-10 pb-8 border-b border-white/5">
-            <div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2 font-mono">Metric Peak</div>
-              <div className="text-xl md:text-2xl font-bold text-orange-light">{project.metric}</div>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2 font-mono">Lifecycle</div>
-              <div className="text-xl md:text-2xl font-bold text-white">{project.status}</div>
-            </div>
-          </div>
-
-          <div className="mb-10">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4 font-mono">Summary</h4>
-            <p className="body-lg leading-relaxed text-white/80">
-              {project.fullSummary || project.description}
-            </p>
-          </div>
-
-          {project.features && (
-            <div className="mb-10">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4 font-mono">Core Features</h4>
-              <div className="flex flex-wrap gap-2">
-                {project.features.map(f => (
-                  <span key={f} className="px-3 py-1.5 rounded-lg bg-orange-light/5 border border-orange-light/10 text-[11px] text-orange-light/80 font-medium">
-                    {f}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <button 
-            onClick={() => window.location.href = 'mailto:baloch@sazaandigital.com?subject=Project Inquiry: ' + project.title}
-            className="btn btn-primary w-full md:w-auto"
-          >
-            Discuss project <Icon name="arrowRight" size={14} />
-          </button>
-        </div>
-      </m.div>
-    </m.div>
-  );
-};
-
-export const WorkPage = ({ setPage }: { setPage: (p: string) => void }) => {
+export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string) => void, setSelectedProject: (p: Project | null) => void }) => {
   const [filter, setFilter] = useState<string>('all');
   const [work, setWork] = useState<Project[]>(FALLBACK_WORK);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
   const filters = [
     ['all', 'All Work'], 
@@ -195,27 +88,16 @@ export const WorkPage = ({ setPage }: { setPage: (p: string) => void }) => {
     ['brand', 'Brand']
   ];
 
-  const lenis = useLenis();
-
-  useEffect(() => {
-    // Lock scroll when modal is open
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-      lenis?.stop();
-    } else {
-      document.body.style.overflow = '';
-      lenis?.start();
-    }
-    return () => { 
-      document.body.style.overflow = ''; 
-      lenis?.start();
-    };
-  }, [selectedProject, lenis]);
-
   const visible = filter === 'all' ? work : work.filter(w => w.tag === filter);
 
   return (
-    <main style={{ position: 'relative' }}>
+    <m.main
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      style={{ position: 'relative' }}
+    >
       <section style={{ minHeight: '55vh', display: 'flex', alignItems: 'flex-end', paddingTop: 'clamp(100px, 20vw, 160px)', paddingBottom: 60, position: 'relative', overflow: 'hidden' }}>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <Reveal><SectionLabel>Our Work</SectionLabel></Reveal>
@@ -226,9 +108,30 @@ export const WorkPage = ({ setPage }: { setPage: (p: string) => void }) => {
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="body-lg" style={{ marginTop: 22, maxWidth: 520 }}>
-              High-performance solutions. Real-world impact. A showcase of elite digital craftsmanship and automated workflows.
-            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mt-12">
+              <p className="body-lg max-w-lg">
+                High-performance solutions. Real-world impact. A showcase of elite digital craftsmanship and automated workflows.
+              </p>
+              <button 
+                onClick={() => setSelectedProject({
+                  id: 'overview',
+                  tag: 'agency',
+                  cat: 'Work Overview',
+                  title: 'Our Digital Philosophy',
+                  description: 'A summary of how Sazaan Digital approaches development and design.',
+                  fullSummary: 'At Sazaan Digital, we don\'t just build websites; we engineer digital assets. Our philosophy centers on "Zero Latency Design"—the belief that every millisecond of load time is a barrier to conversion. We combine brutalist-modern aesthetics with extreme technical optimization. \n\nThis section showcases our expertise in three core pillars: \n1. Performance Engineering (React/Vite/Shaders)\n2. Automation Architecture (Custom CRM/AI integration)\n3. Growth Systems (Technical SEO/Data Analytics). \n\nEvery project here is a testament to our commitment to making local businesses dominate their global competitors through superior technology.',
+                  features: ['Performance-First Architecture', 'Conversion-Led Design', 'Scalable Automation', 'Data-Driven SEO', 'Premium Brand Identity'],
+                  metric: '100% Quality',
+                  status: 'Standard',
+                  accent: '#FFB07C',
+                  published: true
+                })}
+                className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 text-xs font-mono uppercase tracking-widest hover:bg-orange-light/10 hover:border-orange-light/30 transition-all flex items-center gap-2"
+              >
+                <Icon name="zap" size={14} className="text-orange-light" />
+                Section Summary
+              </button>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -237,32 +140,33 @@ export const WorkPage = ({ setPage }: { setPage: (p: string) => void }) => {
         <div className="noise" />
         <div className="warm-glow" style={{ opacity: 0.4 }} />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <Reveal>
-            <div 
-              style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 40 }}
-              role="group"
-              aria-label="Filter our work by category"
-            >
-              {filters.map(([k, l]) => (
-                <button 
-                  key={k} 
-                  onClick={() => setFilter(k)} 
-                  aria-pressed={filter === k}
-                  style={{
-                    padding: '10px 18px', borderRadius: 999,
-                    minHeight: 44,
-                    background: filter === k ? 'rgba(255, 176, 124,0.15)' : 'rgba(255,255,255,0.03)',
-                    border: `1px solid ${filter === k ? 'rgba(255, 176, 124,0.4)' : 'var(--border)'}`,
-                    color: filter === k ? '#fff' : 'var(--text-secondary)',
-                    fontSize: 13, fontFamily: 'var(--font-body)',
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-          </Reveal>
+          <div 
+            style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 40 }}
+            role="group"
+            aria-label="Filter our work by category"
+          >
+            {filters.map(([k, l], i) => (
+              <m.button 
+                key={k} 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.1 + i * 0.05, ease: [0.23, 1, 0.32, 1] }}
+                onClick={() => setFilter(k)} 
+                aria-pressed={filter === k}
+                style={{
+                  padding: '10px 18px', borderRadius: 999,
+                  minHeight: 44,
+                  background: filter === k ? 'rgba(255, 176, 124,0.15)' : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${filter === k ? 'rgba(255, 176, 124,0.4)' : 'var(--border)'}`,
+                  color: filter === k ? '#fff' : 'var(--text-secondary)',
+                  fontSize: 13, fontFamily: 'var(--font-body)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {l}
+              </m.button>
+            ))}
+          </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: 28 }}>
             {visible.map((w, i) => (
@@ -333,15 +237,6 @@ export const WorkPage = ({ setPage }: { setPage: (p: string) => void }) => {
           </div>
         </div>
       </section>
-
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
-          />
-        )}
-      </AnimatePresence>
-    </main>
+    </m.main>
   );
 };

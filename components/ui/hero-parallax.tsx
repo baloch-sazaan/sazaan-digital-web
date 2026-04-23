@@ -35,12 +35,9 @@ const SlideRow = ({
     className="flex gap-3 mb-3 will-change-transform"
   >
     {items.map((p) => (
-      <a
+      <div
         key={p.title}
-        href={p.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative rounded-2xl overflow-hidden shrink-0 w-[55vw] aspect-[4/3] block"
+        className="relative rounded-2xl overflow-hidden shrink-0 w-[55vw] aspect-[4/3] block cursor-default"
       >
         <img
           src={p.thumbnail}
@@ -53,7 +50,7 @@ const SlideRow = ({
         <span className="absolute bottom-2 left-3 text-white text-xs font-semibold truncate max-w-[90%]">
           {p.title}
         </span>
-      </a>
+      </div>
     ))}
   </m.div>
 );
@@ -215,12 +212,7 @@ export const ProductCard = ({
       key={product.title}
       className="group/product h-64 md:h-96 w-[20rem] md:w-[30rem] relative shrink-0"
     >
-      <a
-        href={product.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block h-full w-full"
-      >
+      <div className="block h-full w-full cursor-default">
         <img
           src={product.thumbnail}
           height="600"
@@ -230,7 +222,7 @@ export const ProductCard = ({
           loading="lazy"
           decoding="async"
         />
-      </a>
+      </div>
       <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
       <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
         {product.title}

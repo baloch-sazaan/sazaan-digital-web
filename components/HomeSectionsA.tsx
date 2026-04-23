@@ -123,7 +123,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
           draggable={false}
           loading="eager"
           decoding="async"
-          fetchPriority="high"
+          fetchpriority="high"
           width={1200}
           height={800}
         />

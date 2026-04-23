@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { Icon } from "./Primitives"
 import emailjs from '@emailjs/browser';
 import { dbService, type ContactSubmission } from '../services/db.service';
@@ -11,54 +11,55 @@ const ChevronDownIcon = () => (
 );
 
 const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' | 'error' | 'info', onClose: () => void, title?: string, message?: string }) => (
-  <motion.div 
+  <m.div 
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-3xl"
+    className="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-black/90 backdrop-blur-3xl"
     onClick={onClose}
   >
-    <motion.div
+    <m.div
       initial={{ scale: 0.9, opacity: 0, y: 30 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       exit={{ scale: 0.9, opacity: 0, y: 30 }}
+      transition={{ type: "spring", damping: 25, stiffness: 350 }}
       onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-md bg-[#0d0d0d] border border-white/10 rounded-[40px] p-12 text-center shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
+      className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-[48px] p-12 text-center shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-light to-orange-light/40" />
+      <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${status === 'success' ? 'from-orange-light to-orange-400' : status === 'info' ? 'from-orange-light/40 to-orange-light/10' : 'from-red-500 to-red-600'}`} />
       <div className="absolute inset-0 noise opacity-[0.03] pointer-events-none" />
       
-      <div className={`w-24 h-24 mx-auto mb-10 rounded-3xl rotate-12 flex items-center justify-center border-2 ${status === 'success' ? 'border-orange-light/20 bg-orange-light/5' : status === 'info' ? 'border-blue-500/20 bg-blue-500/5' : 'border-red-500/20 bg-red-500/5'}`}>
-        <motion.div
-           animate={status === 'info' ? { rotate: [0, 10, -10, 10, 0] } : {}}
+      <div className={`w-28 h-28 mx-auto mb-10 rounded-[40px] rotate-6 flex items-center justify-center border-2 ${status === 'success' ? 'border-orange-light/20 bg-orange-light/5' : status === 'info' ? 'border-white/10 bg-white/5' : 'border-red-500/20 bg-red-500/5'}`}>
+        <m.div
+           animate={status === 'info' ? { y: [0, -4, 0], rotate: [6, 8, 4, 6] } : {}}
            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         >
           <Icon 
-            name={status === 'success' ? 'check' : status === 'info' ? 'eyeOrbit' : 'share'} 
-            size={48} 
-            className={`${status === 'success' ? 'text-orange-light' : status === 'info' ? 'text-blue-400' : 'text-red-500'} -rotate-12`} 
+            name={status === 'success' ? 'checkCircle' : status === 'info' ? 'alertCircle' : 'share'} 
+            size={56} 
+            className={`${status === 'success' ? 'text-orange-light' : status === 'info' ? 'text-orange-light/60' : 'text-red-500'} -rotate-6`} 
           />
-        </motion.div>
+        </m.div>
       </div>
 
-      <h3 className="text-4xl font-heading font-black text-white mb-4 uppercase tracking-tighter leading-none">
-        {title || (status === 'success' ? 'Inquiry Sent' : status === 'info' ? 'Almost there' : 'Submission Error')}
+      <h3 className="text-4xl font-heading font-black text-white mb-4 uppercase tracking-tighter leading-none italic">
+        {title || (status === 'success' ? 'LOCKED IN' : status === 'info' ? 'HOLD UP' : 'ERROR')}
       </h3>
       
-      <p className="text-white/40 font-medium leading-relaxed mb-12 text-lg px-2">
+      <p className="text-white/60 font-medium leading-relaxed mb-12 text-lg px-2">
         {message || (status === 'success' 
-          ? "Thank you. We've received your request and will reach out shortly."
-          : status === 'info' ? "To continue, please agree to our privacy policy so we can protect your data." : "Something went wrong. Please check your connection and try again.")}
+          ? "We've received your inquiry. Our team will get back to you within 24 hours."
+          : status === 'info' ? "You need to press the privacy policy button to continue." : "Submission failed. Please check your details and try again.")}
       </p>
 
       <button 
         onClick={onClose}
-        className="w-full py-6 rounded-3xl bg-orange-light text-black font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_40px_rgba(255,176,124,0.2)]"
+        className="w-full py-6 rounded-3xl bg-orange-light text-black font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_20px_40px_rgba(255,176,124,0.15)]"
       >
-        {status === 'info' ? 'I understand' : 'Dismiss'}
+        {status === 'info' ? 'ACCEPT & CLOSE' : 'CONTINUE'}
       </button>
-    </motion.div>
-  </motion.div>
+    </m.div>
+  </m.div>
 );
 
 export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
@@ -95,14 +96,20 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    console.log('[ContactForm] Submission attempt...', { agreed: formData.agreed, status });
+
     if (status === 'sending') return;
     
-    if (!formData.agreed) {
+    // STRICT GUARD: Must agree to privacy policy
+    if (formData.agreed !== true) {
+      console.warn('[ContactForm] Guard triggered: Privacy policy not accepted.');
       setStatus('info');
       setShowModal(true);
-      return;
+      return; // EXIT IMMEDIATELY - DO NOT PROCEED
     }
 
+    console.log('[ContactForm] Privacy policy accepted. Proceeding to transmit...');
     setStatus('sending');
 
     // 0. Validation Guard for Production Environment Variables
@@ -143,7 +150,11 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     };
 
     try {
+      // Secondary fail-safe check
+      if (!formData.agreed) throw new Error('Internal Guard: Privacy agreement missing');
+
       const ejsResult = await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
+      console.log('[ContactForm] Email successfully transmitted to agency.');
 
       // Database persistence (async, non-blocking)
       dbService.saveContactSubmission({
@@ -174,7 +185,13 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
   };
 
   return (
-    <div className="relative isolate bg-[#050505] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40">
+    <m.main
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="relative isolate bg-[#050505] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
+    >
       {/* Back Button */}
       <div className="max-w-2xl mx-auto mb-12">
         <button 
@@ -362,6 +379,6 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
           />
         )}
       </AnimatePresence>
-    </div>
+    </m.main>
   )
 }

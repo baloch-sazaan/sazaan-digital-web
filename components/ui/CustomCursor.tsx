@@ -3,7 +3,6 @@ import { m, useSpring, useMotionValue } from 'framer-motion';
 
 export const CustomCursor = () => {
   const [isVisible, setIsVisible] = useState(false);
-  // Ref tracks visibility inside the effect so we never need to re-register listeners
   const visibleRef = useRef(false);
 
   const mouseX = useMotionValue(0);
@@ -38,7 +37,7 @@ export const CustomCursor = () => {
       document.removeEventListener('mouseleave', handleExit);
       document.removeEventListener('mouseenter', handleEnter);
     };
-  }, []); // mount once — visibleRef keeps the effect stable
+  }, []); 
 
   if (!isVisible) return null;
 
