@@ -3,176 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  
-  <!-- Indexing & Performance -->
   <meta name="robots" content="index, follow" />
-  <link id="canonical-link" rel="canonical" href="https://sazaandigital.com/" />
+  <link rel="canonical" href="https://sazaandigital.com/" />
   
-  <!-- Critical Resource Preloading -->
   <link rel="preload" href="/favicon.webp" as="image" type="image/webp" fetchpriority="high" />
-  <!-- Example Font Preload (Adjust paths based on your actual font files if hosted locally) -->
-  <link rel="preload" href="https://fonts.gstatic.com/s/montserrat/v25/JTUSjIg1_i6t8kCHKm4df9WRNYxlW49LZP1m.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="https://fonts.gstatic.com/s/montserrat/v25/JTUSjIg1_i6t8kCHKm4df9WRNYxlW49LZP1m.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 
-  <!-- Primary Meta Tags -->
   <title>Sazaan Digital | Elite Web Design & SEO for Clinics & Cafes</title>
   <meta name="title" content="Sazaan Digital | Elite Web Design & SEO for Clinics & Cafes" />
-  <meta name="description" content="Sazaan Digital: Elite Web Design & SEO for clinics and cafes. High-performance digital architecture designed for conversion and market dominance." />
+  <meta name="description" content="Sazaan Digital: Elite Web Design & SEO for clinics and cafes. High-performance digital architecture built for conversion and market dominance. Pure legacy." />
   <meta name="keywords" content="Elite Web Design, Clinical SEO, Cafe Marketing, Sazaan Digital, High Performance Websites, Medical Practice SEO, Boutique Cafe Branding" />
   <meta name="theme-color" content="#0A0A0A" />
 
-  <!-- Open Graph / Facebook / LinkedIn -->
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sazaandigital.com/" />
   <meta property="og:title" content="Sazaan Digital | Elite Web Design & SEO Agency" />
   <meta property="og:description" content="Websites. SEO. Automation. Building digital legacies for ambitious clinics and cafes with a premium Dark Silicon aesthetic." />
   <meta property="og:image" content="https://sazaandigital.com/og-image.png" />
   <meta property="og:site_name" content="Sazaan Digital" />
-  <meta property="og:locale" content="en_US" />
 
-  <!-- Twitter Card -->
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://sazaandigital.com/" />
   <meta name="twitter:title" content="Sazaan Digital | Elite Web Design Agency" />
   <meta name="twitter:description" content="High-performance web development and SEO for ambitious local businesses." />
   <meta name="twitter:image" content="https://sazaandigital.com/og-image.png" />
 
-  <!-- Favicon / Branding -->
   <link rel="icon" type="image/webp" href="/favicon.webp" />
   <link rel="apple-touch-icon" href="/favicon.webp" />
 
-  <!-- Critical Path CSS -->
-  <style>
-    :root {
-      --accent-orange: #FFB07C;
-      --bg-black: #050505;
+  <!-- JSON-LD Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Sazaan Digital",
+      "image": "https://sazaandigital.com/og-image.png",
+      "@id": "https://sazaandigital.com",
+      "url": "https://sazaandigital.com",
+      "telephone": "+1-000-000-0000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Remote",
+        "addressLocality": "London",
+        "addressRegion": "UK",
+        "postalCode": "SW1A 1AA",
+        "addressCountry": "GB"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 51.5074,
+        "longitude": -0.1278
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://instagram.com/sazaandigital"
+      ],
+      "priceRange": "$$$"
     }
-    body { 
-      background: var(--bg-black); 
-      color: #fff; 
-      margin: 0; 
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-      overflow-x: hidden;
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Elite Web Design & SEO",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Sazaan Digital"
+      },
+      "areaServed": ["UK", "US"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Digital Growth Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Clinical SEO & Web Design"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Boutique Cafe Digital Branding"
+            }
+          }
+        ]
+      }
     }
-    
-    #splash-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999999;
-      background: var(--bg-black);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), visibility 0.8s;
-    }
-    
-    .splash-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 22px;
-      background: rgba(255, 176, 124, 0.08);
-      padding: 18px;
-      border: 1px solid rgba(255, 176, 124, 0.15);
-      animation: splash-pulse 2.5s infinite ease-in-out;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .splash-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 0 15px rgba(255, 176, 124, 0.4));
-    }
-
-    .splash-text {
-      margin-top: 2rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.4em;
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    .splash-text span { color: var(--accent-orange); font-weight: 700; animation: splash-blink 1.5s infinite; }
-
-    @keyframes splash-pulse { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; } }
-    @keyframes splash-blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-
-    .sr-only {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
-    }
-
-    body.app-ready #splash-screen { opacity: 0; visibility: hidden; pointer-events: none; }
-  </style>
-
-  <!-- SRI for External Scripts (Example for Ahrefs) -->
-  <script src="https://analytics.ahrefs.com/analytics.js" 
-          data-key="lyi6pC4zGhB7dPLJFxUCSg" 
-          async></script>
-</head>
-<body>
-  <!-- Dynamic Canonical Link Fix -->
-  <script>
-    document.getElementById('canonical-link').setAttribute('href', window.location.href.split('?')[0]);
   </script>
 
-  <!-- Accessibility -->
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#FFB07C] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
+  <style>
+    :root{--accent-orange:#FFB07C;--bg-black:#050505}body{background:var(--bg-black);color:#fff;margin:0;font-family:'Montserrat',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}#splash-screen{position:fixed;inset:0;z-index:9999999;background:var(--bg-black);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.4,0,.2,1),visibility .6s}.splash-logo{width:70px;height:70px;border-radius:20px;background:rgba(255,176,124,.05);padding:15px;border:1px solid rgba(255,176,124,.1);animation:s-pulse 2s infinite ease-in-out;display:flex;align-items:center;justify-content:center}.splash-logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,176,124,.3))}.splash-text{margin-top:1.5rem;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:.5em;color:rgba(255,255,255,.3)}.splash-text span{color:var(--accent-orange);animation:s-blink 1s infinite}@keyframes s-pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.03);opacity:1}}@keyframes s-blink{0%,100%{opacity:.3}50%{opacity:1}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}body.app-ready #splash-screen{opacity:0;visibility:hidden;pointer-events:none}
+  </style>
 
-  <!-- Splash Screen -->
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="lyi6pC4zGhB7dPLJFxUCSg" async integrity="sha384-CE7mS14bgifM0HAcmJaHP6UAVOu/3U34NyAgRA0lCxWAuzTTaUKmSQiCwA/M0B8y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a href="#root" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#FFB07C] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
+
   <div id="splash-screen" aria-hidden="true">
-    <div class="splash-logo">
-      <img src="/favicon.webp" alt="Sazaan Digital" fetchpriority="high" />
-    </div>
+    <div class="splash-logo"><img src="/favicon.webp" alt="Sazaan Digital" /></div>
     <div class="splash-text">Sazaan is <span>Active</span></div>
   </div>
 
-  <!-- SEO CONTENT OVERHAUL: 350+ Words of Semantic Content -->
-  <!-- This content is visually hidden but semantically present for SEO Crawlers -->
-  <main id="main-content">
-    <section id="seo-content" class="sr-only">
-      <h1>Sazaan Digital: Elite Web Design & SEO for Clinics & Cafes</h1>
-      <p>In today’s hyper-competitive digital landscape, a mere online presence is no longer enough. For elite clinics and premium cafes, your website is the first point of contact, the digital equivalent of a high-end storefront or a welcoming reception area. At Sazaan Digital, we specialize in bridging the gap between aesthetic excellence and technical performance. We architect secure, high-visibility engines that dominate local search results and convert visitors into lifelong clients.</p>
+  <section id="seo-content" class="sr-only">
+    <h1>Sazaan Digital | Elite Web Design & SEO for Clinics & Cafes</h1>
+    <p>In the fiercely competitive digital landscape, a standard website is a liability. For elite clinics and premium cafes, your digital presence must be an engine of authority and conversion. Sazaan Digital is a high-performance creative engineering agency that bridges the gap between boutique design and enterprise-grade technology. We specialize in building digital legacies for local businesses that refuse to settle for mediocrity. Our approach combines the "Dark Silicon" aesthetic with zero-latency architecture, ensuring your brand stands out in both visual prestige and search engine dominance.</p>
 
-      <h2>Data-Driven SEO: The Backbone of Your Growth</h2>
-      <p>Visibility is the lifeblood of any local business. Our data-driven SEO strategies are meticulously crafted to ensure that when your ideal clients search for "best clinic near me" or "boutique cafe in my city," Sazaan Digital’s partners are the first they see. We focus on high-intent keywords, technical optimization, and authoritative content that establishes your brand as a leader in your niche. By leveraging advanced analytics and competitive research, we turn search engine algorithms into your greatest advocates, ensuring your business appears exactly where your patients and customers are searching.</p>
+    <h2>Digital Patient Acquisition for Modern Clinics</h2>
+    <p>For medical and wellness clinics, professional trust is established long before a patient enters the building. Our web design philosophy for clinics centers on precision, clarity, and reliability. We implement high-performance, HIPAA-compliant digital environments that streamline patient acquisition and management. By utilizing a flattened DOM architecture and optimized asset delivery, we ensure that your clinic's website loads with zero lag on every device. This technical superiority, combined with an intuitive user experience, builds immediate confidence in your clinical expertise and operational excellence, converting visitors into lifelong patients through strategic digital engineering.</p>
 
-      <h2>Specialized Web Design for High-Growth Clinics</h2>
-      <p>For medical and wellness clinics, trust is paramount. Our web design philosophy centers on "The Silicon Aesthetic"—a blend of clean, professional layouts, lightning-fast load times, and intuitive user journeys. We integrate seamless booking systems, patient resources, and HIPAA-compliant communication channels, ensuring that your digital experience is as professional as your medical care. By utilizing a "Flat DOM" architecture and optimizing the critical request chain, we ensure that your site loads instantly on every device, building immediate confidence in your clinical expertise.</p>
+    <h2>Automated Booking & High-Conversion Cafe Websites</h2>
+    <p>A premium cafe is defined by its unique atmosphere, and your digital identity should be no different. Sazaan Digital creates immersive, mobile-first experiences that capture the artisanal essence of your brand. We focus on cinematic visual storytelling and rapid-load menus that provide zero-friction interactions for your customers. By automating booking systems and optimizing menu accessibility, we remove all barriers between your cafe and its patrons. Our boutique digital strategies prioritize local foot traffic and community engagement, ensuring your shop becomes a local landmark through high-fidelity visual engineering.</p>
 
-      <h2>Bespoke Digital Experiences for Premium Cafes</h2>
-      <p>Cafes are about atmosphere, and your website should reflect that unique vibe. From cinematic imagery that captures the artisanal brewing process to high-performance menus that load instantly on mobile, we create immersive experiences. Our SEO for cafes focuses on local discovery, ensuring that your boutique coffee shop or restaurant is the top choice for locals and tourists alike. We drive foot traffic and online engagement simultaneously, creating a cohesive brand journey from the screen to the shop floor.</p>
+    <h2>Why Local SEO is the Lifeblood of Physical Businesses</h2>
+    <p>Search engine optimization is not a luxury; it is the lifeblood of local growth. At Sazaan Digital, we leverage advanced data analytics to identify high-intent search patterns specific to your niche. Local SEO ensures that when a potential patient or customer searches for services in their area, your business is the undisputed first choice. We focus on technical excellence, authoritative content creation, and local discovery optimization to turn search algorithms into your most powerful growth advocates. Our methods drive consistent, high-quality traffic to your digital storefront, ensuring long-term market dominance and community authority.</p>
 
-      <h2>The Sazaan Security Shield: Protecting Your Reputation</h2>
-      <p>Security is the foundation of trust and a critical ranking factor for search engines. A site with a poor security profile is a liability to your brand. We implement the "Sazaan Security Shield"—a comprehensive suite of headers including strict Content Security Policy (CSP), HSTS, and X-Frame-Options. This prevents unauthorized script injections, clickjacking, and data leaks. By moving your security logic to the Cloudflare Edge, we protect your business from modern web threats while simultaneously improving load times.</p>
+    <h2>The Sazaan Security Shield: Enterprise-Grade Protection</h2>
+    <p>Security is a critical ranking factor and a foundational element of customer trust. Every Sazaan Digital project is protected by the "Sazaan Security Shield," a comprehensive infrastructure that injects A+ security headers directly at the network edge via Cloudflare Workers. We implement strict Content Security Policies (CSP), HSTS, and X-Frame-Options to prevent unauthorized injections, clickjacking, and data breaches. This pro-active security posture not only protects your brand reputation but also enhances your site's SEO profile and performance, providing a resilient foundation for your digital growth and ensuring your business remains secure against modern web threats.</p>
 
-      <h3>Why Partner with Sazaan Digital?</h3>
-      <p>We don’t just build websites; we engineer digital growth engines that convert visitors into loyal patients and recurring customers. We focus on DOM reduction, security header injection via <a href="https://www.cloudflare.com/" rel="noopener" target="_blank">Cloudflare Workers</a>, and subresource integrity to ensure your site is as secure as it is fast. Our commitment to elite performance and authoritative content ensures that your local business can dominate its global competitors through superior technology and strategic SEO.</p>
+    <h3>Data-Driven SEO Strategies for High-Authority Dominance</h3>
+    <p>The choice of a digital partner defines the trajectory of your brand. Sazaan Digital offers a unique synergy of world-class design aesthetics and deep technical mastery. We don't just build websites; we engineer digital growth engines that deliver measurable competitive advantages. Our commitment to 100/100 SEO scores, A+ security grades, and ultra-low memory footprints ensures your business benefits from the absolute pinnacle of modern web technology. Partner with us to transform your online presence into your greatest asset and build a lasting digital legacy in your local market.</p>
 
-      <nav aria-label="Internal SEO Links">
-        <ul>
-          <li><a href="#services">Premium Services</a></li>
-          <li><a href="#work">Our Elite Projects</a></li>
-          <li><a href="#contact">Contact Sazaan Digital</a></li>
-        </ul>
-      </nav>
-    </section>
+    <nav aria-label="SEO Navigation">
+      <ul>
+        <li><a href="#services">Elite Digital Services</a></li>
+        <li><a href="#work">Portfolio of Excellence</a></li>
+        <li><a href="#contact">Contact Our Architects</a></li>
+      </ul>
+    </nav>
+  </section>
 
-    <!-- React App Root -->
-    <div id="root"></div>
-  </main>
+  <div id="root"></div>
   
   <script type="module" src="/main.tsx"></script>
-  
   <script>
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.body.classList.add('app-ready');
-      }, 3000);
+      setTimeout(() => { document.body.classList.add('app-ready'); }, 3000);
+      const c = document.createElement('link'); c.rel='canonical'; c.href=window.location.origin + window.location.pathname; document.head.appendChild(c);
     });
   </script>
 </body>

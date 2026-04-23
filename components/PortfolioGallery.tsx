@@ -20,11 +20,7 @@ import invokerImg from '@/assets/img/invoker.webp';
 import efreeinvoiceImg from '@/assets/img/efreeinvoice.webp';
 
 export function HeroParallaxDemo() {
-  return (
-    <div className="relative pt-0">
-      <HeroParallax products={products} />
-    </div>
-  );
+  return <HeroParallax products={products} />;
 }
 
 export const products = [
@@ -57,50 +53,5 @@ export const products = [
     title: "Pixel Perfect",
     link: "https://app.pixelperfect.quest",
     thumbnail: pixelperfectImg,
-  },
-  {
-    title: "Algochurn",
-    link: "https://algochurn.com",
-    thumbnail: algochurnImg,
-  },
-  {
-    title: "Aceternity UI",
-    link: "https://ui.aceternity.com",
-    thumbnail: aceternityuiImg,
-  },
-  {
-    title: "Tailwind Master Kit",
-    link: "https://tailwindmasterkit.com",
-    thumbnail: tailwindmasterkitImg,
-  },
-  {
-    title: "SmartBridge CRM",
-    link: "https://smartbridgetech.com",
-    thumbnail: smartbridgeImg,
-  },
-  {
-    title: "Renderwork Studio",
-    link: "https://renderwork.ai",
-    thumbnail: renderworkImg,
-  },
-  {
-    title: "Creme Digital",
-    link: "https://cremedigital.com",
-    thumbnail: cremedigitalImg,
-  },
-  {
-    title: "Golden Bells Academy",
-    link: "https://goldenbellsacademy.com",
-    thumbnail: goldenbellsacademyImg,
-  },
-  {
-    title: "Invoker Docs",
-    link: "https://invoker.lol",
-    thumbnail: invokerImg,
-  },
-  {
-    title: "E-Free Invoice",
-    link: "https://efreeinvoice.com",
-    thumbnail: efreeinvoiceImg,
   },
 ];

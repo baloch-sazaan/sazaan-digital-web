@@ -87,7 +87,8 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
 }
 
 const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
-  <m.main
+  <m.section
+    id="home-page"
     initial={{ opacity: 0, y: 6 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -6 }}
@@ -114,7 +115,7 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     <Suspense fallback={null}>
       <CTABannerSection setPage={setPage} />
     </Suspense>
-  </m.main>
+  </m.section>
 );
 
 
@@ -176,12 +177,11 @@ export default function App() {
 
   const inner = (
     <LazyMotion features={domAnimation}>
-      <div className="relative w-full overflow-x-hidden">
-        <m.div
-          aria-hidden="true"
-          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
-          style={{ scaleX }}
-        />
+      <m.div
+        aria-hidden="true"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
+        style={{ scaleX }}
+      />
         <StructuredData />
         {isValidPage && <Navbar page={page} setPage={setPage} />}
 
@@ -196,71 +196,65 @@ export default function App() {
         {/* Splash screen is handled in index.html for maximum performance */}
 
         <main id="main-content" role="main" className="relative w-full">
-          <AnimatePresence mode="wait">
-            {page === 'home' && (
-              <m.div 
-                key="home"
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ErrorBoundary>
+          <ErrorBoundary>
+            <AnimatePresence mode="wait">
+              {page === 'home' && (
+                <m.div 
+                  key="home"
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <HomePage setPage={setPage} />
-                </ErrorBoundary>
-              </m.div>
-            )}
-            {page === 'services' && (
-              <m.div 
-                key="services"
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ErrorBoundary>
+                </m.div>
+              )}
+              {page === 'services' && (
+                <m.div 
+                  key="services"
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
                     <ServicesPage setPage={setPage} />
                   </Suspense>
-                </ErrorBoundary>
-              </m.div>
-            )}
-            {page === 'work' && (
-              <m.div 
-                key="work"
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ErrorBoundary>
+                </m.div>
+              )}
+              {page === 'work' && (
+                <m.div 
+                  key="work"
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
                     <WorkPage setPage={setPage} setSelectedProject={setSelectedProject} />
                   </Suspense>
-                </ErrorBoundary>
-              </m.div>
-            )}
-            {page === 'contact' && (
-              <m.div 
-                key="contact"
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ErrorBoundary>
+                </m.div>
+              )}
+              {page === 'contact' && (
+                <m.div 
+                  key="contact"
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
                     <ContactPage setPage={setPage} />
                   </Suspense>
-                </ErrorBoundary>
-              </m.div>
-            )}
-            {!isValidPage && (
-              <Suspense fallback={null}>
-                <NotFoundPage key="404" setPage={setPage} />
-              </Suspense>
-            )}
-          </AnimatePresence>
+                </m.div>
+              )}
+              {!isValidPage && (
+                <Suspense fallback={null}>
+                  <NotFoundPage key="404" setPage={setPage} />
+                </Suspense>
+              )}
+            </AnimatePresence>
+          </ErrorBoundary>
           {showFooter && <Footer setPage={setPage} />}
         </main>
         
@@ -272,7 +266,6 @@ export default function App() {
             />
           )}
         </AnimatePresence>
-      </div>
     </LazyMotion>
   );
 

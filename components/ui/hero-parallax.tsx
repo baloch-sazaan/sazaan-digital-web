@@ -72,9 +72,10 @@ const MobileParallaxGallery = ({ products }: { products: Product[] }) => {
   // Row 3: left → right
   const r3 = useSpring(useTransform(scrollYProgress, [0, 1], [-60, 80]),  spring);
 
-  const row1 = products.slice(0, 5);
-  const row2 = products.slice(5, 10);
-  const row3 = products.slice(10, 15);
+  const count = Math.ceil(products.length / 3);
+  const row1 = products.slice(0, count);
+  const row2 = products.slice(count, count * 2);
+  const row3 = products.slice(count * 2);
 
   return (
     <div ref={ref} className="overflow-hidden px-4 pt-4 pb-20">
@@ -123,9 +124,10 @@ const HeroParallaxDesktop = ({
 }: {
   products: { title: string; link: string; thumbnail: string }[];
 }) => {
-  const firstRow = products.slice(0, 5);
-  const secondRow = products.slice(5, 10);
-  const thirdRow = products.slice(10, 15);
+  const count = Math.ceil(products.length / 3);
+  const firstRow = products.slice(0, count);
+  const secondRow = products.slice(count, count * 2);
+  const thirdRow = products.slice(count * 2);
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
