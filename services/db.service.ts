@@ -49,6 +49,7 @@ export const dbService = {
       return;
     }
     const { error } = await supabase.from('contact_submissions').insert({
+      name: `${data.firstName} ${data.lastName}`.trim(),
       first_name: data.firstName,
       last_name: data.lastName,
       email: data.email,
@@ -72,6 +73,7 @@ export const dbService = {
     const remaining: ContactSubmission[] = [];
     for (const item of pending) {
       const { error } = await supabase.from('contact_submissions').insert({
+        name: `${item.firstName} ${item.lastName}`.trim(),
         first_name: item.firstName,
         last_name: item.lastName,
         email: item.email,

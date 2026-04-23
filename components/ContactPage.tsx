@@ -156,15 +156,16 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       const ejsResult = await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
       console.log('[ContactForm] Email successfully transmitted to agency.');
 
-      // Database persistence (async, non-blocking)
-      dbService.saveContactSubmission({
+      // Database persistence (awaiting for proper error handling)
+      await dbService.saveContactSubmission({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
         company: sanitizedCompany,
         phone: sanitizedPhone,
         message: formData.message
-      }).catch(() => {});
+      });
+      console.log('[ContactForm] Submission successfully persisted to Supabase.');
 
       // Confirmation email (non-blocking)
       emailjs.send(EJS_SERVICE, EJS_TMPL_CONFIRM, autoReplyParams, EJS_PUBLIC_KEY)
