@@ -135,7 +135,7 @@ const HeroParallaxDesktop = ({
     offset: ["start start", "end start"],
   });
 
-  const springConfig = { stiffness: 120, damping: 25, bounce: 0 };
+  const springConfig = { stiffness: 160, damping: 28, bounce: 0 };
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 1000]),

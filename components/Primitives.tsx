@@ -50,11 +50,11 @@ export const SectionLabel = ({ children, center = false }: { children: React.Rea
 export const Reveal = ({ children, delay = 0, as: As = 'div', className = '', style = {} }: { children: React.ReactNode, delay?: number, as?: React.ElementType, className?: string, style?: React.CSSProperties }) => {
   return (
     <m.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px" }}
+      viewport={{ once: true, margin: "-8% 0px" }}
       transition={{ 
-        duration: 0.8, 
+        duration: 0.6, 
         delay, 
         ease: [0.22, 1, 0.36, 1] 
       }}
@@ -92,7 +92,7 @@ export const Magnetic = ({ children }: { children: React.ReactNode }) => {
       onMouseMove={handleMouse}
       onMouseLeave={reset}
       animate={position}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+      transition={{ type: "spring", stiffness: 200, damping: 20, mass: 0.08 }}
     >
       {children}
     </m.div>

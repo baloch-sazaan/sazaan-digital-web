@@ -23,8 +23,8 @@ export const ContainerScroll = ({
 
   // Spring config: high damping = slow/smooth settle, low stiffness = weighted feel
   const springConfig = isMobile
-    ? { stiffness: 55, damping: 38, restDelta: 0.001 }
-    : { stiffness: 100, damping: 30, restDelta: 0.001 };
+    ? { stiffness: 80, damping: 40, restDelta: 0.001 }
+    : { stiffness: 140, damping: 35, restDelta: 0.001 };
 
   const rawRotate    = useTransform(scrollYProgress, [0, 1], isMobile ? [18, 0] : [20, 0]);
   const rawScale     = useTransform(scrollYProgress, [0, 1], isMobile ? [0.88, 1] : [1.05, 1]);

@@ -84,10 +84,10 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
 
 const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
   <m.main
-    initial={{ opacity: 0, y: 10 }}
+    initial={{ opacity: 0, y: 6 }}
     animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
-    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    exit={{ opacity: 0, y: -6 }}
+    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <HeroSection setPage={setPage} />
     <Suspense fallback={<div className="min-h-[600px] bg-black/20 animate-pulse" />}>
@@ -155,8 +155,8 @@ export default function App() {
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 200,
+    damping: 40,
     restDelta: 0.001
   });
 
@@ -287,7 +287,7 @@ export default function App() {
   );
 
   return (
-    <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true, touchMultiplier: 2 }}>
+    <ReactLenis root options={{ lerp: 0.11, duration: 1.0, smoothWheel: true, wheelMultiplier: 1.0, touchMultiplier: 1.8, infinite: false }}>
       {inner}
     </ReactLenis>
   );

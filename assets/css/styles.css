@@ -117,7 +117,9 @@ h1, h2, .h1, .h2 {
 /* Sections - Mobile First */
 .section { 
   padding: 4rem 0; 
-  position: relative; 
+  position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
 }
 
 @media (min-width: 768px) {
@@ -140,7 +142,7 @@ h1, h2, .h1, .h2 {
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
 }
 
