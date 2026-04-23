@@ -23,7 +23,8 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
   const [menuOpen, setMenuOpen] = useState(false);
 
   // useLenis is proven to fire correctly alongside ReactLenis root
-  useLenis(({ scroll, velocity, direction }) => {
+  useLenis((lenis: any) => {
+    const { scroll, velocity, direction } = lenis;
     if (scroll < 60) {
       setVisible(true);
     } else if (direction > 0 && velocity > 0.5) {
@@ -192,7 +193,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
               return (
                 <Tag 
                   key={s.name} 
-                  {...props as any}
+                  {...(props as any)}
                   aria-label={s.label}
                   style={{
                     width: 44, height: 44, borderRadius: 10,
@@ -203,8 +204,16 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
                     background: 'transparent',
                     cursor: 'pointer'
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.color = 'var(--orange-light)'; e.currentTarget.style.borderColor = 'rgba(255,176,124,0.3)'; e.currentTarget.style.background = 'rgba(255,176,124,0.05)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'transparent'; }}
+                  onMouseEnter={e => { 
+                    e.currentTarget.style.color = 'var(--orange-light)'; 
+                    e.currentTarget.style.borderColor = 'rgba(255,176,124,0.3)'; 
+                    e.currentTarget.style.background = 'rgba(255,176,124,0.05)'; 
+                  }}
+                  onMouseLeave={e => { 
+                    e.currentTarget.style.color = 'var(--text-muted)'; 
+                    e.currentTarget.style.borderColor = 'var(--border)'; 
+                    e.currentTarget.style.background = 'transparent'; 
+                  }}
                 >
                   <Icon name={s.name} size={16} />
                 </Tag>
@@ -230,7 +239,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
 
         <div>
           <div className="section-label" style={{ marginBottom: 18 }}>Contact</div>
-          <a href="mailto:baloch@sazaandigital.com" style={{ color: 'var(--purple-light)', fontSize: 14, display: 'block' }}>baloch@sazaandigital.com</a>
+          <a href="mailto:baloch@sazaandigital.com" style={{ color: 'var(--orange-light)', fontSize: 14, display: 'block' }}>baloch@sazaandigital.com</a>
           <div style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 10 }}>Remote — US & UK</div>
           <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 22, fontFamily: 'var(--font-mono)' }}>© 2026 Sazaan Digital</div>
         </div>
