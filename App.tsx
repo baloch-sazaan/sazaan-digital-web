@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useRef, Component, ErrorInfo, ReactNode, lazy, Suspense } from 'react';
-import { AnimatePresence, LazyMotion, domAnimation, m, useScroll, useSpring } from 'framer-motion';
+import { AnimatePresence, LazyMotion, m, useScroll, useSpring } from 'framer-motion';
 import { ReactLenis } from '@studio-freight/react-lenis';
+import { Navbar, Footer } from './components/Chrome';
+import { HeroSection } from './components/HomeSectionsA';
+import { ProjectModal } from './components/ProjectModal';
+import { Project } from './types';
+import { dbService } from './services/db.service';
+
+const loadFeatures = () => import('framer-motion').then(mod => mod.domAnimation);
 
 const isTouch =
   typeof window !== 'undefined' &&
   window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-import { Navbar, Footer } from './components/Chrome';
-import { HeroSection } from './components/HomeSectionsA';
-import { ProjectModal, Project } from './components/ProjectModal';
-import { dbService } from './services/db.service';
 
 // Lazy-loaded components for better performance
 const HeroParallaxDemo = lazy(() => import('./components/PortfolioGallery').then(m => ({ default: m.HeroParallaxDemo })));
 const ServicesGlowingGrid = lazy(() => import('./components/ui/services-grid'));
 const TerminalSection = lazy(() => import('./components/HomeSectionsB').then(m => ({ default: m.TerminalSection })));
-const CTABannerSection = lazy(() => import('./components/HomeSectionsB').then(m => ({ default: m.CTABannerSection })));
+const CTABannerSection = lazy(() => import('./components/CTABannerSection').then(m => ({ default: m.CTABannerSection })));
 const ServicesPage = lazy(() => import('./components/ServicesPage').then(m => ({ default: m.ServicesPage })));
 const WorkPage = lazy(() => import('./components/WorkPage').then(m => ({ default: m.WorkPage })));
 const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
@@ -29,13 +32,14 @@ const VALID_PAGES = ['home', 'services', 'work', 'contact'] as const;
 
 const BackgroundWrapper = React.memo(() => (
   <div 
-    className="fixed inset-0 z-[-1] pointer-events-none bg-[#050505]"
+    className="fixed inset-0 z-[-1] pointer-events-none bg-[#080808]"
     style={{
       backgroundImage: `
-        radial-gradient(circle at 10% 10%, rgba(255, 176, 124, 0.08), transparent 60%),
-        radial-gradient(circle at 90% 90%, rgba(232, 130, 90, 0.06), transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.03), transparent 80%),
-        linear-gradient(180deg, #050505 0%, #000 100%)
+        radial-gradient(circle at 15% 15%, rgba(255, 176, 124, 0.12), transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(232, 130, 90, 0.1), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.05), transparent 70%),
+        radial-gradient(circle at 10% 90%, rgba(255, 176, 124, 0.04), transparent 40%),
+        linear-gradient(180deg, #080808 0%, #030303 100%)
       `,
       contain: 'strict'
     }}
@@ -98,6 +102,7 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
 const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
   <m.section
     id="home-page"
+    className="relative"
     initial={{ opacity: 0, y: 6 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -6 }}
@@ -127,20 +132,42 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
   </m.section>
 );
 
-
-
 export default function App() {
-  const [page, setPageRaw] = useState<string>('home');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 40,
-    restDelta: 0.001
+  const [page, setPageRaw] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      return hash || 'home';
+    }
+    return 'home';
   });
 
-  // Ensure we start at the top on initial mount/refresh
+  const setPage = (newPage: string) => {
+    if (newPage === page) return;
+    setPageRaw(newPage);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.history.pushState({ page: newPage }, '', `#${newPage}`);
+  };
+
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.page) {
+        setPageRaw(event.state.page);
+      } else {
+        const hash = window.location.hash.replace('#', '');
+        setPageRaw(hash || 'home');
+      }
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    };
+    window.addEventListener('popstate', handlePopState);
+    window.history.replaceState({ page }, '', window.location.hash || '#home');
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [page]);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if ('scrollRestoration' in window.history) {
@@ -149,7 +176,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Immediate hydration signal for the static splash screen
     const t = setTimeout(() => {
       document.body.classList.add('app-ready');
     }, 100);
@@ -160,10 +186,6 @@ export default function App() {
     dbService.syncPendingSubmissions();
   }, []);
 
-  const setPage = (p: string) => {
-    setPageRaw(p);
-  };
-
   useEffect(() => {
     if (page) {
       window.scrollTo(0, 0);
@@ -171,7 +193,6 @@ export default function App() {
     }
   }, [page]);
 
-  // Global scroll lock for modals
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
@@ -184,110 +205,65 @@ export default function App() {
   const isValidPage = (VALID_PAGES as readonly string[]).includes(page);
   const showFooter = page !== 'contact' && isValidPage;
 
-  const inner = (
-    <LazyMotion features={domAnimation}>
-      <m.div
-        aria-hidden="true"
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
-        style={{ scaleX }}
-      />
-        <StructuredData />
-        {isValidPage && <Navbar page={page} setPage={setPage} />}
-
-        <Suspense fallback={null}>
-          <CustomCursor />
-        </Suspense>
-        <Suspense fallback={null}>
-          <ScrollToTop />
-        </Suspense>
-        <BackgroundWrapper />
-
-        {/* Splash screen is handled in index.html for maximum performance */}
-
-        <main id="main-content" role="main" className="relative w-full">
-          <ErrorBoundary>
-            <AnimatePresence mode="wait">
-              {page === 'home' && (
-                <m.div 
-                  key="home"
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <HomePage setPage={setPage} />
-                </m.div>
-              )}
-              {page === 'services' && (
-                <m.div 
-                  key="services"
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
-                    <ServicesPage setPage={setPage} />
-                  </Suspense>
-                </m.div>
-              )}
-              {page === 'work' && (
-                <m.div 
-                  key="work"
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
-                    <WorkPage setPage={setPage} setSelectedProject={setSelectedProject} />
-                  </Suspense>
-                </m.div>
-              )}
-              {page === 'contact' && (
-                <m.div 
-                  key="contact"
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
-                    <ContactPage setPage={setPage} />
-                  </Suspense>
-                </m.div>
-              )}
-              {!isValidPage && (
-                <Suspense fallback={null}>
-                  <NotFoundPage key="404" setPage={setPage} />
-                </Suspense>
-              )}
-            </AnimatePresence>
-          </ErrorBoundary>
-          {showFooter && <Footer setPage={setPage} />}
-        </main>
-        
-        <AnimatePresence>
-          {selectedProject && (
-            <ProjectModal 
-              project={selectedProject} 
-              onClose={() => setSelectedProject(null)} 
-            />
-          )}
-        </AnimatePresence>
-    </LazyMotion>
-  );
-
   const lenisOptions = {
     lerp: 0.12,
     duration: 1,
     smoothWheel: true,
-    // Disable smooth scroll on touch devices for better performance/native feel
     smoothTouch: false,
     wheelMultiplier: 1,
     touchMultiplier: 2,
     infinite: false,
   };
+
+  const inner = (
+    <LazyMotion features={loadFeatures}>
+      <ErrorBoundary>
+        <m.div
+          aria-hidden="true"
+          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
+          style={{ scaleX }}
+        />
+        <StructuredData />
+        {isValidPage && <Navbar page={page} setPage={setPage} />}
+        <Suspense fallback={null}><CustomCursor /></Suspense>
+        <Suspense fallback={null}><ScrollToTop /></Suspense>
+        <BackgroundWrapper />
+        <main id="main-content" role="main" className="relative min-h-screen">
+          <AnimatePresence mode="wait">
+            {page === 'home' && (
+              <m.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="relative" style={{ contentVisibility: 'auto' }}>
+                <HomePage setPage={setPage} />
+              </m.div>
+            )}
+            {page === 'services' && (
+              <m.div key="services" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="relative" style={{ contentVisibility: 'auto' }}>
+                <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}><ServicesPage setPage={setPage} /></Suspense>
+              </m.div>
+            )}
+            {page === 'work' && (
+              <m.div key="work" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="relative" style={{ contentVisibility: 'auto' }}>
+                <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}><WorkPage setPage={setPage} setSelectedProject={setSelectedProject} /></Suspense>
+              </m.div>
+            )}
+            {page === 'contact' && (
+              <m.div key="contact" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="relative" style={{ contentVisibility: 'auto' }}>
+                <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}><ContactPage setPage={setPage} /></Suspense>
+              </m.div>
+            )}
+            {!isValidPage && (
+              <Suspense fallback={null}><NotFoundPage key="404" setPage={setPage} /></Suspense>
+            )}
+          </AnimatePresence>
+          {showFooter && <Footer setPage={setPage} />}
+        </main>
+        <AnimatePresence>
+          {selectedProject && (
+            <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+          )}
+        </AnimatePresence>
+      </ErrorBoundary>
+    </LazyMotion>
+  );
 
   return (
     <ReactLenis root options={lenisOptions}>

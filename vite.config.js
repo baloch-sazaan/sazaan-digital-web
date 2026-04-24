@@ -25,11 +25,11 @@ export default defineConfig({
     assetsInlineLimit: 4096,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          framer: ['framer-motion'],
-          lucide: ['lucide-react'],
-          lenis:  ['@studio-freight/react-lenis'],
+        manualChunks(id) {
+          if (id.includes('react-dom') || id.includes('react/')) return 'vendor';
+          if (id.includes('framer-motion')) return 'framer';
+          if (id.includes('lucide-react')) return 'lucide';
+          if (id.includes('@studio-freight/react-lenis') || id.includes('lenis')) return 'lenis';
         }
       }
     }

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { Icon, SectionLabel, Magnetic, Reveal } from './Primitives';
 import { ContainerScroll } from './ui/container-scroll-animation';
 import laptopImg from '@/assets/img/laptop-hero.webp';
@@ -119,9 +119,10 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
           draggable={false}
           loading="eager"
           decoding="async"
-          fetchpriority="high"
-          width={800}
-          height={600}
+          {...({ fetchpriority: "high" } as any)}
+          width={1200}
+          height={900}
+          sizes="(max-width: 768px) 100vw, 1200px"
         />
       </ContainerScroll>
     </section>

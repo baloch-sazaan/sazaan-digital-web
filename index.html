@@ -6,11 +6,34 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sazaandigital.com/" />
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://esmochzrjoxsvgbcuhug.supabase.co" crossorigin>
-  
   <link rel="preload" href="/favicon.webp" as="image" type="image/webp" fetchpriority="high" />
+
+  <style>
+    :root {
+      --bg-onyx: #080808;
+      --accent-sunset: #FFB07C;
+      --text-primary: #F5F5F7;
+    }
+    body { 
+      background-color: var(--bg-onyx); 
+      color: var(--text-primary);
+      margin: 0;
+      font-family: sans-serif;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, var(--accent-sunset) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .noise {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.015;
+      pointer-events: none;
+    }
+  </style>
 
   <title>Sazaan Digital | Elite Web Design & SEO for Clinics & Cafes</title>
   <!-- Security Headers handled by Cloudflare Worker -->
@@ -97,7 +120,16 @@
     :root{--accent-orange:#FFB07C;--bg-black:#050505}body{background:var(--bg-black);color:#fff;margin:0;font-family:'Montserrat',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}#splash-screen{position:fixed;inset:0;z-index:9999999;background:var(--bg-black);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.4,0,.2,1),visibility .6s}.splash-logo{width:70px;height:70px;border-radius:20px;background:rgba(255,176,124,.05);padding:15px;border:1px solid rgba(255,176,124,.1);animation:s-pulse 2s infinite ease-in-out;display:flex;align-items:center;justify-content:center}.splash-logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,176,124,.3))}.splash-text{margin-top:1.5rem;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:.5em;color:rgba(255,255,255,.3)}.splash-text span{color:var(--accent-orange);animation:s-blink 1s infinite}@keyframes s-pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.03);opacity:1}}@keyframes s-blink{0%,100%{opacity:.3}50%{opacity:1}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}body.app-ready #splash-screen{opacity:0;visibility:hidden;pointer-events:none}
   </style>
 
-  <script src="https://analytics.ahrefs.com/analytics.js" data-key="lyi6pC4zGhB7dPLJFxUCSg" async></script>
+  <script>
+    // Defer Ahrefs analytics until after page is interactive to avoid blocking LCP
+    window.addEventListener('load', function() {
+      var s = document.createElement('script');
+      s.src = 'https://analytics.ahrefs.com/analytics.js';
+      s.setAttribute('data-key', 'lyi6pC4zGhB7dPLJFxUCSg');
+      s.async = true;
+      document.head.appendChild(s);
+    });
+  </script>
 </head>
 <body>
   <a href="#root" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#FFB07C] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
@@ -130,17 +162,7 @@
     <p>The choice of a digital partner defines the trajectory of your brand. Sazaan Digital offers a unique synergy of world-class design aesthetics and deep technical mastery. We don't just build websites; we engineer digital growth engines that deliver measurable competitive advantages. Our commitment to 100/100 SEO scores, A+ security grades, and ultra-low memory footprints ensures your business benefits from the absolute pinnacle of modern web technology. Partner with us to transform your online presence into your greatest asset and build a lasting digital legacy in your local market. Our strategies are forged in the data of thousands of successful local searches, ensuring that your business doesn't just participate in the market—it leads it.</p>
 
     <nav aria-label="SEO Navigation">
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#work">Our Portfolio</a></li>
-        <li><a href="#contact">Get in Touch</a></li>
-        <li><a href="#services">Medical Web Design</a></li>
-        <li><a href="#services">Cafe Digital Branding</a></li>
-        <li><a href="#services">Local SEO Services</a></li>
-        <li><a href="#services">Custom CRM Development</a></li>
-        <li><a href="#services">Business Automation</a></li>
-      </ul>
+      <a href="#home">Home</a> | <a href="#services">Services</a> | <a href="#work">Our Portfolio</a> | <a href="#contact">Get in Touch</a> | <a href="#services">Medical Web Design</a> | <a href="#services">Cafe Digital Branding</a> | <a href="#services">Local SEO Services</a> | <a href="#services">Custom CRM Development</a> | <a href="#services">Business Automation</a>
     </nav>
   </section>
 

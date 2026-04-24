@@ -50,9 +50,24 @@ export default {
       
       response = new Response(html, assetResponse);
       response.headers.set('Content-Type', 'text/html; charset=utf-8');
+
+      // ── Performance Preloading ──
+      const preloads = [];
+      const cssMatch = html.match(/href="([^"]+\.css)"/);
+      if (cssMatch) preloads.push(`<${cssMatch[1]}>; rel=preload; as=style`);
+      
+      const fontMatches = html.matchAll(/href="([^"]+\.woff2)"/g);
+      for (const m of fontMatches) {
+        preloads.push(`<${m[1]}>; rel=preload; as=font; type="font/woff2"; crossorigin`);
+      }
+
+      const heroMatch = html.match(/src="([^"]+laptop-hero[^"]+\.webp)"/);
+      if (heroMatch) preloads.push(`<${heroMatch[1]}>; rel=preload; as=image; fetchpriority=high`);
+      
+      if (preloads.length > 0) response.headers.set('Link', preloads.join(', '));
+
     } else {
       response = new Response(assetResponse.body, assetResponse);
-      // Ensure charset is set for common text types if not present
       if (contentType.includes('text/') && !contentType.includes('charset')) {
         response.headers.set('Content-Type', `${contentType}; charset=utf-8`);
       }
@@ -61,12 +76,11 @@ export default {
     // ── Titan Security Shield ──
     response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     
-    // Dynamic CSP with Nonce
     const cspRules = [
       "default-src 'self'",
       `script-src 'self' ${nonce ? `'nonce-${nonce}'` : ''} 'unsafe-eval' https://analytics.ahrefs.com`,
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", 
-      "font-src 'self' data: https://fonts.gstatic.com",
+      "style-src 'self' 'unsafe-inline'", // Tailwind/Framer requirement
+      "font-src 'self' data:",
       "img-src 'self' data: https: blob:",
       "connect-src 'self' https://*.supabase.co https://api.emailjs.com",
       "object-src 'none'",
@@ -80,10 +94,11 @@ export default {
     response.headers.set('X-Content-Type-Options', 'nosniff');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
-    response.headers.set('X-XSS-Protection', '1; mode=block');
-
-    // ── SEO Authority ──
-    response.headers.set('Link', `<${origin}${url.pathname}>; rel="canonical"`);
+    
+    // ── SEO Authority & Link Merging ──
+    const existingLink = response.headers.get('Link') || '';
+    const canonical = `<${origin}${url.pathname}>; rel="canonical"`;
+    response.headers.set('Link', existingLink ? `${existingLink}, ${canonical}` : canonical);
 
     // ── Asset Optimization ──
     if (url.pathname.includes('/assets/') || url.pathname.endsWith('.webp')) {

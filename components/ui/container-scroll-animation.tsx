@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useScroll, useTransform, useSpring, motion, MotionValue } from "framer-motion";
+import { useScroll, useTransform, useSpring, m as motion, MotionValue } from "framer-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -58,7 +58,7 @@ export const Header = ({ translate, titleComponent }: { translate: MotionValue<n
       style={{
         translateY: translate,
       }}
-      className="max-w-5xl mx-auto text-center"
+      className="max-w-5xl mx-auto text-center relative"
     >
       {titleComponent}
     </motion.div>
@@ -88,9 +88,9 @@ export const Card = ({
           ? "0 10px 30px rgba(0,0,0,0.5)"
           : "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-5xl mt-12 mx-auto h-[22rem] md:h-[40rem] w-full border-4 border-[#1a1a1a] p-1 md:p-2 bg-[#050505] rounded-[30px] shadow-2xl overflow-hidden"
+      className="max-w-5xl mt-12 mx-auto h-[22rem] md:h-[40rem] w-full border-4 border-[#1a1a1a] p-1 md:p-2 bg-[#050505] rounded-[30px] shadow-2xl overflow-hidden relative"
     >
-      <div className="h-full w-full overflow-hidden rounded-2xl bg-black md:rounded-2xl">
+      <div className="h-full w-full overflow-hidden rounded-2xl bg-black md:rounded-2xl relative">
         {children}
       </div>
     </motion.div>

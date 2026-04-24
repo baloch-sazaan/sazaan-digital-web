@@ -23,7 +23,7 @@ export const Header = () => {
 type Product = { title: string; link: string; thumbnail: string };
 
 /* Horizontal scroll row — slides in direction based on 'dir' prop */
-const SlideRow = ({
+const SlideRow = React.memo(({
   items,
   translateX,
 }: {
@@ -31,8 +31,8 @@ const SlideRow = ({
   translateX: MotionValue<number>;
 }) => (
   <m.div
-    style={{ x: translateX }}
-    className="flex gap-3 mb-3 will-change-transform"
+    style={{ x: translateX, contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}
+    className="flex gap-3 mb-3 will-change-transform relative"
   >
     {items.map((p) => (
       <div
@@ -46,6 +46,7 @@ const SlideRow = ({
           height={300}
           loading="lazy"
           decoding="async"
+          sizes="(max-width: 768px) 65vw, 400px"
           className="w-full h-full object-cover object-left-top grayscale-[60%] opacity-80"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
@@ -55,7 +56,7 @@ const SlideRow = ({
       </div>
     ))}
   </m.div>
-);
+));
 
 /* Mobile: 3 scroll-linked horizontal rows — alternating direction */
 const MobileParallaxGallery = ({ products }: { products: Product[] }) => {
@@ -163,13 +164,15 @@ const HeroParallaxDesktop = ({
     springConfig
   );
 
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+
   return (
     <div
       ref={ref}
       className="h-[280vh] py-0 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
       <div className="sticky top-0 z-20">
-        <m.div style={{ opacity: useTransform(scrollYProgress, [0, 0.25], [1, 0]) }}>
+        <m.div style={{ opacity: headerOpacity }}>
           <Header />
         </m.div>
       </div>
@@ -194,7 +197,7 @@ const HeroParallaxDesktop = ({
   );
 };
 
-export const ProductCard = ({
+export const ProductCard = React.memo(({
   product,
   translate,
 }: {
@@ -209,6 +212,8 @@ export const ProductCard = ({
     <m.div
       style={{
         x: translate,
+        contentVisibility: 'auto',
+        containIntrinsicSize: '0 400px'
       }}
       whileHover={{
         y: -15,
@@ -225,6 +230,7 @@ export const ProductCard = ({
           alt={product.title}
           loading="lazy"
           decoding="async"
+          sizes="(max-width: 768px) 100vw, 35rem"
         />
       </div>
       <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-20 bg-orange-light mix-blend-overlay pointer-events-none transition-opacity duration-500"></div>
@@ -238,4 +244,4 @@ export const ProductCard = ({
       </div>
     </m.div>
   );
-};
+});
