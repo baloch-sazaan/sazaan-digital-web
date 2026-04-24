@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { m, AnimatePresence } from "framer-motion"
+import { createPortal } from 'react-dom';
 import { Icon } from "./Primitives"
 import emailjs from '@emailjs/browser';
 import { dbService, type ContactSubmission } from '../services/db.service';
@@ -10,57 +11,61 @@ const ChevronDownIcon = () => (
   </svg>
 );
 
-const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' | 'error' | 'info', onClose: () => void, title?: string, message?: string }) => (
-  <m.div 
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-black/90 backdrop-blur-3xl"
-    onClick={onClose}
-  >
-    <m.div
-      initial={{ scale: 0.9, opacity: 0, y: 30 }}
-      animate={{ scale: 1, opacity: 1, y: 0 }}
-      exit={{ scale: 0.9, opacity: 0, y: 30 }}
-      transition={{ type: "spring", damping: 25, stiffness: 350 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-[48px] p-12 text-center shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] overflow-hidden"
+const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' | 'error' | 'info', onClose: () => void, title?: string, message?: string }) => {
+  const modalContent = (
+    <m.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-xl"
+      onClick={onClose}
     >
-      <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${status === 'success' ? 'from-orange-light to-orange-400' : status === 'info' ? 'from-orange-light/40 to-orange-light/10' : 'from-red-500 to-red-600'}`} />
-      <div className="absolute inset-0 noise opacity-[0.03] pointer-events-none" />
-      
-      <div className={`w-28 h-28 mx-auto mb-10 rounded-[40px] rotate-6 flex items-center justify-center border-2 ${status === 'success' ? 'border-orange-light/20 bg-orange-light/5' : status === 'info' ? 'border-white/10 bg-white/5' : 'border-red-500/20 bg-red-500/5'}`}>
-        <m.div
-           animate={status === 'info' ? { y: [0, -4, 0], rotate: [6, 8, 4, 6] } : {}}
-           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        >
-          <Icon 
-            name={status === 'success' ? 'checkCircle' : status === 'info' ? 'alertCircle' : 'share'} 
-            size={56} 
-            className={`${status === 'success' ? 'text-orange-light' : status === 'info' ? 'text-orange-light/60' : 'text-red-500'} -rotate-6`} 
-          />
-        </m.div>
-      </div>
-
-      <h3 className="text-4xl font-heading font-black text-white mb-4 uppercase tracking-tighter leading-none italic">
-        {title || (status === 'success' ? 'LOCKED IN' : status === 'info' ? 'HOLD UP' : 'ERROR')}
-      </h3>
-      
-      <p className="text-white/60 font-medium leading-relaxed mb-12 text-lg px-2">
-        {message || (status === 'success' 
-          ? "We've received your inquiry. Our team will get back to you within 24 hours."
-          : status === 'info' ? "You need to press the privacy policy button to continue." : "Submission failed. Please check your details and try again.")}
-      </p>
-
-      <button 
-        onClick={onClose}
-        className="w-full py-6 rounded-3xl bg-orange-light text-black font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_20px_40px_rgba(255,176,124,0.15)]"
+      <m.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        transition={{ type: "spring", damping: 25, stiffness: 400 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[440px] bg-[#0A0A0A] border border-white/10 rounded-[40px] p-8 sm:p-12 text-center shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] overflow-hidden"
       >
-        {status === 'info' ? 'ACCEPT & CLOSE' : 'CONTINUE'}
-      </button>
+        <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r ${status === 'success' ? 'from-orange-light to-orange-400' : status === 'info' ? 'from-orange-light/40 to-orange-light/10' : 'from-red-500 to-red-600'}`} />
+        
+        <div className={`w-24 h-24 mx-auto mb-8 rounded-[32px] rotate-3 flex items-center justify-center border-2 ${status === 'success' ? 'border-orange-light/20 bg-orange-light/5' : status === 'info' ? 'border-white/10 bg-white/5' : 'border-red-500/20 bg-red-500/5'}`}>
+          <m.div
+             animate={status === 'info' ? { y: [0, -4, 0], rotate: [0, 5, -5, 0] } : {}}
+             transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          >
+            <Icon 
+              name={status === 'success' ? 'checkCircle' : status === 'info' ? 'alertCircle' : 'share'} 
+              size={48} 
+              className={`${status === 'success' ? 'text-orange-light' : status === 'info' ? 'text-orange-light/60' : 'text-red-500'} -rotate-3`} 
+            />
+          </m.div>
+        </div>
+
+        <h3 className="text-3xl sm:text-4xl font-heading font-black text-white mb-4 uppercase tracking-tighter leading-tight italic">
+          {title || (status === 'success' ? 'LOCKED IN' : status === 'info' ? 'HOLD UP' : 'ERROR')}
+        </h3>
+        
+        <p className="text-white/50 font-medium leading-relaxed mb-10 text-base sm:text-lg">
+          {message || (status === 'success' 
+            ? "We've received your inquiry. Our team will get back to you within 24 hours."
+            : status === 'info' ? "You need to press the privacy policy button to continue." : "Submission failed. Please check your details and try again.")}
+        </p>
+
+        <button 
+          onClick={onClose}
+          className="w-full py-5 rounded-2xl bg-orange-light text-black font-black text-lg sm:text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_20px_40px_rgba(255,176,124,0.1)]"
+        >
+          {status === 'info' ? 'ACCEPT & CLOSE' : 'CONTINUE'}
+        </button>
+      </m.div>
     </m.div>
-  </m.div>
-);
+  );
+
+  if (typeof document === 'undefined') return null;
+  return createPortal(modalContent, document.body);
+};
 
 export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error' | 'info'>('idle');

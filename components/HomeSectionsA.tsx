@@ -50,7 +50,10 @@ const TypingWord = ({ words }: { words: string[] }) => {
   }, [words]);
 
   return (
-    <span className="gradient-text italic font-serif lowercase inline-flex items-center justify-center min-w-[120px] md:min-w-[200px] min-h-[1.5em] text-center tracking-tight">
+    <span 
+      className="gradient-text lowercase inline-flex items-center justify-center min-w-[120px] md:min-w-[200px] min-h-[1.5em] text-center tracking-normal"
+      style={{ fontFamily: "'OffBit101', monospace", fontSize: '0.9em', fontWeight: 400 }}
+    >
       {displayText}
       <motion.span
         aria-hidden="true"
@@ -74,7 +77,8 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="text-white text-3xl sm:text-5xl md:text-7xl font-bold mt-6 leading-[1.05] tracking-tight text-center"
+                className="text-white text-3xl sm:text-5xl md:text-7xl font-normal mt-6 leading-[1.05] tracking-tight text-center"
+                style={{ fontFamily: "'AfterRegular', sans-serif" }}
               >
                 We build what you<br />
                 <TypingWord words={["think", "need", "deserve", "want"]} />
@@ -82,8 +86,8 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <p className="body-lg mt-8 max-w-lg mx-auto text-center text-white/60">
-                Websites. SEO. Automation. Social — for local businesses that want to dominate online.
+              <p className="body-lg mt-8 max-w-xl mx-auto text-center text-white/60">
+                Build. Rank. Automate. Digital systems that scale local businesses
               </p>
             </Reveal>
 

@@ -14,17 +14,23 @@ export interface ContactSubmission {
 const PENDING_KEY = 'sazaan_pending_submissions';
 
 function loadPending(): ContactSubmission[] {
+  if (typeof localStorage === 'undefined') return [];
   try {
-    return JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
-  } catch {
+    const data = localStorage.getItem(PENDING_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    console.warn('[DB] Failed to load pending submissions:', e);
     return [];
   }
 }
 
 function savePending(items: ContactSubmission[]) {
+  if (typeof localStorage === 'undefined') return;
   try {
     localStorage.setItem(PENDING_KEY, JSON.stringify(items));
-  } catch {}
+  } catch (e) {
+    console.warn('[DB] Failed to save pending submissions:', e);
+  }
 }
 
 export const dbService = {
@@ -35,7 +41,8 @@ export const dbService = {
       savePending(pending);
       return;
     }
-    const { error } = await supabase.from('contact_submissions').insert({
+    const client = supabase;
+    const { error } = await client.from('contact_submissions').insert({
       name: `${data.firstName} ${data.lastName}`.trim(),
       first_name: data.firstName,
       last_name: data.lastName,
@@ -57,9 +64,10 @@ export const dbService = {
     const pending = loadPending();
     if (pending.length === 0) return;
 
+    const client = supabase;
     const remaining: ContactSubmission[] = [];
     for (const item of pending) {
-      const { error } = await supabase.from('contact_submissions').insert({
+      const { error } = await client.from('contact_submissions').insert({
         name: `${item.firstName} ${item.lastName}`.trim(),
         first_name: item.firstName,
         last_name: item.lastName,
@@ -78,7 +86,8 @@ export const dbService = {
     if (this._projectsCache) return this._projectsCache;
     if (!supabase) return [];
     
-    const { data, error } = await supabase
+    const client = supabase;
+    const { data, error } = await client
       .from('projects')
       .select('*')
       .eq('published', true)
@@ -91,17 +100,21 @@ export const dbService = {
 
   async trackPageView(page: string): Promise<void> {
     if (!supabase) return;
-    const track = () => {
-      supabase
-        .from('page_events')
-        .insert({ page, timestamp: new Date().toISOString() })
-        .then(({ error }) => {
-          if (error) console.warn('[Analytics] Failed to track page view:', error.message);
-        });
+    const client = supabase;
+    const track = async () => {
+      try {
+        const { error } = await client
+          .from('page_events')
+          .insert({ page, timestamp: new Date().toISOString() });
+        if (error) console.error('[Analytics] Failed to track page view:', error.message);
+      } catch (err) {
+        console.error('[Analytics] Error tracking page view:', err);
+      }
     };
 
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => track());
+    const win = window as any;
+    if (win.requestIdleCallback) {
+      win.requestIdleCallback(() => track());
     } else {
       setTimeout(track, 1500);
     }

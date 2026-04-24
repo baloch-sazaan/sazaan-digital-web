@@ -55,12 +55,12 @@ export default {
       // 7. Comprehensive CSP
       const cspRules = [
         "default-src 'self'",
-        `script-src 'self' 'nonce-${nonce}' 'unsafe-eval' https://analytics.ahrefs.com`,
-        `script-src-elem 'self' 'nonce-${nonce}' https://analytics.ahrefs.com`,
+        `script-src 'self' 'nonce-${nonce}' 'unsafe-eval' https://analytics.ahrefs.com https://static.cloudflareinsights.com`,
+        `script-src-elem 'self' 'nonce-${nonce}' https://analytics.ahrefs.com https://static.cloudflareinsights.com`,
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com",
         "img-src 'self' data: https: blob:",
-        "connect-src 'self' https://*.supabase.co https://api.emailjs.com",
+        "connect-src 'self' https://*.supabase.co https://api.emailjs.com https://cloudflareinsights.com",
         "object-src 'none'",
         "base-uri 'self'",
         "frame-ancestors 'none'",

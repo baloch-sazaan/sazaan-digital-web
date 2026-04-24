@@ -184,7 +184,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
               <Logo />
             </div>
             <p className="text-[13px] leading-relaxed text-[var(--text-muted)] max-w-[300px] mt-3">
-              We build what your competitors can't ignore. Websites, SEO, automation and social — for local businesses that want to dominate online.
+              We build what your competitors can't ignore. Build. Rank. Automate. Digital systems that scale local businesses.
             </p>
             <div className="flex gap-2.5 mt-5">
               {socialLinks.map(s => {
@@ -251,12 +251,14 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
           {/* Contact */}
           <div>
             <div className="section-label mb-4">Contact</div>
-            <a
-              href="mailto:baloch@sazaandigital.com"
-              className="text-[var(--orange-light)] text-sm hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light rounded"
-            >
-              baloch@sazaandigital.com
-            </a>
+            <div className="flex flex-col items-start gap-2">
+              <a
+                href="mailto:baloch@sazaandigital.com"
+                className="text-[var(--orange-light)] text-[15px] font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light rounded"
+              >
+                baloch@sazaandigital.com
+              </a>
+            </div>
             <p className="text-[var(--text-muted)] text-[13px] mt-2.5">Remote — US &amp; UK</p>
             <p className="text-[var(--text-muted)] text-xs mt-5 font-mono">© 2026 Sazaan Studios</p>
           </div>

@@ -4,40 +4,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  Object Sans — self-hosted (download from https://www.fontshare.com/fonts/object-sans)
-  Place the .woff2 files in /public/fonts/ and uncomment the @font-face blocks below.
-  Until then, Montserrat is the intentional fallback for all display text.
-
-  @font-face {
-    font-family: 'Object Sans';
-    src: url('/fonts/ObjectSans-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Object Sans';
-    src: url('/fonts/ObjectSans-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Object Sans';
-    src: url('/fonts/ObjectSans-Heavy.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-  }
-*/
+@font-face {
+  font-family: 'Mosvita';
+  src: url('/fonts/Mosvita-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mosvita';
+  src: url('/fonts/Mosvita-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mosvita';
+  src: url('/fonts/Mosvita-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mosvita';
+  src: url('/fonts/Mosvita-ExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AfterRegular';
+  src: url('/fonts/after-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OffBit101';
+  src: url('/fonts/OffBitTrial-101.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OffBit101';
+  src: url('/fonts/OffBitTrial-101Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  /* Typography — Montserrat is primary; JetBrains Mono for code/mono */
-  --font-display: 'Montserrat', sans-serif;
-  --font-heading: 'Montserrat', sans-serif;
-  --font-body: 'Montserrat', sans-serif;
-  --font-button: 'Montserrat', sans-serif;
+  /* Typography — Mosvita is primary; JetBrains Mono for code/mono */
+  --font-sans: 'Mosvita', sans-serif;
+  --font-display: 'Mosvita', sans-serif;
+  --font-heading: 'Mosvita', sans-serif;
+  --font-body: 'Mosvita', sans-serif;
+  --font-button: 'Mosvita', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Color Palette */
@@ -107,12 +130,16 @@ body {
 /* Grain removed from body::after to save GPU memory; consolidated into App.tsx BackgroundWrapper */
 
 /* Typography - Fluid by default */
-h1, h2, .h1, .h2 {
-  font-family: var(--font-display);
+h1, h2, h3, h4, h5, h6, .h1, .h2 {
+  font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin-bottom: 1rem;
+}
+
+body, p, li, input, textarea, select {
+  font-family: var(--font-body);
 }
 
 .display { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; }
