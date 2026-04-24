@@ -68,7 +68,7 @@ const TypingWord = ({ words }: { words: string[] }) => {
 
 export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-28 sm:pt-40 md:pt-64">
+    <section className="relative min-h-screen overflow-hidden pt-16 sm:pt-24 md:pt-32">
       <ContainerScroll
         titleComponent={
           <div className="flex flex-col items-center mb-16 md:mb-32">
@@ -77,7 +77,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="text-white text-3xl sm:text-5xl md:text-7xl font-normal mt-6 leading-[1.05] tracking-tight text-center"
+                className="text-white text-3xl sm:text-5xl md:text-7xl font-normal mt-0 leading-[1.05] tracking-tight text-center"
                 style={{ fontFamily: "'AfterRegular', sans-serif" }}
               >
                 We build what you<br />
