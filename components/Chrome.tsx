@@ -69,7 +69,7 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-0 left-0 w-full z-[999999] pointer-events-none"
       >
-        <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-3 bg-black/70 backdrop-blur-2xl border-b border-white/[0.07] pointer-events-auto">
+        <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-3 bg-black/60 backdrop-blur-lg border-b border-white/[0.05] pointer-events-auto">
 
           {/* Left — Logo */}
           <button
@@ -171,90 +171,114 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
   ];
 
   return (
-    <footer className="relative overflow-hidden pt-24 pb-12 z-[2]" style={{
-      background: 'var(--bg-secondary)',
-      borderTop: '1px solid var(--border)',
-    }}>
-      <div className="noise" />
-      <div className="aurora" style={{ opacity: 0.2 }} />
-      <div className="container relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24">
-        <div>
-          <div className="mb-6">
-            <Logo />
-          </div>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 14, maxWidth: 300, lineHeight: 1.6 }}>
-            We build what your competitors can't ignore. Websites, SEO, automation and social — for local businesses that want to dominate online.
-          </p>
-          <div style={{ display: 'flex', gap: 10, marginTop: 22 }}>
-            {socialLinks.map(s => {
-              const Tag = s.url ? 'a' : 'button';
-              const props = s.url ? { href: s.url, target: '_blank', rel: 'noopener noreferrer' } : { onClick: s.action };
-              
-              return (
-                <Tag 
-                  key={s.name} 
-                  {...(props as any)}
-                  aria-label={s.label}
-                  style={{
-                    width: 44, height: 44, borderRadius: 10,
-                    border: '1px solid var(--border)',
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    color: 'var(--text-muted)',
-                    transition: 'all 0.2s ease',
-                    background: 'transparent',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={e => { 
-                    e.currentTarget.style.color = 'var(--orange-light)'; 
-                    e.currentTarget.style.borderColor = 'rgba(255,176,124,0.3)'; 
-                    e.currentTarget.style.background = 'rgba(255,176,124,0.05)'; 
-                  }}
-                  onMouseLeave={e => { 
-                    e.currentTarget.style.color = 'var(--text-muted)'; 
-                    e.currentTarget.style.borderColor = 'var(--border)'; 
-                    e.currentTarget.style.background = 'transparent'; 
-                  }}
-                >
-                  <Icon name={s.name} size={16} />
-                </Tag>
-              );
-            })}
-          </div>
-        </div>
+    <footer
+      className="relative overflow-hidden pt-16 sm:pt-24 pb-10 sm:pb-12 z-[2] bg-[var(--bg-secondary)] border-t border-[var(--border)]"
+      aria-label="Site footer"
+    >
 
-        <div>
-          <div className="section-label" style={{ marginBottom: 18 }}>Navigate</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[['home','Home'], ['services','Services'], ['work','Work'], ['contact','Contact']].map(([k, l]) => (
-              <button key={k} onClick={() => { setPage(k); window.scrollTo(0, 0); }} style={{
-                textAlign: 'left', color: 'var(--text-muted)', fontSize: 14, width: 'fit-content',
-                transition: 'color 0.2s ease',
-              }}
-              onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-              onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
-              >{l}</button>
-            ))}
+      <div className="container relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-24">
+          {/* Brand */}
+          <div>
+            <div className="mb-5">
+              <Logo />
+            </div>
+            <p className="text-[13px] leading-relaxed text-[var(--text-muted)] max-w-[300px] mt-3">
+              We build what your competitors can't ignore. Websites, SEO, automation and social — for local businesses that want to dominate online.
+            </p>
+            <div className="flex gap-2.5 mt-5">
+              {socialLinks.map(s => {
+                const Tag = s.url ? 'a' : 'button';
+                const props = s.url
+                  ? { href: s.url, target: '_blank', rel: 'noopener noreferrer' }
+                  : { onClick: s.action, type: 'button' as const };
+                return (
+                  <Tag
+                    key={s.name}
+                    {...(props as any)}
+                    aria-label={s.label}
+                    className="footer-icon-btn"
+                  >
+                    <Icon name={s.name} size={16} />
+                  </Tag>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        <div>
-          <div className="section-label" style={{ marginBottom: 18 }}>Contact</div>
-          <a href="mailto:baloch@sazaandigital.com" style={{ color: 'var(--orange-light)', fontSize: 14, display: 'block' }}>baloch@sazaandigital.com</a>
-          <div style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 10 }}>Remote — US & UK</div>
-          <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 22, fontFamily: 'var(--font-mono)' }}>© 2026 Sazaan Digital</div>
+          {/* Navigation */}
+          <nav aria-label="Footer navigation">
+            <div className="section-label mb-4">Navigate</div>
+            <ul className="flex flex-col gap-2.5">
+              {[['home','Home'], ['services','Services'], ['work','Work'], ['contact','Contact']].map(([k, l]) => (
+                <li key={k}>
+                  <button
+                    type="button"
+                    onClick={() => { setPage(k); window.scrollTo(0, 0); }}
+                    className="footer-nav-btn"
+                  >
+                    {l}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Specialties (Internal SEO Links) */}
+          <nav aria-label="Specialties navigation">
+            <div className="section-label mb-4">Specialties</div>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                'Medical Web Design',
+                'Niche Cafe Branding',
+                'High-Authority SEO',
+                'Custom CRM Systems',
+                'Automation Engines'
+              ].map((l) => (
+                <li key={l}>
+                  <button
+                    type="button"
+                    onClick={() => { setPage('services'); window.scrollTo(0, 0); }}
+                    className="footer-nav-btn"
+                  >
+                    {l}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Contact */}
+          <div>
+            <div className="section-label mb-4">Contact</div>
+            <a
+              href="mailto:baloch@sazaandigital.com"
+              className="text-[var(--orange-light)] text-sm hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light rounded"
+            >
+              baloch@sazaandigital.com
+            </a>
+            <p className="text-[var(--text-muted)] text-[13px] mt-2.5">Remote — US &amp; UK</p>
+            <p className="text-[var(--text-muted)] text-xs mt-5 font-mono">© 2026 Sazaan Digital</p>
+          </div>
         </div>
       </div>
 
-      <div style={{
-        textAlign: 'center', marginTop: 64,
-        fontFamily: 'var(--font-heading)', fontWeight: 700,
-        fontSize: 'clamp(60px, 18vw, 240px)', lineHeight: 0.9,
-        letterSpacing: '-0.06em',
-        background: 'linear-gradient(180deg, rgba(255, 201, 123,0.22) 0%, rgba(255, 176, 124,0.02) 100%)',
-        WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent', color: 'transparent',
-        userSelect: 'none', pointerEvents: 'none',
-        paddingTop: 20,
-      }}>SAZAAN</div>
+      {/* Large wordmark */}
+      <div
+        className="text-center mt-14 sm:mt-16 select-none pointer-events-none"
+        aria-hidden="true"
+        style={{
+          fontFamily: 'var(--font-heading)', fontWeight: 700,
+          fontSize: 'clamp(60px, 18vw, 240px)', lineHeight: 0.9,
+          letterSpacing: '-0.06em',
+          background: 'linear-gradient(180deg, rgba(255,201,123,0.22) 0%, rgba(255,176,124,0.02) 100%)',
+          WebkitBackgroundClip: 'text', backgroundClip: 'text',
+          WebkitTextFillColor: 'transparent', color: 'transparent',
+          paddingTop: 20,
+        }}
+      >
+        SAZAAN
+      </div>
     </footer>
   );
 };

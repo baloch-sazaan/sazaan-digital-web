@@ -57,7 +57,6 @@ export const TerminalSection = () => {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#050505] to-transparent" />
       </div>
 
-      <div className="noise opacity-20 pointer-events-none" />
 
       <div className="container relative z-10 px-4 md:px-8">
         <Reveal>
@@ -69,38 +68,20 @@ export const TerminalSection = () => {
           </div>
         </Reveal>
 
-        <div ref={ref} style={{ position: 'relative', zIndex: 10 }}>
+        <div ref={ref} className="relative z-10">
           <Reveal delay={0.1}>
-              <div style={{
-                maxWidth: 820, width: '100%', margin: '0 auto',
-                background: '#0d0d0d',
-                border: '1px solid rgba(255, 176, 124, 0.15)',
-                borderRadius: 24,
-                boxShadow: '0 40px 100px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
-                overflow: 'hidden',
-                position: 'relative',
-              }}>
-              <div style={{
-                position: 'absolute', inset: 0, 
-                background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 176, 124, 0.02), rgba(255, 176, 124, 0.01), rgba(255, 176, 124, 0.02))',
-                backgroundSize: '100% 4px, 3px 100%',
-                pointerEvents: 'none', zIndex: 20, opacity: 0.2
-              }} />
+            <div className="max-w-[820px] w-full mx-auto bg-[#0d0d0d] border border-[rgba(255,176,124,0.15)] rounded-[24px] shadow-[0_40px_100px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden relative">
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,176,124,0.02),rgba(255,176,124,0.01),rgba(255,176,124,0.02))] bg-[length:100%_4px,3px_100%] pointer-events-none z-20 opacity-20" />
 
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                padding: '12px 16px',
-                background: 'rgba(255, 176, 124, 0.05)',
-                borderBottom: '1px solid rgba(255, 176, 124, 0.15)',
-              }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#EF4444' }} />
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#F59E0B' }} />
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#10B981' }} />
-                <div style={{ marginLeft: 'auto', fontSize: 10, fontFamily: 'var(--font-mono)', color: 'rgba(255, 176, 124, 0.5)', letterSpacing: '0.1em' }}>bash — 80x24</div>
+              <div className="flex items-center gap-2 px-4 py-3 bg-[rgba(255,176,124,0.05)] border-b border-[rgba(255,176,124,0.15)]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
+                <div className="ml-auto text-[10px] font-mono text-[rgba(255,176,124,0.5)] tracking-[0.1em]">bash — 80x24</div>
               </div>
 
-              <div style={{ padding: 'clamp(12px, 4vw, 24px)', minHeight: 300, position: 'relative', overflowX: 'auto' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.05) 0%, transparent 80%)', pointerEvents: 'none' }} />
+              <div className="p-4 md:p-6 min-h-[300px] relative overflow-x-auto">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,176,124,0.05)_0%,transparent_80%)] pointer-events-none" />
                 {started && lines.slice(0, shown + 1).map((l, i) => (
                   <TypingLine 
                     key={i} 
@@ -156,21 +137,11 @@ export const CTABannerSection = ({ setPage }: { setPage: (p: string) => void }) 
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#050505] to-transparent" />
       </div>
       
-      <div className="noise opacity-20 pointer-events-none" />
       <div className="container relative z-10">
         <Reveal>
-          <div style={{
-            maxWidth: 880, margin: '0 auto',
-            padding: 'clamp(48px, 8vw, 96px) clamp(28px, 6vw, 72px)',
-            borderRadius: 32,
-            background: '#0d0d0d',
-            border: '1px solid rgba(255, 176, 124, 0.15)',
-            boxShadow: '0 40px 100px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
-            textAlign: 'center', position: 'relative', overflow: 'hidden',
-          }}>
-            <div className="noise" />
-            <div className="grid-bg" style={{ opacity: 0.4 }} />
-            <div className="hairline" style={{ margin: '0 auto 24px' }} />
+          <div className="max-w-[880px] mx-auto p-[clamp(48px,8vw,96px)_clamp(28px,6vw,72px)] rounded-[32px] bg-[#0d0d0d] border border-[rgba(255,176,124,0.15)] shadow-[0_40px_100px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.05)] text-center relative overflow-hidden">
+            <div className="grid-bg opacity-40" />
+            <div className="hairline mx-auto mb-6" />
             <SectionLabel center>Let's work together</SectionLabel>
             <h2 className="h2" style={{ marginTop: 22, position: 'relative' }}>
               <span style={{ color: '#fff' }}>Ready to get </span>

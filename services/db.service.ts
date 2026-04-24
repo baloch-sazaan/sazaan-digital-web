@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { Project } from '../types';
 
 export interface ContactSubmission {
   firstName: string;
@@ -9,20 +10,6 @@ export interface ContactSubmission {
   message: string;
 }
 
-export interface Project {
-  id: string;
-  tag: 'web' | 'seo' | 'brand';
-  cat: string;
-  title: string;
-  description: string;
-  metric: string;
-  status: 'Live' | 'In Progress';
-  accent: string;
-  screenshot_url?: string;
-  live_url?: string;
-  published: boolean;
-  sort_order?: number;
-}
 
 const PENDING_KEY = 'sazaan_pending_submissions';
 
@@ -104,11 +91,19 @@ export const dbService = {
 
   async trackPageView(page: string): Promise<void> {
     if (!supabase) return;
-    supabase
-      .from('page_events')
-      .insert({ page, timestamp: new Date().toISOString() })
-      .then(({ error }) => {
-        if (error) console.warn('[Analytics] Failed to track page view:', error.message);
-      });
+    const track = () => {
+      supabase
+        .from('page_events')
+        .insert({ page, timestamp: new Date().toISOString() })
+        .then(({ error }) => {
+          if (error) console.warn('[Analytics] Failed to track page view:', error.message);
+        });
+    };
+
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => track());
+    } else {
+      setTimeout(track, 1500);
+    }
   },
 };

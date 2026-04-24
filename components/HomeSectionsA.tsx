@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Icon, SectionLabel, Magnetic } from './Primitives';
+import { Icon, SectionLabel, Magnetic, Reveal } from './Primitives';
 import { ContainerScroll } from './ui/container-scroll-animation';
 import laptopImg from '@/assets/img/laptop-hero.webp';
 
@@ -69,50 +69,46 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
       <ContainerScroll
         titleComponent={
           <div className="flex flex-col items-center mb-16 md:mb-32">
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-white text-3xl sm:text-5xl md:text-7xl font-bold mt-6 leading-[1.05] tracking-tight text-center"
-            >
-              We build what you<br />
-              <TypingWord words={["think", "need", "deserve", "want"]} />
-            </motion.h1>
+            <Reveal delay={0.1}>
+              <motion.h1
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className="text-white text-3xl sm:text-5xl md:text-7xl font-bold mt-6 leading-[1.05] tracking-tight text-center"
+              >
+                We build what you<br />
+                <TypingWord words={["think", "need", "deserve", "want"]} />
+              </motion.h1>
+            </Reveal>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="body-lg mt-8 max-w-lg mx-auto text-center"
-            >
-              Websites. SEO. Automation. Social — for local businesses that want to dominate online.
-            </motion.p>
+            <Reveal delay={0.3}>
+              <p className="body-lg mt-8 max-w-lg mx-auto text-center text-white/60">
+                Websites. SEO. Automation. Social — for local businesses that want to dominate online.
+              </p>
+            </Reveal>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-5 mt-12 px-6 w-full"
-            >
-              <Magnetic>
-                <button
-                  className="btn btn-primary w-full sm:w-auto min-h-[56px]"
-                  onClick={() => setPage('contact')}
-                  aria-label="Contact us to get started with your project"
-                >
-                  Get Started <Icon name="arrowRight" size={14} aria-hidden="true" />
-                </button>
-              </Magnetic>
-              <Magnetic>
-                <button
-                  className="btn btn-ghost w-full sm:w-auto min-h-[56px]"
-                  onClick={() => setPage('work')}
-                  aria-label="View our portfolio of digital work"
-                >
-                  See Our Work
-                </button>
-              </Magnetic>
-            </motion.div>
+            <Reveal delay={0.5}>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mt-12 px-6 w-full">
+                <Magnetic>
+                  <button
+                    className="btn btn-primary w-full sm:w-auto min-h-[56px]"
+                    onClick={() => setPage('contact')}
+                    aria-label="Contact us to get started with your project"
+                  >
+                    Get Started <Icon name="arrowRight" size={14} aria-hidden="true" />
+                  </button>
+                </Magnetic>
+                <Magnetic>
+                  <button
+                    className="btn btn-ghost w-full sm:w-auto min-h-[56px]"
+                    onClick={() => setPage('work')}
+                    aria-label="View our portfolio of digital work"
+                  >
+                    See Our Work
+                  </button>
+                </Magnetic>
+              </div>
+            </Reveal>
           </div>
         }
       >
@@ -124,8 +120,8 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
           loading="eager"
           decoding="async"
           fetchpriority="high"
-          width={1200}
-          height={800}
+          width={800}
+          height={600}
         />
       </ContainerScroll>
     </section>

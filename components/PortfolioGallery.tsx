@@ -12,46 +12,19 @@ import pixelperfectImg from '@/assets/img/pixelperfect.webp';
 import algochurnImg from '@/assets/img/algochurn.webp';
 import aceternityuiImg from '@/assets/img/aceternityui.webp';
 import tailwindmasterkitImg from '@/assets/img/tailwindmasterkit.webp';
-import smartbridgeImg from '@/assets/img/smartbridge.webp';
-import renderworkImg from '@/assets/img/renderwork.webp';
-import cremedigitalImg from '@/assets/img/cremedigital.webp';
-import goldenbellsacademyImg from '@/assets/img/goldenbellsacademy.webp';
-import invokerImg from '@/assets/img/invoker.webp';
-import efreeinvoiceImg from '@/assets/img/efreeinvoice.webp';
 
 export function HeroParallaxDemo() {
   return <HeroParallax products={products} />;
 }
 
 export const products = [
-  {
-    title: "Moonbeam Agency",
-    link: "https://gomoonbeam.com",
-    thumbnail: moonbeamImg,
-  },
-  {
-    title: "Cursor AI",
-    link: "https://cursor.so",
-    thumbnail: cursorImg,
-  },
-  {
-    title: "Rogue Studio",
-    link: "https://userogue.com",
-    thumbnail: rogueImg,
-  },
-  {
-    title: "Editorially",
-    link: "https://editorially.org",
-    thumbnail: editoriallyImg,
-  },
-  {
-    title: "Editrix UI",
-    link: "https://editrix.ai",
-    thumbnail: editrixImg,
-  },
-  {
-    title: "Pixel Perfect",
-    link: "https://app.pixelperfect.quest",
-    thumbnail: pixelperfectImg,
-  },
+  { title: "Moonbeam Agency", link: "https://gomoonbeam.com", thumbnail: moonbeamImg },
+  { title: "Cursor AI", link: "https://cursor.so", thumbnail: cursorImg },
+  { title: "Rogue Studio", link: "https://userogue.com", thumbnail: rogueImg },
+  { title: "Editorially", link: "https://editorially.org", thumbnail: editoriallyImg },
+  { title: "Editrix UI", link: "https://editrix.ai", thumbnail: editrixImg },
+  { title: "Pixel Perfect", link: "https://app.pixelperfect.quest", thumbnail: pixelperfectImg },
+  { title: "Algochurn", link: "https://algochurn.com", thumbnail: algochurnImg },
+  { title: "Aceternity UI", link: "https://ui.aceternity.com", thumbnail: aceternityuiImg },
+  { title: "Tailwind Master Kit", link: "https://tailwindmasterkit.com", thumbnail: tailwindmasterkitImg },
 ];

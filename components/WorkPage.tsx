@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { m } from 'framer-motion';
 import { Reveal, SectionLabel, Icon } from './Primitives';
-import type { Project } from './ProjectModal';
+import { Project } from '../types';
 
 const FALLBACK_WORK: Project[] = [
   { 
@@ -76,6 +76,39 @@ const FALLBACK_WORK: Project[] = [
   },
 ];
 
+const LazyImage = React.memo(({ src, alt, accent }: { src: string, alt: string, accent: string }) => {
+  const [isInView, setIsInView] = useState(false);
+  
+  return (
+    <m.div 
+      className="w-full h-full relative"
+      onViewportEnter={() => setIsInView(true)}
+      onViewportLeave={() => setIsInView(false)}
+      viewport={{ margin: "200px" }}
+    >
+      {isInView ? (
+        <m.img 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          whileHover={{ opacity: 0.8 }}
+          src={src} 
+          alt={alt}
+          width={320}
+          height={200}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 will-change-transform"
+          style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+           <div className="w-12 h-12 rounded-full border border-white/5 animate-pulse" style={{ background: `${accent}05` }} />
+        </div>
+      )}
+    </m.div>
+  );
+});
+
 export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string) => void, setSelectedProject: (p: Project | null) => void }) => {
   const [filter, setFilter] = useState<string>('all');
   const [work, setWork] = useState<Project[]>(FALLBACK_WORK);
@@ -88,7 +121,9 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
     ['brand', 'Brand']
   ];
 
-  const visible = filter === 'all' ? work : work.filter(w => w.tag === filter);
+  const visible = React.useMemo(() => 
+    filter === 'all' ? work : work.filter(w => w.tag === filter),
+  [filter, work]);
 
   return (
     <m.main
@@ -137,7 +172,6 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
       </section>
 
       <section className="section section--secondary" style={{ paddingTop: 80, paddingBottom: 128, position: 'relative', overflow: 'hidden' }}>
-        <div className="noise" />
         <div className="warm-glow" style={{ opacity: 0.4 }} />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div 
@@ -168,73 +202,88 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
             ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: 28 }}>
+          <m.div 
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.05, delayChildren: 0.2 }
+              }
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-50px" }}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: 28 }}
+          >
             {visible.map((w, i) => (
-              <Reveal key={w.title} delay={i * 0.05}>
-                <div
-                  className="group bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl overflow-hidden flex flex-col w-full h-full transition-all duration-300 hover:border-orange-light/40 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(255,176,124,0.08)] cursor-pointer focus-visible:outline-orange-light"
-                  onClick={() => setSelectedProject(w)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setSelectedProject(w);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View full details for project ${w.title}`}
-                >
-                  <div style={{
-                    aspectRatio: '16 / 10',
-                    background: `linear-gradient(135deg, ${w.accent}18, var(--bg-card))`,
-                    position: 'relative', overflow: 'hidden',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%',
-                    borderBottom: '1px solid var(--border)',
-                  }}>
-                    <div className="absolute inset-0 bg-gradient-to-tr from-orange-light/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div style={{ position: 'absolute', top: -40, right: -40, width: 240, height: 240, borderRadius: '50%', background: w.accent, opacity: 0.15, filter: 'blur(60px)' }} />
-                    {w.screenshot_url ? (
-                      <img 
-                        src={w.screenshot_url} 
-                        alt={w.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 filter grayscale-[20%] brightness-90 group-hover:grayscale-0 group-hover:brightness-100"
-                      />
-                    ) : (
-                      <svg className="mx-auto block" width="180" height="180" viewBox="0 0 180 180" style={{ opacity: 0.6 }}>
-                        {Array.from({ length: 6 }).map((_, j) => (
-                          <rect key={j} x={30 + j * 6} y={30 + j * 6} width={120 - j * 12} height={120 - j * 12} rx="12" fill="none" stroke={w.accent} strokeWidth="0.8" opacity={0.6 - j * 0.08} />
-                        ))}
+              <m.div
+                key={w.title}
+                variants={{
+                  hidden: { opacity: 0, y: 15 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="group bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl overflow-hidden flex flex-col w-full h-full transition-all duration-300 hover:border-orange-light/40 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(255,176,124,0.08)] cursor-pointer focus-visible:outline-orange-light will-change-transform"
+                style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px', transform: 'translateZ(0)' }}
+                onClick={() => setSelectedProject(w)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedProject(w);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`View full details for project ${w.title}`}
+              >
+                <div style={{
+                  aspectRatio: '16 / 10',
+                  background: `linear-gradient(135deg, ${w.accent}10, var(--bg-card))`,
+                  position: 'relative', overflow: 'hidden',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%',
+                  borderBottom: '1px solid var(--border)',
+                }}>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-orange-light/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 will-change-[opacity]" />
+                  <div style={{ position: 'absolute', top: -40, right: -40, width: 240, height: 240, borderRadius: '50%', background: w.accent, opacity: 0.1, filter: 'blur(60px)' }} />
+                  {w.screenshot_url ? (
+                    <LazyImage 
+                      src={w.screenshot_url} 
+                      alt={w.title}
+                      accent={w.accent}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-full" style={{ opacity: 0.2 }}>
+                      <svg width="120" height="120" viewBox="0 0 120 120">
+                        <rect width="100%" height="100%" fill="none" stroke={w.accent} strokeWidth="1" strokeDasharray="4 4" rx="12" />
                       </svg>
-                    )}
-                    <div style={{
-                      position: 'absolute', bottom: 16, left: 20,
-                      fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--orange-light)',
-                      letterSpacing: '0.25em', textTransform: 'uppercase',
-                    }}>{w.cat}</div>
-                  </div>
-
-                  <div className="w-full flex-1 flex flex-col p-8">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
-                      <h3 className="font-heading text-2xl font-bold tracking-tight text-white group-hover:text-orange-light transition-colors">{w.title}</h3>
                     </div>
-                    <p className="body mb-8" style={{ marginTop: 10, fontSize: 14 }}>{w.description}</p>
-                    <div style={{ marginTop: 'auto', paddingTop: 24, display: 'flex', gap: 24, borderTop: '1px solid var(--border)' }}>
-                      <div>
-                        <div className="caption" style={{ letterSpacing: '0.2em', textTransform: 'uppercase' }}>Result</div>
-                        <div className="font-heading" style={{ color: 'var(--orange-light)', fontSize: 18, fontWeight: 600, marginTop: 4 }}>{w.metric}</div>
-                      </div>
-                      <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 24 }}>
-                        <div className="caption" style={{ letterSpacing: '0.2em', textTransform: 'uppercase' }}>Status</div>
-                        <div className="font-heading" style={{ color: '#fff', fontSize: 18, fontWeight: 600, marginTop: 4 }}>{w.status}</div>
-                      </div>
+                  )}
+                  <div style={{
+                    position: 'absolute', bottom: 16, left: 20,
+                    fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--orange-light)',
+                    letterSpacing: '0.25em', textTransform: 'uppercase',
+                    opacity: 0.8
+                  }}>{w.cat}</div>
+                </div>
+
+                <div className="w-full flex-1 flex flex-col p-8">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                    <h3 className="font-heading text-2xl font-bold tracking-tight text-white group-hover:text-orange-light transition-colors">{w.title}</h3>
+                  </div>
+                  <p className="body mb-8" style={{ marginTop: 10, fontSize: 14 }}>{w.description}</p>
+                  <div style={{ marginTop: 'auto', paddingTop: 24, display: 'flex', gap: 24, borderTop: '1px solid var(--border)' }}>
+                    <div>
+                      <div className="caption" style={{ letterSpacing: '0.2em', textTransform: 'uppercase' }}>Result</div>
+                      <div className="font-heading" style={{ color: 'var(--orange-light)', fontSize: 18, fontWeight: 600, marginTop: 4 }}>{w.metric}</div>
+                    </div>
+                    <div style={{ borderLeft: '1px solid var(--border)', paddingLeft: 24 }}>
+                      <div className="caption" style={{ letterSpacing: '0.2em', textTransform: 'uppercase' }}>Status</div>
+                      <div className="font-heading" style={{ color: '#fff', fontSize: 18, fontWeight: 600, marginTop: 4 }}>{w.status}</div>
                     </div>
                   </div>
                 </div>
-              </Reveal>
+              </m.div>
             ))}
-          </div>
+          </m.div>
         </div>
       </section>
     </m.main>

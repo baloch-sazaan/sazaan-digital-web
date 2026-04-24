@@ -1,8 +1,3 @@
-/**
- * Sazaan Digital: Fortress Security & Performance Engine
- * Objectives: 100/100 Mozilla Grade, 100/100 SEO, Zero-Lag Execution.
- */
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -36,32 +31,65 @@ export default {
       });
     }
 
-    const response = await env.ASSETS.fetch(request);
-    const newHeaders = new Headers(response.headers);
+    // Fetch the asset from the binding
+    const assetResponse = await env.ASSETS.fetch(request);
+    const contentType = assetResponse.headers.get('Content-Type') || '';
+    const isHtml = contentType.includes('text/html');
+
+    // Create a new response with mutable headers
+    let response;
+    let nonce = '';
+
+    if (isHtml) {
+      // Generate a 128-bit random nonce
+      nonce = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(16))));
+      
+      let html = await assetResponse.text();
+      // Inject the secret nonce into your script tags automatically
+      html = html.replace(/<script/g, `<script nonce="${nonce}"`);
+      
+      response = new Response(html, assetResponse);
+      response.headers.set('Content-Type', 'text/html; charset=utf-8');
+    } else {
+      response = new Response(assetResponse.body, assetResponse);
+      // Ensure charset is set for common text types if not present
+      if (contentType.includes('text/') && !contentType.includes('charset')) {
+        response.headers.set('Content-Type', `${contentType}; charset=utf-8`);
+      }
+    }
 
     // ── Titan Security Shield ──
-    newHeaders.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-    newHeaders.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-eval' https://analytics.ahrefs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; upgrade-insecure-requests;");
-    newHeaders.set('X-Frame-Options', 'DENY');
-    newHeaders.set('X-Content-Type-Options', 'nosniff');
-    newHeaders.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-    newHeaders.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-    newHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
-    newHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
-    newHeaders.set('Cross-Origin-Resource-Policy', 'same-origin');
+    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    
+    // Dynamic CSP with Nonce
+    const cspRules = [
+      "default-src 'self'",
+      `script-src 'self' ${nonce ? `'nonce-${nonce}'` : ''} 'unsafe-eval' https://analytics.ahrefs.com`,
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", 
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "img-src 'self' data: https: blob:",
+      "connect-src 'self' https://*.supabase.co https://api.emailjs.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests"
+    ].filter(Boolean).join('; ');
+
+    response.headers.set('Content-Security-Policy', cspRules);
+    response.headers.set('X-Frame-Options', 'DENY');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
+    response.headers.set('X-XSS-Protection', '1; mode=block');
 
     // ── SEO Authority ──
-    newHeaders.set('Link', `<${origin}${url.pathname}>; rel="canonical"`);
+    response.headers.set('Link', `<${origin}${url.pathname}>; rel="canonical"`);
 
     // ── Asset Optimization ──
     if (url.pathname.includes('/assets/') || url.pathname.endsWith('.webp')) {
-      newHeaders.set('Cache-Control', 'public, max-age=31536000, immutable');
+      response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
     }
 
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: newHeaders,
-    });
+    return response;
   }
 };

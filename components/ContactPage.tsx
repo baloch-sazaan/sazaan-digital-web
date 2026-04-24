@@ -76,13 +76,19 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     agreed: false
   });
 
-  const EJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
-  const EJS_SERVICE = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
-  const EJS_TMPL_NOTIFY = import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFY as string;
-  const EJS_TMPL_CONFIRM = import.meta.env.VITE_EMAILJS_TEMPLATE_CONFIRM as string;
+  const EJS_PUBLIC_KEY = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string) || "";
+  const EJS_SERVICE = (import.meta.env.VITE_EMAILJS_SERVICE_ID as string) || "";
+  const EJS_TMPL_NOTIFY = (import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFY as string) || "";
+  const EJS_TMPL_CONFIRM = (import.meta.env.VITE_EMAILJS_TEMPLATE_CONFIRM as string) || "";
 
   useEffect(() => {
-    emailjs.init(EJS_PUBLIC_KEY);
+    if (EJS_PUBLIC_KEY) {
+      try {
+        emailjs.init(EJS_PUBLIC_KEY);
+      } catch {
+        // silent — EmailJS init failure handled at send time
+      }
+    }
   }, [EJS_PUBLIC_KEY]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -97,28 +103,17 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log('[ContactForm] Submission attempt...', { agreed: formData.agreed, status });
-
     if (status === 'sending') return;
-    
-    // STRICT GUARD: Must agree to privacy policy
+
     if (formData.agreed !== true) {
-      console.warn('[ContactForm] Guard triggered: Privacy policy not accepted.');
       setStatus('info');
       setShowModal(true);
-      return; // EXIT IMMEDIATELY - DO NOT PROCEED
+      return;
     }
 
-    console.log('[ContactForm] Privacy policy accepted. Proceeding to transmit...');
     setStatus('sending');
 
-    // 0. Validation Guard for Production Environment Variables
     if (!EJS_PUBLIC_KEY || !EJS_SERVICE || !EJS_TMPL_NOTIFY) {
-      console.error('[ContactForm] Missing Environment Variables. Please check Cloudflare Settings.', {
-        hasKey: !!EJS_PUBLIC_KEY,
-        hasService: !!EJS_SERVICE,
-        hasTemplate: !!EJS_TMPL_NOTIFY
-      });
       setStatus('error');
       setShowModal(true);
       return;
@@ -153,10 +148,8 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       // Secondary fail-safe check
       if (!formData.agreed) throw new Error('Internal Guard: Privacy agreement missing');
 
-      const ejsResult = await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
-      console.log('[ContactForm] Email successfully transmitted to agency.');
+      await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
 
-      // Database persistence (awaiting for proper error handling)
       await dbService.saveContactSubmission({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -165,21 +158,14 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
         phone: sanitizedPhone,
         message: formData.message
       });
-      console.log('[ContactForm] Submission successfully persisted to Supabase.');
 
-      // Confirmation email (non-blocking)
-      emailjs.send(EJS_SERVICE, EJS_TMPL_CONFIRM, autoReplyParams, EJS_PUBLIC_KEY)
-        .catch(() => {});
+      // Confirmation email — non-blocking, best-effort
+      emailjs.send(EJS_SERVICE, EJS_TMPL_CONFIRM, autoReplyParams, EJS_PUBLIC_KEY).catch(() => {});
 
       setStatus('success');
       setShowModal(true);
       setFormData({ firstName: '', lastName: '', email: '', company: '', phone: '', message: '', agreed: false });
-    } catch (err: any) {
-      console.error('[ContactForm] Critical submission error:', err);
-      // Detailed logging for EmailJS specific errors
-      if (err?.text) console.error('[ContactForm] EmailJS Error Text:', err.text);
-      if (err?.status) console.error('[ContactForm] EmailJS Status Code:', err.status);
-      
+    } catch {
       setStatus('error');
       setShowModal(true);
     }

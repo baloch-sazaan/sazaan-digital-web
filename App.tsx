@@ -7,7 +7,6 @@ const isTouch =
   window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 import { Navbar, Footer } from './components/Chrome';
 import { HeroSection } from './components/HomeSectionsA';
-import { AuroraShader } from "./components/ui/aurora-shader";
 import { ProjectModal, Project } from './components/ProjectModal';
 import { dbService } from './services/db.service';
 
@@ -28,27 +27,24 @@ const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m =>
 
 const VALID_PAGES = ['home', 'services', 'work', 'contact'] as const;
 
-const BackgroundWrapper = () => (
+const BackgroundWrapper = React.memo(() => (
   <div 
     className="fixed inset-0 z-[-1] pointer-events-none bg-[#050505]"
     style={{
       backgroundImage: `
-        radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.06), transparent 70%),
-        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(232, 130, 90, 0.08), transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255, 176, 124, 0.08), transparent 55%),
-        linear-gradient(60deg, #000 0%, hsla(34, 68%, 60%, 0.04) 50%, #000 100%)
+        radial-gradient(circle at 10% 10%, rgba(255, 176, 124, 0.08), transparent 60%),
+        radial-gradient(circle at 90% 90%, rgba(232, 130, 90, 0.06), transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.03), transparent 80%),
+        linear-gradient(180deg, #050505 0%, #000 100%)
       `,
-      willChange: 'transform',
-      transform: 'translateZ(0)', // Force GPU layer
-      backfaceVisibility: 'hidden',
+      contain: 'strict'
     }}
   >
-    {/* Noise layer separated to allow for mix-blend-mode if needed, but simplified */}
-    <div className="absolute inset-0 noise opacity-[0.015] pointer-events-none" style={{ transform: 'translateZ(0)' }} />
+    <div className="absolute inset-0 noise opacity-[0.015] pointer-events-none" style={{ contain: 'strict' }} />
   </div>
-);
+));
 
-const StructuredData = () => {
+const StructuredData = React.memo(() => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -74,14 +70,27 @@ const StructuredData = () => {
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
-};
+});
 
 class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, { hasError: boolean }> {
   state = { hasError: false };
   static getDerivedStateFromError() { return { hasError: true }; }
   componentDidCatch(error: Error, info: ErrorInfo) { console.error('Section error:', error, info); }
   render() {
-    if (this.state.hasError) return this.props.fallback ?? null;
+    if (this.state.hasError) {
+      return this.props.fallback ?? (
+        <div className="min-h-[50vh] flex flex-col items-center justify-center p-12 text-center">
+          <h3 className="text-orange-light font-heading text-2xl mb-4">SYSTEM_RECOVERY_REQUIRED</h3>
+          <p className="text-white/40 mb-8 max-w-md">An unexpected error occurred in this module. Our digital architecture is self-healing, please refresh or return home.</p>
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="px-8 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-orange-light hover:text-black transition-all"
+          >
+            RETURN TO ORIGIN
+          </button>
+        </div>
+      );
+    }
     return this.props.children;
   }
 }
@@ -204,7 +213,7 @@ export default function App() {
                   initial={{ opacity: 0 }} 
                   animate={{ opacity: 1 }} 
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.15 }}
                 >
                   <HomePage setPage={setPage} />
                 </m.div>
@@ -215,9 +224,9 @@ export default function App() {
                   initial={{ opacity: 0 }} 
                   animate={{ opacity: 1 }} 
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.15 }}
                 >
-                  <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
+                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
                     <ServicesPage setPage={setPage} />
                   </Suspense>
                 </m.div>
@@ -228,9 +237,9 @@ export default function App() {
                   initial={{ opacity: 0 }} 
                   animate={{ opacity: 1 }} 
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.15 }}
                 >
-                  <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
+                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
                     <WorkPage setPage={setPage} setSelectedProject={setSelectedProject} />
                   </Suspense>
                 </m.div>
@@ -241,9 +250,9 @@ export default function App() {
                   initial={{ opacity: 0 }} 
                   animate={{ opacity: 1 }} 
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.15 }}
                 >
-                  <Suspense fallback={<div className="relative min-h-screen bg-[#050505] flex items-center justify-center text-orange-light/20 font-mono tracking-widest text-[10px] uppercase">SZN_LOADING</div>}>
+                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
                     <ContactPage setPage={setPage} />
                   </Suspense>
                 </m.div>
@@ -269,8 +278,19 @@ export default function App() {
     </LazyMotion>
   );
 
+  const lenisOptions = {
+    lerp: 0.12,
+    duration: 1,
+    smoothWheel: true,
+    // Disable smooth scroll on touch devices for better performance/native feel
+    smoothTouch: false,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+    infinite: false,
+  };
+
   return (
-    <ReactLenis root options={{ lerp: 0.11, duration: 1.0, smoothWheel: true, wheelMultiplier: 1.0, touchMultiplier: 1.8, infinite: false }}>
+    <ReactLenis root options={lenisOptions}>
       {inner}
     </ReactLenis>
   );

@@ -37,17 +37,19 @@ const SlideRow = ({
     {items.map((p) => (
       <div
         key={p.title}
-        className="relative rounded-2xl overflow-hidden shrink-0 w-[55vw] aspect-[4/3] block cursor-default"
+        className="relative rounded-2xl overflow-hidden shrink-0 w-[65vw] aspect-[4/3] block cursor-default will-change-transform"
       >
         <img
           src={p.thumbnail}
           alt={p.title}
+          width={400}
+          height={300}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover object-left-top"
+          className="w-full h-full object-cover object-left-top grayscale-[60%] opacity-80"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-        <span className="absolute bottom-2 left-3 text-white text-xs font-semibold truncate max-w-[90%]">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <span className="absolute bottom-3 left-4 text-white text-[10px] font-mono tracking-widest uppercase opacity-60">
           {p.title}
         </span>
       </div>
@@ -78,7 +80,7 @@ const MobileParallaxGallery = ({ products }: { products: Product[] }) => {
   const row3 = products.slice(count * 2);
 
   return (
-    <div ref={ref} className="overflow-hidden px-4 pt-4 pb-20">
+    <div ref={ref} className="relative overflow-hidden px-4 pt-4 pb-20">
       <SlideRow items={row1} translateX={r1} />
       <SlideRow items={row2} translateX={r2} />
       <SlideRow items={row3} translateX={r3} />
@@ -209,26 +211,31 @@ export const ProductCard = ({
         x: translate,
       }}
       whileHover={{
-        y: -20,
+        y: -15,
       }}
       key={product.title}
-      className="group/product h-64 md:h-96 w-[20rem] md:w-[30rem] relative shrink-0"
+      className="group/product h-64 md:h-96 w-[20rem] md:w-[35rem] relative shrink-0 will-change-transform"
     >
       <div className="block h-full w-full cursor-default">
         <img
           src={product.thumbnail}
           height="600"
-          width="600"
-          className="object-cover object-left-top absolute h-full w-full inset-0 filter grayscale-[10%] brightness-90 group-hover/product:grayscale-0 group-hover/product:brightness-100 transition-all duration-500"
+          width="800"
+          className="object-cover object-left-top absolute h-full w-full inset-0 filter grayscale-[80%] brightness-[0.7] group-hover/product:grayscale-0 group-hover/product:brightness-100 transition-all duration-700 ease-out"
           alt={product.title}
           loading="lazy"
           decoding="async"
         />
       </div>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
-        {product.title}
-      </h2>
+      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-20 bg-orange-light mix-blend-overlay pointer-events-none transition-opacity duration-500"></div>
+      <div className="absolute bottom-6 left-6 flex flex-col gap-1">
+        <h2 className="opacity-0 group-hover/product:opacity-100 text-white font-heading text-xl font-bold translate-y-2 group-hover/product:translate-y-0 transition-all duration-500">
+          {product.title}
+        </h2>
+        <span className="opacity-0 group-hover/product:opacity-60 text-orange-light font-mono text-[10px] tracking-[0.3em] uppercase translate-y-2 group-hover/product:translate-y-0 transition-all duration-500 delay-75">
+          View Intel
+        </span>
+      </div>
     </m.div>
   );
 };

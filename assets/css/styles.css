@@ -139,7 +139,7 @@ h1, h2, .h1, .h2 {
   padding: 4rem 0; 
   position: relative;
   content-visibility: auto;
-  contain-intrinsic-size: 0 600px;
+  contain-intrinsic-size: 0 500px;
 }
 
 @media (min-width: 768px) {
@@ -182,20 +182,18 @@ h1, h2, .h1, .h2 {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.12);
   color: #fff;
-  backdrop-filter: blur(8px);
 }
 .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.28); }
 
 /* Card System */
 .card {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(12, 12, 12, 0.6);
   border: 1px solid rgba(255, 176, 124, 0.1);
   border-radius: 24px;
   padding: 2rem;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(4px);
 }
 
 .card:hover {
@@ -245,12 +243,12 @@ h1, h2, .h1, .h2 {
 /* Premium "Diminished" Image Styling */
 img {
   filter: grayscale(15%) brightness(90%) contrast(105%);
-  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: filter 0.25s ease;
   border-radius: 1rem;
 }
 
 img:hover {
-  filter: grayscale(0%) brightness(100%) contrast(100%);
+  filter: none;
 }
 
 /* Reveal animations are now handled by Framer Motion in Primitives.tsx */
@@ -269,8 +267,9 @@ img:hover {
   pointer-events: none;
   opacity: 0.015;
   mix-blend-mode: overlay;
-  /* Simplified noise: single octave is 50% faster than double */
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* Ultra-efficient noise: reduced octaves and baseFrequency for smoother GPU handling */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  contain: strict;
 }
 
 .grid-bg {
@@ -318,8 +317,20 @@ img:hover {
   100% { transform: translate3d(0, 0, 0) scale(1.05); }
 }
 
-.animate-aurora-drift-1 { animation: aurora-drift-1 25s ease-in-out infinite; }
-.animate-aurora-drift-2 { animation: aurora-drift-2 35s ease-in-out infinite reverse; }
+.animate-aurora-drift-1 { animation: aurora-drift-1 25s ease-in-out infinite; will-change: transform; }
+.animate-aurora-drift-2 { animation: aurora-drift-2 35s ease-in-out infinite reverse; will-change: transform; }
+
+/* Aurora shader float animations (used in aurora-shader.tsx) */
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(5%, 5%, 0); }
+}
+@keyframes float-reverse {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-5%, -5%, 0); }
+}
+.animate-float-slow { animation: float-slow 20s ease-in-out infinite; will-change: transform; }
+.animate-float-reverse { animation: float-reverse 25s ease-in-out infinite; will-change: transform; }
 
 /* Preloader Restoration */
 .preloader-root {
@@ -335,11 +346,11 @@ img:hover {
 
 .uv-card {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
   padding: 2.5rem 5rem;
   border-radius: 2.5rem;
   border: 1px solid rgba(255, 176, 124, 0.1);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
 }
 
 .uv-loader {
@@ -406,6 +417,43 @@ img:hover {
 }
 /* Email Modal & Forms */
 
+/* Footer icon buttons — CSS hover instead of inline JS style mutations */
+.footer-icon-btn {
+  width: 44px; height: 44px; border-radius: 10px;
+  border: 1px solid var(--border);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.footer-icon-btn:hover {
+  color: var(--orange-light);
+  border-color: rgba(255,176,124,0.3);
+  background: rgba(255,176,124,0.05);
+}
+.footer-icon-btn:focus-visible {
+  outline: 2px solid var(--accent-sunset);
+  outline-offset: 4px;
+}
+
+/* Footer nav text buttons */
+.footer-nav-btn {
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 14px;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 2px 0;
+}
+.footer-nav-btn:hover { color: #fff; }
+.footer-nav-btn:focus-visible {
+  outline: 2px solid var(--accent-sunset);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 .caption {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -471,18 +519,17 @@ img:hover {
   }
 }
 
-/* Ensure all Framer Motion animated elements use GPU-composited props only */
-.preloader-root,
-.preloader-root * {
+/* Only the root preloader needs a compositing hint — not every child */
+.preloader-root {
   will-change: opacity;
 }
 
-/* Blur elements: contain paint to avoid triggering layout during scroll */
+/* Contain paint only — strict containment can cause isolation bugs on abs-positioned elements */
 .noise,
 .warm-glow,
 .glow-dot,
 .grid-bg {
-  contain: strict;
+  contain: layout paint;
   will-change: auto;
 }
 
@@ -559,7 +606,7 @@ nav,
   nav .backdrop-blur-2xl {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(0, 0, 0, 0.92) !important;
+    background: rgba(0, 0, 0, 0.95) !important;
   }
 }
 
@@ -570,4 +617,14 @@ nav,
     background-color: #000;
     color: #fff;
   }
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+}
 

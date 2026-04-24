@@ -1,6 +1,6 @@
 import React from "react";
 import { Terminal, Search, Video, Settings, Lock } from "lucide-react";
-import { SectionLabel } from "../Primitives";
+import { SectionLabel, Reveal } from "../Primitives";
 
 export default function ServicesGlowingGrid({ setPage }: { setPage: (p: string) => void }) {
   return (
@@ -17,45 +17,51 @@ export default function ServicesGlowingGrid({ setPage }: { setPage: (p: string) 
         </div>
 
         <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
-          <GridItem
-            area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
-            icon={<Terminal className="h-4 w-4 text-orange-light" />}
-            title="High-End Web Build"
-            description="Cinematic, high-performance websites built with the latest stack for speed, SEO, and extreme conversion."
-            onClick={() => setPage('services')}
-          />
-
-          <GridItem
-            area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
-            icon={<Settings className="h-4 w-4 text-orange-light" />}
-            title="Lead Gen & CRM Ops"
-            description="Automated funnels and CRM workflows that handle the boring stuff, globally and at scale."
-            onClick={() => setPage('services')}
-          />
-
-          <GridItem
-            area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
-            icon={<Lock className="h-4 w-4 text-orange-light" />}
-            title="Active Maintenance"
-            description="Continuous optimization and dedicated support to keep your digital engine running at peak performance."
-            onClick={() => setPage('services')}
-          />
-
-          <GridItem
-            area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
-            icon={<Video className="h-4 w-4 text-orange-light" />}
-            title="Premium Media Management"
-            description="Elite video and social content that captures attention and converts scroll-by traffic into loyal customers."
-            onClick={() => setPage('services')}
-          />
-
-          <GridItem
-            area="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]"
-            icon={<Search className="h-4 w-4 text-orange-light" />}
-            title="SEO & Rank Strategy"
-            description="Aggressive SEO audits and content strategies to dominate your niche and stay found on page one."
-            onClick={() => setPage('services')}
-          />
+          <Reveal delay={0.1} className="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]" as="li">
+            <GridItem
+              area="h-full"
+              icon={<Terminal className="h-4 w-4 text-orange-light" />}
+              title="High-End Web Build"
+              description="Cinematic, high-performance websites built with the latest stack for speed, SEO, and extreme conversion."
+              onClick={() => setPage('services')}
+            />
+          </Reveal>
+          <Reveal delay={0.2} className="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]" as="li">
+            <GridItem
+              area="h-full"
+              icon={<Settings className="h-4 w-4 text-orange-light" />}
+              title="Lead Gen & CRM Ops"
+              description="Automated funnels and CRM workflows that handle the boring stuff, globally and at scale."
+              onClick={() => setPage('services')}
+            />
+          </Reveal>
+          <Reveal delay={0.3} className="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]" as="li">
+            <GridItem
+              area="h-full"
+              icon={<Lock className="h-4 w-4 text-orange-light" />}
+              title="Active Maintenance"
+              description="Continuous optimization and dedicated support to keep your digital engine running at peak performance."
+              onClick={() => setPage('services')}
+            />
+          </Reveal>
+          <Reveal delay={0.4} className="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]" as="li">
+            <GridItem
+              area="h-full"
+              icon={<Video className="h-4 w-4 text-orange-light" />}
+              title="Premium Media Management"
+              description="Elite video and social content that captures attention and converts scroll-by traffic into loyal customers."
+              onClick={() => setPage('services')}
+            />
+          </Reveal>
+          <Reveal delay={0.5} className="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]" as="li">
+            <GridItem
+              area="h-full"
+              icon={<Search className="h-4 w-4 text-orange-light" />}
+              title="SEO & Rank Strategy"
+              description="Aggressive SEO audits and content strategies to dominate your niche and stay found on page one."
+              onClick={() => setPage('services')}
+            />
+          </Reveal>
         </ul>
       </div>
     </section>
@@ -72,9 +78,8 @@ interface GridItemProps {
 
 const GridItem = ({ area, icon, title, description, onClick }: GridItemProps) => {
   return (
-    <li className={`min-h-[14rem] list-none ${area}`}>
-      <div 
-        onClick={onClick}
+    <div 
+      onClick={onClick}
         className="relative h-full rounded-2xl border border-white/10 p-2 md:rounded-3xl md:p-3 group hover:border-orange-light/20 transition-colors duration-500 cursor-pointer"
       >
         <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl p-6 md:p-6 bg-[#0d0d0d]">
@@ -93,6 +98,5 @@ const GridItem = ({ area, icon, title, description, onClick }: GridItemProps) =>
           </div>
         </div>
       </div>
-    </li>
   );
 };

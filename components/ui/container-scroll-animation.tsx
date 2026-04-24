@@ -44,7 +44,7 @@ export const ContainerScroll = ({
         style={{ perspective: '1000px' }}
       >
         <Header translate={translate} titleComponent={titleComponent} />
-        <Card rotate={rotate} translate={translate} scale={scale}>
+        <Card rotate={rotate} translate={translate} scale={scale} isMobile={isMobile}>
           {children}
         </Card>
       </div>
@@ -69,11 +69,13 @@ export const Card = ({
   rotate,
   scale,
   translate,
+  isMobile,
   children,
 }: {
   rotate: MotionValue<number>;
   scale: MotionValue<number>;
   translate: MotionValue<number>;
+  isMobile: boolean;
   children: React.ReactNode;
 }) => {
   return (
@@ -82,8 +84,9 @@ export const Card = ({
         rotateX: rotate,
         translateY: translate,
         scale,
-        boxShadow:
-          "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
+        boxShadow: isMobile 
+          ? "0 10px 30px rgba(0,0,0,0.5)"
+          : "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
       className="max-w-5xl mt-12 mx-auto h-[22rem] md:h-[40rem] w-full border-4 border-[#1a1a1a] p-1 md:p-2 bg-[#050505] rounded-[30px] shadow-2xl overflow-hidden"
     >

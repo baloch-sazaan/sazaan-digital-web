@@ -2,20 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { m } from 'framer-motion';
 import { Icon, SectionLabel } from './Primitives';
 
-export interface Project {
-  id: string;
-  tag: string;
-  cat: string;
-  title: string;
-  description: string;
-  fullSummary?: string;
-  features?: string[];
-  metric: string;
-  status: string;
-  accent: string;
-  published: boolean;
-  screenshot_url?: string;
-}
+import { Project } from '../types';
 
 export const ProjectModal = ({ project, onClose }: { project: Project, onClose: () => void }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -55,7 +42,7 @@ export const ProjectModal = ({ project, onClose }: { project: Project, onClose: 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
-      className="fixed inset-0 z-[2000000] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-3xl"
+      className="fixed inset-0 z-[2000000] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-xl"
     >
       <m.div 
         ref={modalRef}

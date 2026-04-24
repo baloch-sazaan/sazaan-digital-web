@@ -47,23 +47,37 @@ export const SectionLabel = ({ children, center = false }: { children: React.Rea
 );
 
 
-export const Reveal = ({ children, delay = 0, as: As = 'div', className = '', style = {} }: { children: React.ReactNode, delay?: number, as?: React.ElementType, className?: string, style?: React.CSSProperties }) => {
-  return (
-    <m.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ 
-        duration: 0.8, 
-        delay, 
-        ease: [0.23, 1, 0.32, 1] // Custom refined ease-out
-      }}
-      className={className}
-      style={style}
-    >
-      {children}
-    </m.div>
-  );
+export const Reveal = ({ 
+  children, 
+  delay = 0, 
+  as = 'div', 
+  className = '', 
+  style = {} 
+}: { 
+  children: React.ReactNode, 
+  delay?: number, 
+  as?: 'div' | 'li' | 'section' | 'article', 
+  className?: string, 
+  style?: React.CSSProperties 
+}) => {
+  const motionProps = {
+    initial: { opacity: 0, y: 14 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-8% 0px" },
+    transition: {
+      duration: 0.7,
+      delay: Math.min(delay, 0.4),
+      ease: [0.22, 1, 0.36, 1]
+    },
+    className,
+    style: { ...style, transform: 'translateZ(0)', willChange: 'transform, opacity' }
+  };
+
+  if (as === 'li') return <m.li {...motionProps}>{children}</m.li>;
+  if (as === 'section') return <m.section {...motionProps}>{children}</m.section>;
+  if (as === 'article') return <m.article {...motionProps}>{children}</m.article>;
+  
+  return <m.div {...motionProps}>{children}</m.div>;
 };
 
 
@@ -100,6 +114,8 @@ export const Magnetic = ({ children }: { children: React.ReactNode }) => {
       style={{
         x: springX,
         y: springY,
+        transform: 'translateZ(0)',
+        willChange: 'transform'
       }}
     >
       {children}
