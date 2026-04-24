@@ -20,17 +20,24 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   build: {
-    target: 'es2018',
-    chunkSizeWarningLimit: 300,
-    assetsInlineLimit: 4096,
+    target: 'esnext',
+    minify: 'esbuild',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 400,
+    assetsInlineLimit: 10240,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('react-dom') || id.includes('react/')) return 'vendor';
-          if (id.includes('framer-motion')) return 'framer';
-          if (id.includes('lucide-react')) return 'lucide';
-          if (id.includes('@studio-freight/react-lenis') || id.includes('lenis')) return 'lenis';
-        }
+          if (id.includes('node_modules')) {
+            if (id.includes('react-dom')) return 'react-dom';
+            if (id.includes('react/')) return 'react';
+            if (id.includes('framer-motion')) return 'framer';
+            if (id.includes('lucide-react')) return 'lucide';
+            if (id.includes('lenis') || id.includes('studio-freight')) return 'lenis';
+            return 'vendor';
+          }
+        },
+        compact: true
       }
     }
   }

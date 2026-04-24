@@ -1,6 +1,7 @@
 import React from 'react';
 import { m } from 'framer-motion';
 import { Reveal, SectionLabel, Icon } from './Primitives';
+import '@/assets/css/cards.css';
 
 export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
   const services = [
@@ -8,11 +9,8 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
     { icon: 'search', cat: 'Visibility', title: 'SEO & Local Search', desc: 'Technical SEO, content strategy, and Google Business Profile optimization to dominate your area.', bullets: ['Technical audit & fixes', 'Local citations', 'Monthly reporting'] },
     { icon: 'zap', cat: 'Ops', title: 'Automation & CRM', desc: 'Connect the tools you already use. Automate intake, booking, invoicing and follow-up.', bullets: ['Zapier / Make builds', 'HubSpot / GoHighLevel', 'Custom API integrations'] },
     { icon: 'share', cat: 'Content', title: 'Social Media Management', desc: 'Daily posting, community management, and content that actually sounds like your brand.', bullets: ['Content calendar', 'Reels & shorts', 'Community replies'] },
-    { icon: 'trending', cat: 'Growth', title: 'Paid Ads', desc: 'Meta and Google campaigns with tracking that works. No black-box reporting.', bullets: ['Meta & Google Ads', 'Conversion tracking', 'Weekly optimization'] },
     { icon: 'sparkles', cat: 'Brand', title: 'Brand & Identity', desc: 'Logos, wordmarks, guidelines, and brand kits. A foundation your marketing can rest on.', bullets: ['Logo & wordmark', 'Visual guidelines', 'Social templates'] },
     { icon: 'bot', cat: 'Support', title: 'AI Chat & Assistants', desc: 'Custom chat agents trained on your site, docs and FAQs. 24/7 lead qualification.', bullets: ['Site-embedded chat', 'Lead routing', 'CRM sync'] },
-    { icon: 'layers', cat: 'Strategy', title: 'Fractional CMO', desc: 'Monthly strategy, roadmap, and accountability — without a full-time hire.', bullets: ['Quarterly roadmap', 'Weekly check-ins', 'KPI dashboard'] },
-    { icon: 'briefcase', cat: 'Care', title: 'Ongoing Retainer', desc: 'Everything above, bundled. One team, one invoice, predictable growth.', bullets: ['Dedicated lead', 'Priority response', 'Quarterly reviews'] },
   ];
 
   return (

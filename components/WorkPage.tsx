@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { m } from 'framer-motion';
 import { Reveal, SectionLabel, Icon } from './Primitives';
 import { Project } from '../types';
+import '@/assets/css/cards.css';
 
 const FALLBACK_WORK: Project[] = [
   { 
@@ -154,8 +155,8 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                   tag: 'agency',
                   cat: 'Work Overview',
                   title: 'Our Digital Philosophy',
-                  description: 'A summary of how Sazaan Digital approaches development and design.',
-                  fullSummary: 'At Sazaan Digital, we don\'t just build websites; we engineer digital assets. Our philosophy centers on "Zero Latency Design"—the belief that every millisecond of load time is a barrier to conversion. We combine brutalist-modern aesthetics with extreme technical optimization. \n\nThis section showcases our expertise in three core pillars: \n1. Performance Engineering (React/Vite/Shaders)\n2. Automation Architecture (Custom CRM/AI integration)\n3. Growth Systems (Technical SEO/Data Analytics). \n\nEvery project here is a testament to our commitment to making local businesses dominate their global competitors through superior technology.',
+                  description: 'A summary of how Sazaan Studios approaches development and design.',
+                  fullSummary: 'At Sazaan Studios, we don\'t just build websites; we engineer digital assets. Our philosophy centers on "Zero Latency Design"—the belief that every millisecond of load time is a barrier to conversion. We combine brutalist-modern aesthetics with extreme technical optimization. \n\nThis section showcases our expertise in three core pillars: \n1. Performance Engineering (React/Vite/Shaders)\n2. Automation Architecture (Custom CRM/AI integration)\n3. Growth Systems (Technical SEO/Data Analytics). \n\nEvery project here is a testament to our commitment to making local businesses dominate their global competitors through superior technology.',
                   features: ['Performance-First Architecture', 'Conversion-Led Design', 'Scalable Automation', 'Data-Driven SEO', 'Premium Brand Identity'],
                   metric: '100% Quality',
                   status: 'Standard',

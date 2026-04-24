@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Reveal, SectionLabel, Icon, Magnetic } from './Primitives';
+import '@/assets/css/backgrounds.css';
 
 const TypingLine = ({ text, onComplete, color = 'var(--accent-sunset)' }: { text: string, onComplete?: () => void, color?: string }) => {
   const [display, setDisplay] = useState('');

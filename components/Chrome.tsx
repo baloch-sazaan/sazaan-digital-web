@@ -7,7 +7,7 @@ import { Icon } from './Primitives';
 const Logo = () => (
   <div className="flex flex-col items-start leading-[0.8]">
     <span className="gradient-text text-xl md:text-2xl font-black tracking-tighter uppercase">Sazaan</span>
-    <span className="text-[10px] text-white/70 tracking-[0.3em] uppercase ml-0.5">Digital</span>
+    <span className="text-[10px] text-white/70 tracking-[0.3em] uppercase ml-0.5">Studios</span>
   </div>
 );
 
@@ -258,7 +258,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
               baloch@sazaandigital.com
             </a>
             <p className="text-[var(--text-muted)] text-[13px] mt-2.5">Remote — US &amp; UK</p>
-            <p className="text-[var(--text-muted)] text-xs mt-5 font-mono">© 2026 Sazaan Digital</p>
+            <p className="text-[var(--text-muted)] text-xs mt-5 font-mono">© 2026 Sazaan Studios</p>
           </div>
         </div>
       </div>

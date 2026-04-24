@@ -50,13 +50,13 @@ const TypingWord = ({ words }: { words: string[] }) => {
   }, [words]);
 
   return (
-    <span className="gradient-text italic font-serif lowercase inline-block min-w-[120px] md:min-w-[200px] text-center tracking-tight">
+    <span className="gradient-text italic font-serif lowercase inline-flex items-center justify-center min-w-[120px] md:min-w-[200px] min-h-[1.5em] text-center tracking-tight">
       {displayText}
       <motion.span
         aria-hidden="true"
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.8, repeat: Infinity }}
-        className="inline-block w-[3px] h-[0.7em] bg-orange-light ml-1 mb-[-0.1em] shadow-[0_0_10px_rgba(255,176,124,0.5)]"
+        className="inline-block w-[3px] h-[0.7em] bg-orange-light ml-1 mb-[-0.1em] shadow-[0_0_10px_rgba(255,176,124,0.5)] flex-shrink-0"
       />
     </span>
   );
@@ -120,9 +120,9 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
           loading="eager"
           decoding="async"
           {...({ fetchpriority: "high" } as any)}
-          width={1200}
-          height={900}
-          sizes="(max-width: 768px) 100vw, 1200px"
+          width={782}
+          height={588}
+          sizes="(max-width: 782px) 100vw, 782px"
         />
       </ContainerScroll>
     </section>

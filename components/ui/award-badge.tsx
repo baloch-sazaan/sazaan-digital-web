@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface AwardBadgeProps {
   overline: string;
@@ -9,7 +9,7 @@ interface AwardBadgeProps {
 
 export const AwardBadge = ({ overline, mainText, place }: AwardBadgeProps) => {
   return (
-    <motion.div 
+    <m.div 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -35,6 +35,6 @@ export const AwardBadge = ({ overline, mainText, place }: AwardBadgeProps) => {
       </h3>
 
       <div className="mt-6 w-8 h-[1px] bg-white/20 group-hover:w-16 group-hover:bg-orange-500/50 transition-all duration-300" />
-    </motion.div>
+    </m.div>
   );
 };

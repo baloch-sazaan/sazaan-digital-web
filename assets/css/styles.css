@@ -1,10 +1,4 @@
-/* Fonts: only load what is actually used on the page */
-@import "@fontsource/montserrat/400.css";
-@import "@fontsource/montserrat/700.css";
-@import "@fontsource/montserrat/900.css";
-@import "@fontsource/jetbrains-mono/400.css";
-
-/* ============ Sazaan Digital — Mobile-First Design System ============ */
+/* ============ Sazaan Studios — Mobile-First Design System ============ */
 
 @tailwind base;
 @tailwind components;
@@ -185,46 +179,7 @@ h1, h2, .h1, .h2 {
 }
 .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.28); }
 
-/* Card System */
-.card {
-  background: rgba(12, 12, 12, 0.6);
-  border: 1px solid rgba(255, 176, 124, 0.1);
-  border-radius: 24px;
-  padding: 2rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.card:hover {
-  border-color: rgba(255, 176, 124, 0.4);
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255, 176, 124, 0.1);
-}
-
-/* Glow Effect on Hover */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 176, 124, 0.08) 0%, transparent 80%);
-  opacity: 0;
-  transition: opacity 0.5s;
-  pointer-events: none;
-}
-
-.card:hover::before { opacity: 1; }
-
-.icon-tile-sm {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: rgba(255, 176, 124, 0.1);
-  border: 1px solid rgba(255, 176, 124, 0.2);
-  display: inline-flex; align-items: center; justify-content: center;
-  color: var(--accent-sunset);
-  transition: transform 0.3s ease;
-}
-.card:hover .icon-tile-sm { transform: scale(1.1) rotate(-5deg); }
+/* Section Labels & Utilities */
 
 .chip {
   display: inline-flex;
@@ -260,17 +215,6 @@ img:hover {
 .delay-2 { transition-delay: 200ms; }
 .delay-3 { transition-delay: 300ms; }
 
-/* Utility Effects */
-.noise {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.015;
-  mix-blend-mode: overlay;
-  /* Ultra-efficient noise: reduced octaves and baseFrequency for smoother GPU handling */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  contain: strict;
-}
 
 .grid-bg {
   position: absolute;
@@ -303,118 +247,10 @@ img:hover {
   pointer-events: none;
 }
 
-/* Premium Animations - Optimized for GPU */
-@keyframes aurora-drift-1 {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  33% { transform: translate3d(20px, -30px, 0) scale(1.1); }
-  66% { transform: translate3d(-15px, 25px, 0) scale(0.9); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-
-@keyframes aurora-drift-2 {
-  0% { transform: translate3d(0, 0, 0) scale(1.05); }
-  50% { transform: translate3d(-40px, 40px, 0) scale(0.95); }
-  100% { transform: translate3d(0, 0, 0) scale(1.05); }
-}
-
-.animate-aurora-drift-1 { animation: aurora-drift-1 25s ease-in-out infinite; will-change: transform; }
-.animate-aurora-drift-2 { animation: aurora-drift-2 35s ease-in-out infinite reverse; will-change: transform; }
-
-/* Aurora shader float animations (used in aurora-shader.tsx) */
-@keyframes float-slow {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(5%, 5%, 0); }
-}
-@keyframes float-reverse {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(-5%, -5%, 0); }
-}
-.animate-float-slow { animation: float-slow 20s ease-in-out infinite; will-change: transform; }
-.animate-float-reverse { animation: float-reverse 25s ease-in-out infinite; will-change: transform; }
 
 /* Preloader Restoration */
-.preloader-root {
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--bg-onyx);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 2.5rem;
-  transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), visibility 0.8s;
-}
 
-.preloader-root.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-
-.uv-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px);
-  padding: 2.5rem 5rem;
-  border-radius: 2.5rem;
-  border: 1px solid rgba(255, 176, 124, 0.1);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-}
-
-.uv-loader {
-  display: flex; align-items: center; gap: 0.75rem;
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(1.1rem, 4vw, 1.75rem);
-  color: rgba(255,255,255,0.8);
-  height: clamp(1.5rem, 6vw, 2.5rem);
-}
-
-.uv-words { display: inline-block; min-width: 120px; }
-.uv-word { display: inline; color: var(--accent-sunset); }
-
-.preloader-progress {
-  width: 200px; height: 3px;
-  background: rgba(255,255,255,0.05);
-  position: relative; overflow: hidden; border-radius: 2px;
-}
-
-.preloader-progress::after {
-  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, var(--accent-sunset), transparent);
-  animation: progress-shimmer 2s infinite ease-in-out;
-}
-
-@keyframes progress-shimmer { to { left: 100%; } }
-
-/* Preloader logo */
-.preloader-logo {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: preloader-pulse 2s ease-in-out infinite;
-}
-
-.preloader-logo-ring {
-  position: absolute;
-  inset: -12px;
-  border-radius: 42px;
-  border: 2px solid rgba(255, 176, 124, 0.25);
-  animation: preloader-ring 2s ease-in-out infinite;
-}
-
-.preloader-logo-ring::before {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  border-radius: 54px;
-  border: 1px solid rgba(255, 176, 124, 0.1);
-  animation: preloader-ring 2s ease-in-out infinite 0.3s;
-}
-
-@keyframes preloader-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes preloader-ring {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
+/* Email Modal & Forms */
 /* Email Modal & Forms */
 
 /* Footer icon buttons — CSS hover instead of inline JS style mutations */
