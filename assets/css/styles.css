@@ -9,19 +9,20 @@
   --font-heading: 'Barlow Condensed', sans-serif;
   --font-body: 'DM Sans', sans-serif;
 
-  /* Color Palette */
-  --bg-offwhite: #F7F7F5;
-  --bg-white: #FFFFFF;
-  --ink-black: #111111;
-  --ash-gray: #555555;
+  /* Color Palette (Premium Dark Silicon) */
+  --bg-deep: #0A0A0A;
+  --bg-surface: #111111;
+  --ink-black: #050505;
+  --offwhite: #F7F7F5;
+  --ash-gray: #888888;
   --electric-lime: #E8FF3A;
-  --border-gray: #E2E2DE;
+  --border-dim: #222222;
 
   /* Sazaan Tokens */
-  --bg-primary: var(--bg-offwhite);
-  --bg-secondary: var(--bg-white);
-  --border: var(--border-gray);
-  --text-primary: var(--ink-black);
+  --bg-primary: var(--bg-deep);
+  --bg-secondary: var(--bg-surface);
+  --border: var(--border-dim);
+  --text-primary: var(--offwhite);
   --text-muted: var(--ash-gray);
 }
 
@@ -77,12 +78,12 @@ html.lenis {
 }
 
 body {
-  background-color: var(--bg-offwhite);
+  background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-smoothing: grayscale;
   overflow-x: hidden;
   width: 100%;
   min-height: 100dvh;
@@ -94,11 +95,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-offwhite);
+  background: var(--bg-deep);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #111111;
+  background: #333333;
   border-radius: 10px;
 }
 
@@ -139,11 +140,11 @@ p, li, input, textarea, select {
 .section { 
   padding: 6rem 0; 
   position: relative;
-  background-color: var(--bg-offwhite);
+  background-color: var(--bg-deep);
 }
 
 .section:nth-of-type(even) {
-  background-color: var(--bg-white);
+  background-color: var(--bg-surface);
 }
 
 @media (min-width: 768px) {

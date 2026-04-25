@@ -1,6 +1,6 @@
 .card {
-  background: #FFFFFF;
-  border: 1px solid #E2E2DE;
+  background: #111111;
+  border: 1px solid #222222;
   border-radius: 0;
   padding: 2.5rem;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -9,10 +9,10 @@
 }
 
 .card:hover {
-  border-color: #111111;
-  background: #FFFFFF;
+  border-color: #E8FF3A;
+  background: #161616;
   transform: translateY(-4px);
-  box-shadow: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .card::before {
@@ -26,21 +26,21 @@
   z-index: 0;
 }
 
-.card:hover::before { opacity: 0.05; }
+.card:hover::before { opacity: 0.03; }
 
 .icon-tile-sm {
   width: 44px; height: 44px; border-radius: 0;
-  background: #F7F7F5;
-  border: 1px solid #E2E2DE;
+  background: #0A0A0A;
+  border: 1px solid #222222;
   display: inline-flex; align-items: center; justify-content: center;
-  color: #111111;
+  color: #E8FF3A;
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
 }
 
 .card:hover .icon-tile-sm { 
-  background: #111111;
-  color: #E8FF3A;
-  border-color: #111111;
+  background: #E8FF3A;
+  color: #0A0A0A;
+  border-color: #E8FF3A;
 }

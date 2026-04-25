@@ -35,7 +35,7 @@ const VALID_PAGES = ['home', 'services', 'work', 'contact', 'privacy-policy'] as
 
 const BackgroundWrapper = React.memo(() => (
   <div 
-    className="fixed inset-0 z-[-1] pointer-events-none bg-[#F7F7F5]"
+    className="fixed inset-0 z-[-1] pointer-events-none bg-[#0A0A0A]"
     style={{ contain: 'strict' }}
   />
 ));
@@ -88,7 +88,7 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
   render() {
     if (this.state.hasError) {
       return this.props.fallback ?? (
-        <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-[#F7F7F5]">
+        <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
           <div className="w-16 h-16 mb-8 rounded-xl bg-white border border-[#E2E2DE] flex items-center justify-center">
             <span className="text-[#111111] font-barlow font-black text-2xl">!</span>
           </div>

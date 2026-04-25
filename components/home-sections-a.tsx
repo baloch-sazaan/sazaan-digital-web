@@ -54,7 +54,7 @@ const PrestigeCircle = () => {
 
 export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-32 sm:pt-40 md:pt-48 bg-[#F7F7F5]">
+    <section className="relative min-h-screen overflow-hidden pt-32 sm:pt-40 md:pt-48 bg-[#0A0A0A]">
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <HeroBackgroundDecoration />
       </div>
@@ -82,7 +82,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
               className="relative inline-block px-4 sm:px-12 py-4"
             >
               <h1
-                className="text-[#111111] text-[clamp(2.5rem,10vw,8rem)] font-black mt-0 leading-[0.9] tracking-tightest text-center uppercase font-barlow relative z-10"
+                className="text-white text-[clamp(2.5rem,10vw,8rem)] font-black mt-0 leading-[0.9] tracking-tightest text-center uppercase font-barlow relative z-10"
               >
                 <TextReveal>Modern</TextReveal><br />
                 <span className="italic">
@@ -101,7 +101,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
             >
               <ScrollScrubText 
                 text="Full-stack engineering and UI/UX design for creative studios and modern businesses. We build the tools that power your vision."
-                className="text-[#555555] font-dmsans text-lg leading-relaxed uppercase tracking-wider justify-center"
+                className="text-[#888888] font-dmsans text-lg leading-relaxed uppercase tracking-wider justify-center"
                 wordClassName="opacity-20"
               />
             </motion.div>
@@ -134,7 +134,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
           alt="Sazaan Studios — Digital Architecture"
           parallaxStrength={0.15}
           priority={true}
-          containerClassName="rounded-none border border-[#E2E2DE]"
+          containerClassName="rounded-none border border-[#222222]"
         />
       </ContainerScroll>
     </section>
