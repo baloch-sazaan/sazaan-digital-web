@@ -28,6 +28,7 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   build: {
+    outDir: 'out',
     target: 'esnext',
     minify: 'esbuild',
     cssCodeSplit: true,
