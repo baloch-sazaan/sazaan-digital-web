@@ -9,19 +9,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        border: "#E2E2DE",
-        background: "#F7F7F5",
-        foreground: "#111111",
+        border: "#222222",
+        background: "#0A0A0A",
+        foreground: "#F7F7F5",
         primary: {
           DEFAULT: "#E8FF3A",
-          foreground: "#111111",
+          foreground: "#050505",
         },
         muted: {
-          DEFAULT: "#555555",
-          foreground: "#555555",
+          DEFAULT: "#888888",
+          foreground: "#888888",
         },
-        ink: "#111111",
-        ash: "#555555",
+        ink: "#050505",
+        ash: "#888888",
         lime: "#E8FF3A",
         offwhite: "#F7F7F5",
       },

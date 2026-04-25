@@ -6,12 +6,12 @@ import App from './App';
 import './assets/css/styles.css';
 
 const lenisOptions = {
-  lerp: 0.035,
-  duration: 1.8,
+  lerp: 0.1, // Increased for snappier response
+  duration: 1.2, // Reduced for less 'laggy' feel
   smoothWheel: true,
   smoothTouch: false, 
-  wheelMultiplier: 0.65,
-  touchMultiplier: 1.2,
+  wheelMultiplier: 1,
+  touchMultiplier: 1,
   infinite: false,
   easing: (t: number) => 1 - Math.pow(1 - t, 4), 
 };

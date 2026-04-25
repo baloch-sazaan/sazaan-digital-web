@@ -5,15 +5,15 @@ import { SectionLabel } from "../primitives";
 
 export default function ServicesGlowingGrid({ setPage }: { setPage: (p: string) => void }) {
   return (
-    <section className="relative pt-20 pb-24 md:pt-32 md:pb-32 bg-[#F7F7F5]">
+    <section className="relative pt-20 pb-24 md:pt-32 md:pb-32 bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col items-start mb-16 md:mb-24">
           <div className="mb-6">
             <SectionLabel>Our Expertise</SectionLabel>
           </div>
-          <h2 className="text-5xl md:text-8xl font-black tracking-tightest text-[#111111] max-w-4xl leading-[0.9] uppercase font-barlow">
+          <h2 className="text-5xl md:text-8xl font-black tracking-tightest text-white max-w-4xl leading-[0.9] uppercase font-barlow">
             Building <br />
-            <span className="text-[#111111] italic">Digital Authority</span>
+            <span className="text-white italic">Digital Authority</span>
           </h2>
         </div>
 
@@ -123,18 +123,18 @@ const GridItem = React.memo(({ icon, title, description, onClick }: GridItemProp
   return (
     <div 
       onClick={onClick}
-        className="relative h-full rounded-none border border-[#E2E2DE] p-1 group hover:border-[#E8FF3A] transition-colors duration-500 cursor-pointer bg-[#F7F7F5]"
+        className="relative h-full rounded-none border border-[#222222] p-1 group hover:border-[#E8FF3A] transition-colors duration-500 cursor-pointer bg-[#0A0A0A]"
       >
-        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-none p-8 bg-white">
+        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-none p-8 bg-[#111111]">
           <div className="relative flex flex-1 flex-col justify-between gap-6">
-            <div className="w-fit rounded-lg border border-[#E2E2DE] bg-[#F7F7F5] p-3 text-[#111111] group-hover:bg-[#E8FF3A] group-hover:border-[#E8FF3A] transition-all duration-500">
+            <div className="w-fit rounded-lg border border-[#222222] bg-[#0A0A0A] p-3 text-white group-hover:bg-[#E8FF3A] group-hover:border-[#E8FF3A] transition-all duration-500 group-hover:text-black">
               {icon}
             </div>
             <div className="space-y-4">
-              <h3 className="tracking-tight font-barlow text-2xl font-black text-[#111111] uppercase leading-tight">
+              <h3 className="tracking-tight font-barlow text-2xl font-black text-white uppercase leading-tight">
                 {title}
               </h3>
-              <p className="text-sm md:text-base text-[#555555] font-dmsans leading-relaxed">
+              <p className="text-sm md:text-base text-[#888888] font-dmsans leading-relaxed">
                 {description}
               </p>
             </div>

@@ -37,7 +37,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--ink-black);
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
 }
 
@@ -52,7 +52,7 @@
 
 html {
   scroll-behavior: initial !important;
-  font-size: 16px; 
+  font-size: 100%; 
   overflow-x: hidden;
   width: 100%;
 }
@@ -144,7 +144,7 @@ p, li, input, textarea, select {
 }
 
 .section:nth-of-type(even) {
-  background-color: var(--bg-surface);
+  background-color: var(--bg-deep);
 }
 
 @media (min-width: 768px) {
@@ -158,16 +158,20 @@ p, li, input, textarea, select {
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border-radius: 0px; 
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: all 0.2s ease;
+  letter-spacing: 0.1em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   border: 1px solid var(--border);
+}
+
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn-primary {
@@ -183,25 +187,26 @@ p, li, input, textarea, select {
 
 .btn-ghost {
   background: transparent;
-  color: var(--ink-black);
+  color: var(--text-primary);
   border-color: var(--border);
 }
 
 .btn-ghost:hover {
-  background: var(--bg-offwhite);
-  border-color: var(--ink-black);
+  background: var(--electric-lime);
+  border-color: var(--electric-lime);
+  color: var(--ink-black);
 }
 
 .card {
-  background: var(--bg-white);
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 0; /* Strict angular look unless circular pill elements are specified */
+  border-radius: 0;
   padding: 2rem;
   transition: border-color 0.2s ease;
 }
 
 .card:hover {
-  border-color: var(--ink-black);
+  border-color: var(--electric-lime);
 }
 
 .pill {
@@ -214,7 +219,7 @@ p, li, input, textarea, select {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--ink-black);
+  color: var(--text-primary);
 }
 
 /* Specific UI Elements */
@@ -241,7 +246,7 @@ img {
   width: 44px; height: 44px; border-radius: 50%;
   border: 1px solid var(--border);
   display: inline-flex; align-items: center; justify-content: center;
-  color: var(--ink-black);
+  color: var(--text-primary);
   background: transparent;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -260,7 +265,7 @@ img {
   transition: color 0.2s ease;
   padding: 2px 0;
 }
-.footer-nav-btn:hover { color: var(--ink-black); }
+.footer-nav-btn:hover { color: var(--electric-lime); }
 
 /* Remove old gradients/glows */
 .grid-bg, .gradient-text, .warm-glow, .glow-dot, .noise {

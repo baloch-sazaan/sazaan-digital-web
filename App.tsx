@@ -89,16 +89,16 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
     if (this.state.hasError) {
       return this.props.fallback ?? (
         <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
-          <div className="w-16 h-16 mb-8 rounded-xl bg-white border border-[#E2E2DE] flex items-center justify-center">
-            <span className="text-[#111111] font-barlow font-black text-2xl">!</span>
+          <div className="w-16 h-16 mb-8 rounded-xl bg-[#111111] border border-[#222222] flex items-center justify-center">
+            <span className="text-white font-barlow font-black text-2xl">!</span>
           </div>
-          <h1 className="text-4xl font-black font-barlow mb-4 uppercase tracking-tightest text-[#111111]">SYSTEM_ERROR</h1>
-          <p className="text-[#555555] mb-8 max-w-md font-medium leading-relaxed font-dmsans">
+          <h1 className="text-4xl font-black font-barlow mb-4 uppercase tracking-tightest text-white">SYSTEM_ERROR</h1>
+          <p className="text-[#888888] mb-8 max-w-md font-medium leading-relaxed font-dmsans uppercase tracking-widest text-[10px]">
             Our systems are self-healing. A manual return to the origin is recommended.
           </p>
           <button 
             onClick={this.handleReset}
-            className="px-10 py-4 bg-[#E8FF3A] text-[#111111] font-black font-barlow uppercase tracking-tightest shadow-xl hover:scale-105 transition-transform"
+            className="px-10 py-4 bg-[#E8FF3A] text-black font-black font-barlow uppercase tracking-tightest shadow-xl hover:scale-105 transition-transform"
           >
             RESTORE SYSTEM
           </button>
@@ -187,8 +187,11 @@ export default function App() {
       window.scrollTo(0, 0);
     };
     window.addEventListener('popstate', handlePopState);
-    window.history.replaceState({ page }, '', window.location.hash || '#home');
     return () => window.removeEventListener('popstate', handlePopState);
+  }, []); // Only once
+
+  useEffect(() => {
+    window.history.replaceState({ page }, '', window.location.hash || '#home');
   }, [page]);
 
 

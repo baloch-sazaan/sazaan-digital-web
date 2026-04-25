@@ -61,14 +61,14 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
         },
         exit: { opacity: 0, transition: { duration: 0.2 } }
       }}
-      className="bg-[#F7F7F5]"
+      className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
         title="Our Services" 
         description="Explore our elite digital solutions: Full-Stack Development, Strategic SEO, and Advanced Business Automation designed for modern enterprises."
         canonical="https://sazaandigital.com/#services"
       />
-      <section className="pt-40 pb-24 border-b border-[#E2E2DE]">
+      <section className="pt-40 pb-24 border-b border-[#222222]">
         <div className="container">
           <m.div variants={{
             hidden: { opacity: 0, y: 20 },
@@ -82,7 +82,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
               hidden: { opacity: 0, y: 30 },
               show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
             }}>
-              <h1 className="text-[clamp(2.5rem,9vw,8rem)] font-black text-[#111111] font-barlow uppercase leading-[0.85] tracking-tightest">
+              <h1 className="text-[clamp(2.5rem,9vw,8rem)] font-black text-white font-barlow uppercase leading-[0.85] tracking-tightest">
                 <TextReveal>Digital</TextReveal> <span className="italic whitespace-nowrap"><TextReveal delay={0.2}>Solutions.</TextReveal></span>
               </h1>
             </m.div>
@@ -91,12 +91,12 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
             }} className="max-w-md">
-                <p className="text-lg font-dmsans text-[#555555] leading-relaxed mb-8">
+                <p className="text-lg font-dmsans text-[#888888] leading-relaxed mb-8">
                   We provide comprehensive digital solutions tailored for creative studios and modern businesses. We bridge the gap between vision and execution.
                 </p>
                 <div className="flex gap-4">
-                    <div className="w-12 h-[1px] bg-[#111111] mt-3" />
-                    <span className="text-[10px] font-bold text-[#111111] uppercase tracking-[0.3em]">Modern Development Agency</span>
+                    <div className="w-12 h-[1px] bg-[#222222] mt-3" />
+                    <span className="text-[10px] font-bold text-[#888888] uppercase tracking-[0.3em]">Modern Development Agency</span>
                 </div>
             </m.div>
           </div>
@@ -105,11 +105,11 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
 
       <section className="py-24">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-[#E2E2DE] border border-[#E2E2DE]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-[#222222] border border-[#222222]">
             {services.map((s, i) => (
               <Reveal key={s.title} delay={i * 0.05}>
                 <div 
-                  className="bg-white p-10 h-full flex flex-col group hover:bg-[#E8FF3A] transition-colors duration-500 cursor-pointer" 
+                  className="bg-[#111111] p-10 h-full flex flex-col group hover:bg-[#161616] transition-colors duration-500 cursor-pointer" 
                   onClick={() => setPage('contact')}
                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setPage('contact'); }}
                   role="button"
@@ -117,33 +117,33 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
                   aria-label={`Inquire about ${s.title}`}
                 >
                   <div className="flex justify-between items-start mb-12">
-                    <div className="w-10 h-10 border border-[#E2E2DE] flex items-center justify-center group-hover:border-[#111111] transition-colors">
-                        <Icon name={s.icon} size={16} />
+                    <div className="w-10 h-10 border border-[#222222] flex items-center justify-center group-hover:border-[#E8FF3A] transition-colors">
+                        <Icon name={s.icon} size={16} className="text-[#888888] group-hover:text-[#E8FF3A]" />
                     </div>
-                    <span className="text-[10px] font-bold font-dmsans tracking-widest text-[#BBBBBB] uppercase group-hover:text-[#111111]">
+                    <span className="text-[10px] font-bold font-dmsans tracking-widest text-[#555555] uppercase group-hover:text-[#E8FF3A]">
                         {s.cat}
                     </span>
                   </div>
 
-                  <h3 className="text-3xl font-black font-barlow text-[#111111] uppercase leading-none tracking-tight mb-6">
+                  <h3 className="text-3xl font-black font-barlow text-white uppercase leading-none tracking-tight mb-6 group-hover:text-[#E8FF3A] transition-colors">
                     {s.title}
                   </h3>
-                  <p className="text-sm font-dmsans text-[#555555] leading-relaxed mb-10 group-hover:text-[#111111]/80">
+                  <p className="text-sm font-dmsans text-[#888888] leading-relaxed mb-10 group-hover:text-white/80">
                     {s.desc}
                   </p>
 
                   <ul className="space-y-4 mb-12">
                     {s.bullets.map(b => (
-                      <li key={b} className="flex items-center gap-3 text-[11px] font-bold font-dmsans text-[#111111] uppercase tracking-wider">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#E8FF3A] border border-[#111111] group-hover:bg-white" />
+                      <li key={b} className="flex items-center gap-3 text-[11px] font-bold font-dmsans text-[#888888] uppercase tracking-wider group-hover:text-white transition-colors">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#E8FF3A] border border-black group-hover:bg-white" />
                         {b}
                       </li>
                     ))}
                   </ul>
 
-                  <div className="mt-auto pt-8 border-t border-[#E2E2DE] flex justify-between items-center group-hover:border-[#111111]/20">
-                    <span className="text-[10px] font-bold text-[#111111] uppercase tracking-widest">Inquire Now</span>
-                    <Icon name="arrowUpRight" size={14} />
+                  <div className="mt-auto pt-8 border-t border-[#222222] flex justify-between items-center group-hover:border-[#E8FF3A]/20">
+                    <span className="text-[10px] font-bold text-[#888888] uppercase tracking-widest group-hover:text-[#E8FF3A]">Inquire Now</span>
+                    <Icon name="arrowUpRight" size={14} className="text-[#888888] group-hover:text-[#E8FF3A]" />
                   </div>
                 </div>
               </Reveal>
