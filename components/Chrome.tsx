@@ -1,122 +1,122 @@
 import React, { useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
-import { useLenis } from '@studio-freight/react-lenis';
-import { Menu, X } from 'lucide-react';
-import { Icon } from './Primitives';
+import { useEffect } from 'react';
+import { Home, Briefcase, Layers, MessageCircle, Menu, X } from 'lucide-react';
+import { LimelightNav, NavItem } from './ui/limelight-nav';
+import { Icon } from './primitives';
 
 const Logo = () => (
-  <div className="flex flex-col items-start leading-[0.8]">
-    <span className="gradient-text text-xl md:text-2xl font-black tracking-tighter uppercase">Sazaan</span>
-    <span className="text-[10px] text-white/70 tracking-[0.3em] uppercase ml-0.5">Studios</span>
+  <div className="flex items-center gap-1">
+    <div className="flex flex-col items-start leading-[0.85]">
+      <span className="text-[#111111] text-2xl md:text-3xl font-black font-barlow tracking-tightest uppercase">Sazaan</span>
+      <span className="text-[#111111] text-[10px] font-bold font-barlow tracking-[0.4em] uppercase opacity-60">Studios</span>
+    </div>
   </div>
 );
 
 const NAV_LINKS = [
-  { label: 'Home',     id: 'home'     },
-  { label: 'Services', id: 'services' },
-  { label: 'Work',     id: 'work'     },
-  { label: 'Contact',  id: 'contact'  },
+  { label: 'Home', id: 'home', icon: <Home /> },
+  { label: 'Services', id: 'services', icon: <Briefcase /> },
+  { label: 'Work', id: 'work', icon: <Layers /> },
+  { label: 'Contact', id: 'contact', icon: <MessageCircle /> },
 ] as const;
 
 export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) => void }) => {
-  const [visible, setVisible]   = useState(true);
+  const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const visibleRef = React.useRef(true);
 
-  // useLenis is proven to fire correctly alongside ReactLenis root
-  useLenis((lenis: any) => {
-    const { scroll, velocity, direction } = lenis;
-    if (scroll < 60) {
-      setVisible(true);
-    } else if (direction > 0 && velocity > 0.5) {
-      setVisible(false);
-      setMenuOpen(false);
-    } else if (direction < 0) {
-      setVisible(true);
+  // Disable body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
-  });
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [menuOpen]);
+
+  // Simplified scroll visibility logic for native scroll
+  useEffect(() => {
+    let lastScroll = 0;
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll < 60) {
+        setVisible(true);
+      } else if (currentScroll > lastScroll && currentScroll > 60) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      lastScroll = currentScroll;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navigate = (id: string) => {
     setPage(id);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
     setMenuOpen(false);
   };
 
-  const iconBtn =
-    'w-10 h-10 rounded-xl border border-white/10 bg-black/30 flex items-center justify-center ' +
-    'text-white/40 hover:text-orange-light hover:border-orange-light/20 hover:bg-orange-light/5 ' +
-    'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light';
+  const navItems: NavItem[] = NAV_LINKS.map(link => ({
+    id: link.id,
+    label: link.label,
+    icon: link.icon,
+    onClick: () => navigate(link.id)
+  }));
 
-  const navLinkClass = (id: string) =>
-    'px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] rounded-full transition-all duration-200 ' +
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light ' +
-    (page === id
-      ? 'text-orange-light bg-orange-light/10'
-      : 'text-white/50 hover:text-orange-light hover:bg-white/5');
+  const activeIndex = NAV_LINKS.findIndex(l => l.id === page);
+
+  const iconBtn =
+    'w-10 h-10 rounded-full border border-[#E2E2DE] bg-white flex items-center justify-center ' +
+    'text-[#111111] hover:bg-[#F7F7F5] hover:border-[#111111] ' +
+    'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8FF3A]';
 
   const mobileNavLinkClass = (id: string) =>
-    'px-4 py-3.5 text-sm font-bold uppercase tracking-[0.15em] rounded-xl transition-all duration-150 ' +
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light ' +
+    'px-4 py-4 text-sm font-bold uppercase tracking-widest transition-all duration-150 ' +
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8FF3A] ' +
     (page === id
-      ? 'text-orange-light bg-orange-light/10'
-      : 'text-white/50 hover:text-orange-light hover:bg-white/5');
+      ? 'text-[#111111] bg-[#E8FF3A]/10'
+      : 'text-[#555555] hover:text-[#111111]');
 
   return (
     <header role="banner">
-      {/* ── Navbar bar ── */}
       <m.div
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-0 left-0 w-full z-[999999] pointer-events-none"
+        style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
       >
-        <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-3 bg-black/60 backdrop-blur-lg border-b border-white/[0.05] pointer-events-auto">
-
-          {/* Left — Logo */}
-          <button
-            onClick={() => navigate('home')}
-            aria-label="Sazaan Digital — Home"
-            className="flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light hover:opacity-80 transition-opacity active:scale-95"
+        <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-4 bg-white/80 backdrop-blur-md border-b border-[#E2E2DE] pointer-events-auto">
+          <a
+            href="#home"
+            onClick={(e) => { e.preventDefault(); navigate('home'); }}
+            aria-label="Sazaan Studios — Home"
+            className="flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8FF3A] hover:opacity-80 transition-opacity active:scale-95 min-h-[44px]"
           >
             <Logo />
-          </button>
+          </a>
 
-          {/* Center — Desktop nav links (absolutely centered so logo/icons don't shift it) */}
-          <nav
-            className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2"
-            aria-label="Main Navigation"
-          >
-            {NAV_LINKS.map(link => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                onClick={(e) => { e.preventDefault(); navigate(link.id); }}
-                aria-current={page === link.id ? 'page' : undefined}
-                className={navLinkClass(link.id)}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
+            <LimelightNav 
+              items={navItems} 
+              defaultActiveIndex={activeIndex >= 0 ? activeIndex : 0}
+              onTabChange={(idx) => navigate(NAV_LINKS[idx].id)}
+            />
+          </div>
 
-          {/* Right — Social icons + mobile hamburger */}
           <div className="flex items-center gap-2">
             <a
-              href="https://instagram.com/sazaandigital"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow on Instagram"
-              className={iconBtn}
+              href="#contact"
+              onClick={(e) => { e.preventDefault(); navigate('contact'); }}
+              aria-label="Get in touch"
+              className="hidden lg:flex btn btn-primary py-2 px-6 text-xs min-h-[44px] items-center"
             >
-              <Icon name="share" size={16} />
+              Start a Project
             </a>
-            <button
-              onClick={() => navigate('contact')}
-              aria-label="Contact us"
-              className={iconBtn}
-            >
-              <Icon name="mail" size={16} />
-            </button>
-
             <button
               className={`md:hidden ${iconBtn}`}
               onClick={() => setMenuOpen(o => !o)}
@@ -124,26 +124,25 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
               aria-controls="mobile-nav"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             >
-              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </m.div>
 
-      {/* ── Mobile dropdown ── */}
       <AnimatePresence>
         {menuOpen && (
           <m.div
             id="mobile-nav"
             role="navigation"
             aria-label="Mobile Navigation"
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="fixed top-[57px] left-0 w-full z-[999998] md:hidden bg-black/90 backdrop-blur-2xl border-b border-white/[0.07]"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 top-[73px] z-[999998] md:hidden bg-white"
           >
-            <div className="flex flex-col py-2 px-4">
+            <div className="flex flex-col py-8 px-6 gap-2">
               {NAV_LINKS.map(link => (
                 <a
                   key={link.id}
@@ -165,118 +164,107 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
 
 export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
   const socialLinks = [
-    { name: 'globe', label: 'Back to Home', action: () => { setPage('home'); window.scrollTo(0, 0); } },
-    { name: 'share', label: 'Follow us on Instagram', url: 'https://instagram.com/sazaandigital' },
-    { name: 'mail', label: 'Email us', url: 'mailto:baloch@sazaandigital.com' }
+    { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaandigital' },
+    { name: 'mail', label: 'Email', url: 'mailto:baloch@sazaandigital.com' }
   ];
+
+
 
   return (
     <footer
-      className="relative overflow-hidden pt-16 sm:pt-24 pb-10 sm:pb-12 z-[2] bg-[var(--bg-secondary)] border-t border-[var(--border)]"
+      className="relative overflow-hidden pt-24 pb-12 z-[2] bg-white border-t border-[#E2E2DE]"
       aria-label="Site footer"
     >
-
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-24">
-          {/* Brand */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12">
           <div>
-            <div className="mb-5">
-              <Logo />
-            </div>
-            <p className="text-[13px] leading-relaxed text-[var(--text-muted)] max-w-[300px] mt-3">
-              We build what your competitors can't ignore. Build. Rank. Automate. Digital systems that scale local businesses.
+            <Logo />
+            <p className="text-sm leading-relaxed text-[#555555] max-w-[300px] mt-6 font-dmsans">
+              Digital solutions for creative studios and modern businesses. We build high-performance systems for brands that demand technical excellence.
             </p>
-            <div className="flex gap-2.5 mt-5">
-              {socialLinks.map(s => {
-                const Tag = s.url ? 'a' : 'button';
-                const props = s.url
-                  ? { href: s.url, target: '_blank', rel: 'noopener noreferrer' }
-                  : { onClick: s.action, type: 'button' as const };
-                return (
-                  <Tag
-                    key={s.name}
-                    {...(props as any)}
-                    aria-label={s.label}
-                    className="footer-icon-btn"
-                  >
-                    <Icon name={s.name} size={16} />
-                  </Tag>
-                );
-              })}
+            <div className="flex gap-3 mt-8">
+              {socialLinks.map(s => (
+                <a
+                  key={s.name}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="footer-icon-btn"
+                >
+                  <Icon name={s.name} size={18} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Navigation */}
           <nav aria-label="Footer navigation">
-            <div className="section-label mb-4">Navigate</div>
-            <ul className="flex flex-col gap-2.5">
-              {[['home','Home'], ['services','Services'], ['work','Work'], ['contact','Contact']].map(([k, l]) => (
+            <div className="section-label">Navigate</div>
+            <ul className="flex flex-col gap-4 mt-6">
+              {[['home','Home'], ['services','Services'], ['work','Work'], ['contact','Contact'], ['privacy-policy', 'Privacy Policy']].map(([k, l]) => (
                 <li key={k}>
-                  <button
-                    type="button"
-                    onClick={() => { setPage(k); window.scrollTo(0, 0); }}
-                    className="footer-nav-btn"
+                  <a
+                    href={`#${k}`}
+                    onClick={(e) => { e.preventDefault(); setPage(k); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+                    className="footer-nav-btn font-dmsans font-medium block py-2 min-h-[44px] flex items-center"
                   >
                     {l}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* Specialties (Internal SEO Links) */}
           <nav aria-label="Specialties navigation">
-            <div className="section-label mb-4">Specialties</div>
-            <ul className="flex flex-col gap-2.5">
+            <div className="section-label">Focus</div>
+            <ul className="flex flex-col gap-4 mt-6">
               {[
-                'Medical Web Design',
-                'Niche Cafe Branding',
-                'High-Authority SEO',
-                'Custom CRM Systems',
-                'Automation Engines'
+                'Search Engine Optimization',
+                'Advanced CRM Systems',
+                'Business Automation',
+                'Digital Architecture',
+                'Performance Engineering'
               ].map((l) => (
                 <li key={l}>
-                  <button
-                    type="button"
-                    onClick={() => { setPage('services'); window.scrollTo(0, 0); }}
-                    className="footer-nav-btn"
+                  <a
+                    href="#services"
+                    onClick={(e) => { e.preventDefault(); setPage('services'); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+                    className="footer-nav-btn font-dmsans font-medium block py-2 min-h-[44px] flex items-center text-left"
                   >
                     {l}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* Contact */}
           <div>
-            <div className="section-label mb-4">Contact</div>
-            <div className="flex flex-col items-start gap-2">
+            <div className="section-label">Contact</div>
+            <div className="flex flex-col items-start gap-4 mt-6">
               <a
                 href="mailto:baloch@sazaandigital.com"
-                className="text-[var(--orange-light)] text-[15px] font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-light rounded"
+                className="text-[#111111] text-lg font-black font-barlow uppercase tracking-tight hover:opacity-60 transition-opacity"
               >
                 baloch@sazaandigital.com
               </a>
+              <p className="text-[#555555] text-sm font-dmsans">Available Worldwide</p>
+              <p className="text-[#555555] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-40">© 2026 Sazaan Studios</p>
             </div>
-            <p className="text-[var(--text-muted)] text-[13px] mt-2.5">Remote — US &amp; UK</p>
-            <p className="text-[var(--text-muted)] text-xs mt-5 font-mono">© 2026 Sazaan Studios</p>
           </div>
         </div>
       </div>
 
-      {/* Large wordmark */}
       <div
-        className="text-center mt-14 sm:mt-16 select-none pointer-events-none"
+        className="text-center mt-24 select-none pointer-events-none opacity-[0.15]"
         aria-hidden="true"
         style={{
-          fontFamily: 'var(--font-heading)', fontWeight: 700,
-          fontSize: 'clamp(60px, 18vw, 240px)', lineHeight: 0.9,
-          letterSpacing: '-0.06em',
-          background: 'linear-gradient(180deg, rgba(255,201,123,0.22) 0%, rgba(255,176,124,0.02) 100%)',
-          WebkitBackgroundClip: 'text', backgroundClip: 'text',
-          WebkitTextFillColor: 'transparent', color: 'transparent',
-          paddingTop: 20,
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 900,
+          fontSize: 'clamp(60px, 20vw, 300px)',
+          lineHeight: 0.8,
+          letterSpacing: '-0.05em',
+          color: '#111111',
+          textTransform: 'uppercase'
         }}
       >
         SAZAAN
@@ -284,4 +272,5 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
     </footer>
   );
 };
+
 

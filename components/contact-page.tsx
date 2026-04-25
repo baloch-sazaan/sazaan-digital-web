@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { m, AnimatePresence } from "framer-motion"
 import { createPortal } from 'react-dom';
-import { Icon } from "./Primitives"
+import { Icon, SEOMetadata } from "./primitives"
 import emailjs from '@emailjs/browser';
 import { dbService, type ContactSubmission } from '../services/db.service';
 
@@ -17,45 +17,40 @@ const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-xl"
+      className="fixed inset-0 z-[2000000] flex items-center justify-center p-4 sm:p-6 bg-[#F7F7F5]/90 backdrop-blur-md"
       onClick={onClose}
     >
       <m.div
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        initial={{ scale: 0.98, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        transition={{ type: "spring", damping: 25, stiffness: 400 }}
+        exit={{ scale: 0.98, opacity: 0, y: 10 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[440px] bg-[#0A0A0A] border border-white/10 rounded-[40px] p-8 sm:p-12 text-center shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] overflow-hidden"
+        className="relative w-full max-w-[480px] bg-white border border-[#E2E2DE] rounded-none p-10 sm:p-16 text-center shadow-none overflow-hidden"
       >
-        <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r ${status === 'success' ? 'from-orange-light to-orange-400' : status === 'info' ? 'from-orange-light/40 to-orange-light/10' : 'from-red-500 to-red-600'}`} />
+        <div className={`absolute top-0 left-0 w-full h-2 ${status === 'success' ? 'bg-[#E8FF3A]' : status === 'info' ? 'bg-[#E2E2DE]' : 'bg-red-500'}`} />
         
-        <div className={`w-24 h-24 mx-auto mb-8 rounded-[32px] rotate-3 flex items-center justify-center border-2 ${status === 'success' ? 'border-orange-light/20 bg-orange-light/5' : status === 'info' ? 'border-white/10 bg-white/5' : 'border-red-500/20 bg-red-500/5'}`}>
-          <m.div
-             animate={status === 'info' ? { y: [0, -4, 0], rotate: [0, 5, -5, 0] } : {}}
-             transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-          >
-            <Icon 
-              name={status === 'success' ? 'checkCircle' : status === 'info' ? 'alertCircle' : 'share'} 
-              size={48} 
-              className={`${status === 'success' ? 'text-orange-light' : status === 'info' ? 'text-orange-light/60' : 'text-red-500'} -rotate-3`} 
-            />
-          </m.div>
+        <div className={`w-28 h-28 mx-auto mb-10 rounded-full flex items-center justify-center border border-[#E2E2DE] ${status === 'success' ? 'bg-[#E8FF3A]' : 'bg-[#F7F7F5]'}`}>
+          <Icon 
+            name={status === 'success' ? 'checkCircle' : status === 'info' ? 'alertCircle' : 'share'} 
+            size={48} 
+            className="text-[#111111]" 
+          />
         </div>
 
-        <h3 className="text-3xl sm:text-4xl font-heading font-black text-white mb-4 uppercase tracking-tighter leading-tight italic">
-          {title || (status === 'success' ? 'LOCKED IN' : status === 'info' ? 'HOLD UP' : 'ERROR')}
+        <h3 className="text-4xl sm:text-5xl font-black text-[#111111] mb-6 uppercase tracking-tightest leading-none font-barlow italic">
+          {title || (status === 'success' ? 'TRANSMITTED' : status === 'info' ? 'HOLD UP' : 'ERROR')}
         </h3>
         
-        <p className="text-white/50 font-medium leading-relaxed mb-10 text-base sm:text-lg">
+        <p className="text-[#555555] font-bold font-dmsans leading-relaxed mb-12 text-base sm:text-lg">
           {message || (status === 'success' 
-            ? "We've received your inquiry. Our team will get back to you within 24 hours."
-            : status === 'info' ? "You need to press the privacy policy button to continue." : "Submission failed. Please check your details and try again.")}
+            ? "Your architecture inquiry is received. Expect a response within 24 hours."
+            : status === 'info' ? "Please accept the privacy policy to continue your transmission." : "Architecture transmission failed. Verify details and retry.")}
         </p>
 
         <button 
           onClick={onClose}
-          className="w-full py-5 rounded-2xl bg-orange-light text-black font-black text-lg sm:text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_20px_40px_rgba(255,176,124,0.1)]"
+          className="w-full py-6 rounded-none bg-[#E8FF3A] text-[#111111] font-black text-xl uppercase font-barlow tracking-widest hover:bg-[#111111] hover:text-white transition-all border border-[#111111]"
         >
           {status === 'info' ? 'ACCEPT & CLOSE' : 'CONTINUE'}
         </button>
@@ -91,7 +86,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       try {
         emailjs.init(EJS_PUBLIC_KEY);
       } catch {
-        // silent — EmailJS init failure handled at send time
+        // silent
       }
     }
   }, [EJS_PUBLIC_KEY]);
@@ -124,13 +119,11 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       return;
     }
 
-    // 1. Fallback Logic for Optional Fields
     const sanitizedCompany = formData.company?.trim() || "-";
     const sanitizedPhone = formData.phone?.trim() || "-";
 
-    // Primary Notification Payload (Internal — sent to YOUR inbox)
     const templateParams = {
-      to_email: 'baloch@sazaandigital.com', // Always routes to agency inbox
+      to_email: 'baloch@sazaandigital.com',
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
       company: sanitizedCompany,
@@ -139,9 +132,8 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       time: new Date().toLocaleString(),
     };
 
-    // Autoresponder Payload (Client — sent to the USER's email only)
     const autoReplyParams = {
-      to_email: formData.email, // Routes to the user who submitted the form
+      to_email: formData.email,
       name: formData.firstName,
       email: formData.email,
       message: formData.message,
@@ -150,7 +142,6 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     };
 
     try {
-      // Secondary fail-safe check
       if (!formData.agreed) throw new Error('Internal Guard: Privacy agreement missing');
 
       await emailjs.send(EJS_SERVICE, EJS_TMPL_NOTIFY, templateParams, EJS_PUBLIC_KEY);
@@ -164,7 +155,6 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
         message: formData.message
       });
 
-      // Confirmation email — non-blocking, best-effort
       emailjs.send(EJS_SERVICE, EJS_TMPL_CONFIRM, autoReplyParams, EJS_PUBLIC_KEY).catch(() => {});
 
       setStatus('success');
@@ -182,41 +172,39 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative isolate bg-[#050505] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
+      className="relative isolate bg-[#F7F7F5] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
     >
+      <SEOMetadata 
+        title="Contact Our Studio" 
+        description="Ready to scale? Secure your industry authority today. We architect high-performance digital experiences for creative studios and scaling enterprises."
+        canonical="https://sazaandigital.com/#contact"
+      />
       {/* Back Button */}
       <div className="max-w-2xl mx-auto mb-12">
         <button 
           onClick={() => { setPage('home'); }}
-          className="group flex items-center gap-3 text-white/40 hover:text-orange-light transition-all duration-300 font-bold tracking-widest text-xs uppercase cursor-pointer"
+          className="group flex items-center gap-4 text-[#111111]/40 hover:text-[#111111] transition-all duration-300 font-bold tracking-widest text-xs uppercase cursor-pointer"
         >
-          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-orange-light/30 group-hover:bg-orange-light/5 transition-all">
-            <Icon name="share" size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+          <div className="w-12 h-12 rounded-full border border-[#E2E2DE] bg-white flex items-center justify-center group-hover:border-[#E8FF3A] group-hover:bg-[#E8FF3A] transition-all">
+            <Icon name="share" size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform text-[#111111]" />
           </div>
-          <span>Back to Home</span>
+          <span className="font-dmsans">Exit to Terminal</span>
         </button>
-      </div>
-      {/* Background Ambience */}
-      <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-        <div
-          style={{
-            clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-          className="relative left-1/2 -z-10 aspect-1155/678 w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#FFB07C] to-[#9089fc] opacity-10 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
-        />
       </div>
 
       <div className="mx-auto max-w-2xl text-center relative z-10">
-        <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-heading">Let's build something elite</h2>
-        <p className="mt-4 text-lg/8 text-white/40">
-          Ready to dominate your market with high-performance web experiences and AI-driven workflows? Let's talk.
+        <h1 className="text-[clamp(2.5rem,8vw,7rem)] font-black tracking-tightest text-[#111111] font-barlow uppercase leading-none">
+          Build Your <span className="italic whitespace-nowrap">Digital Presence</span>
+        </h1>
+        <p className="mt-8 text-lg font-dmsans text-[#555555] leading-relaxed max-w-lg mx-auto uppercase tracking-wider">
+          Secure your industry authority. We architect high-performance experiences for creative studios and scaling enterprises.
         </p>
       </div>
 
-      <form onSubmit={handleFormSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20 relative z-10">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <form onSubmit={handleFormSubmit} className="mx-auto mt-16 max-w-xl sm:mt-24 relative z-10">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
           <div>
-            <label htmlFor="firstName" className="block text-sm/6 font-semibold text-white">
+            <label htmlFor="firstName" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               First name
             </label>
             <div className="mt-2.5">
@@ -228,12 +216,12 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="given-name"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="lastName" className="block text-sm/6 font-semibold text-white">
+            <label htmlFor="lastName" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Last name
             </label>
             <div className="mt-2.5">
@@ -245,29 +233,30 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="family-name"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="company" className="block text-sm/6 font-semibold text-white">
-              Company
+            <label htmlFor="company" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+              Niche / Company
             </label>
             <div className="mt-2.5">
               <input
                 id="company"
                 name="company"
                 type="text"
+                placeholder="e.g. Creative Studio, Tech Enterprise"
                 autoComplete="organization"
                 value={formData.company}
                 onChange={handleChange}
-                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans placeholder:text-[#BBBBBB]"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="email" className="block text-sm/6 font-semibold text-white">
-              Email
+            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+              Email Address
             </label>
             <div className="mt-2.5">
               <input
@@ -278,29 +267,29 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="phone" className="block text-sm/6 font-semibold text-white">
+            <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Phone number
             </label>
             <div className="mt-2.5">
-              <div className="flex rounded-xl bg-white/5 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-orange-light transition-all">
+              <div className="flex border border-[#E2E2DE] bg-white focus-within:border-[#E8FF3A] transition-all">
                 <div className="grid shrink-0 grid-cols-1 focus-within:relative">
                   <select
                     id="country"
                     name="country"
                     autoComplete="country"
                     aria-label="Country"
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-xl bg-transparent py-4 pr-7 pl-3.5 text-base text-white/60 focus:outline-none sm:text-sm/6 [&>option]:bg-[#0d0d0d] [&>option]:text-white"
+                    className="col-start-1 row-start-1 w-full appearance-none bg-transparent py-5 pr-10 pl-4 text-base text-[#111111] focus:outline-none sm:text-sm font-dmsans"
                   >
                     <option value="US">US</option>
                     <option value="PK">PK</option>
                     <option value="UK">UK</option>
                   </select>
-                  <div className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-orange-light/40">
+                  <div className="pointer-events-none col-start-1 row-start-1 mr-3 size-4 self-center justify-self-end text-[#111111]/40">
                     <ChevronDownIcon />
                   </div>
                 </div>
@@ -311,14 +300,14 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                   placeholder="123-456-7890"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="block min-w-0 grow bg-transparent py-4 pr-3 pl-1 text-base text-white placeholder:text-white/20 focus:outline-none sm:text-sm/6"
+                  className="block min-w-0 grow bg-transparent py-5 pr-4 pl-2 text-base text-[#111111] outline-none sm:text-sm font-dmsans placeholder:text-[#BBBBBB]"
                 />
               </div>
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="message" className="block text-sm/6 font-semibold text-white">
-              Message
+            <label htmlFor="message" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+              Transmission Details
             </label>
             <div className="mt-2.5">
               <textarea
@@ -328,7 +317,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 rows={4}
                 value={formData.message}
                 onChange={handleChange}
-                className="block w-full rounded-xl bg-white/5 px-3.5 py-4 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-white/20 focus:outline-2 focus:-outline-offset-2 focus:outline-orange-light transition-all"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
@@ -340,25 +329,39 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 type="checkbox"
                 checked={formData.agreed}
                 onChange={handleChange}
-                className="size-4 h-4 w-4 rounded border-white/10 bg-white/5 text-orange-light focus:ring-orange-light focus:ring-offset-[#050505]"
+                className="size-5 h-5 w-5 rounded-none border-[#E2E2DE] text-[#E8FF3A] focus:ring-[#E8FF3A]"
               />
             </div>
-            <label htmlFor="agreed" className="text-sm/6 text-white/40">
-              By selecting this, you agree to our{' '}
-              <a href="#" className="font-semibold whitespace-nowrap text-orange-light hover:underline">
-                privacy policy
-              </a>
+            <label htmlFor="agreed" className="text-xs font-bold text-[#555555] font-dmsans uppercase tracking-wider">
+              I agree to the{' '}
+              <button 
+                type="button"
+                onClick={() => setPage('privacy-policy')}
+                className="text-[#111111] border-b border-[#111111] hover:bg-[#E8FF3A] transition-all"
+              >
+                Privacy Architecture
+              </button>
               .
             </label>
           </div>
         </div>
-        <div className="mt-10">
+        <div className="mt-12">
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="block w-full rounded-xl bg-orange-light px-3.5 py-4 text-center text-lg font-bold text-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-orange-950/20"
+            className="block w-full rounded-none bg-[#E8FF3A] px-6 py-6 text-center text-xl font-black text-[#111111] uppercase font-barlow tracking-widest hover:bg-[#111111] hover:text-white transition-all border border-[#111111] disabled:opacity-50"
           >
-            {status === 'sending' ? 'Transmitting...' : "Let's talk"}
+            {status === 'sending' ? 'Transmitting...' : "Initiate Architecture"}
+          </button>
+        </div>
+        
+        <div className="mt-12 text-center">
+          <button 
+            type="button"
+            onClick={() => setPage('privacy-policy')}
+            className="text-[10px] font-bold text-[#555555]/40 uppercase tracking-widest hover:text-[#111111] transition-colors"
+          >
+            Privacy Policy
           </button>
         </div>
       </form>
@@ -374,3 +377,4 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     </m.main>
   )
 }
+

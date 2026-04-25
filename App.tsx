@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, Component, ErrorInfo, ReactNode, lazy, Suspense } from 'react';
 import { AnimatePresence, LazyMotion, m, useScroll, useSpring } from 'framer-motion';
-import { ReactLenis } from '@studio-freight/react-lenis';
-import '@/assets/css/backgrounds.css';
-import { HeroSection } from './components/HomeSectionsA';
+import { useLenis } from '@studio-freight/react-lenis';
+
+import { HeroSection } from './components/home-sections-a';
+import { SEOMetadata } from './components/primitives';
 import { Project } from './types';
 import { dbService } from './services/db.service';
 
@@ -13,49 +14,44 @@ const isTouch =
   window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
 // Lazy-loaded components for better performance
-const Navbar = lazy(() => import('./components/Chrome').then(m => ({ default: m.Navbar })));
-const Footer = lazy(() => import('./components/Chrome').then(m => ({ default: m.Footer })));
-const HeroParallaxDemo = lazy(() => import('./components/PortfolioGallery').then(m => ({ default: m.HeroParallaxDemo })));
+const Navbar = lazy(() => import('./components/chrome').then(m => ({ default: m.Navbar })));
+const Footer = lazy(() => import('./components/chrome').then(m => ({ default: m.Footer })));
 const ServicesGlowingGrid = lazy(() => import('./components/ui/services-grid'));
-const TerminalSection = lazy(() => import('./components/HomeSectionsB').then(m => ({ default: m.TerminalSection })));
-const CTABannerSection = lazy(() => import('./components/CTABannerSection').then(m => ({ default: m.CTABannerSection })));
-const ServicesPage = lazy(() => import('./components/ServicesPage').then(m => ({ default: m.ServicesPage })));
-const WorkPage = lazy(() => import('./components/WorkPage').then(m => ({ default: m.WorkPage })));
-const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
-const NotFoundPage = lazy(() => import('./components/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
-const ProjectModal = lazy(() => import('./components/ProjectModal').then(m => ({ default: m.ProjectModal })));
+const CTABannerSection = lazy(() => import('./components/cta-banner-section').then(m => ({ default: m.CTABannerSection })));
+const ServicesPage = lazy(() => import('./components/services-page').then(m => ({ default: m.ServicesPage })));
+const WorkPage = lazy(() => import('./components/work-page').then(m => ({ default: m.WorkPage })));
+const ContactPage = lazy(() => import('./components/contact-page').then(m => ({ default: m.ContactPage })));
+const PrivacyPolicyPage = lazy(() => import('./components/privacy-policy-page').then(m => ({ default: m.PrivacyPolicyPage })));
+const NotFoundPage = lazy(() => import('./components/not-found-page').then(m => ({ default: m.NotFoundPage })));
+const ProjectModal = lazy(() => import('./components/project-modal').then(m => ({ default: m.ProjectModal })));
 
-const TechStackSection = lazy(() => import('./components/TechStackSection').then((m) => ({ default: m.TechStackSection })));
-const AwardsSection = lazy(() => import('./components/AwardsSection').then((m) => ({ default: m.AwardsSection })));
-import CustomCursor from './components/ui/CustomCursor';
+const Testimonials = lazy(() => import('./components/ui/unique-testimonial').then((m) => ({ default: m.Testimonials })));
+const RevealImageList = lazy(() => import('./components/ui/reveal-images').then((m) => ({ default: m.RevealImageList })));
+import CustomCursor from './components/ui/custom-cursor';
+import Preloader from './components/ui/preloader';
 const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m => ({ default: m.ScrollToTop })));
 
-const VALID_PAGES = ['home', 'services', 'work', 'contact'] as const;
+const VALID_PAGES = ['home', 'services', 'work', 'contact', 'privacy-policy'] as const;
 
 const BackgroundWrapper = React.memo(() => (
   <div 
-    className="fixed inset-0 z-[-1] pointer-events-none bg-[#0a0a0a]"
-    style={{
-      backgroundImage: `
-        radial-gradient(circle at 15% 15%, rgba(255, 176, 124, 0.12), transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(232, 130, 90, 0.1), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.05), transparent 70%),
-        radial-gradient(circle at 10% 90%, rgba(255, 176, 124, 0.04), transparent 40%),
-        linear-gradient(180deg, #0a0a0a 0%, #080808 100%)
-      `,
-      contain: 'strict'
-    }}
-  >
-    <div className="absolute inset-0 noise opacity-[0.015] pointer-events-none" style={{ contain: 'strict' }} />
-  </div>
+    className="fixed inset-0 z-[-1] pointer-events-none bg-[#F7F7F5]"
+    style={{ contain: 'strict' }}
+  />
 ));
+
+const LoadingSkeleton = ({ className = "h-96" }: { className?: string }) => (
+  <div className={`w-full ${className} bg-[#E2E2DE]/30 animate-pulse flex items-center justify-center`}>
+    <div className="w-10 h-10 border-2 border-[#111111]/10 border-t-[#111111] rounded-full animate-spin" />
+  </div>
+);
 
 const StructuredData = React.memo(() => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Sazaan Studios",
-    "description": "Elite Web Design, SEO, and Automation Agency for ambitious local businesses.",
+    "description": "Sazaan Studios: Creative Digital Agency. Elite Web Design, SEO, and Automation Agency for creative studios and modern businesses.",
     "url": "https://sazaandigital.com",
     "logo": "https://sazaandigital.com/favicon.webp",
     "sameAs": [
@@ -65,7 +61,7 @@ const StructuredData = React.memo(() => {
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Remote",
-      "addressRegion": "US & UK",
+      "addressRegion": "Global",
       "addressCountry": "US"
     }
   };
@@ -81,21 +77,28 @@ const StructuredData = React.memo(() => {
 class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, { hasError: boolean }> {
   state = { hasError: false };
   static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch(error: Error, info: ErrorInfo) { console.error('Section error:', error, info); }
+  componentDidCatch(_error: Error, _info: ErrorInfo) { /* Silent for production - handled by ErrorBoundary UI */ }
+
+  handleReset = () => {
+    this.setState({ hasError: false });
+    // Redirect to home and clear state
+    window.location.href = '/'; 
+  };
+
   render() {
     if (this.state.hasError) {
       return this.props.fallback ?? (
-        <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-[#0a0a0a]">
-          <div className="w-16 h-16 mb-8 rounded-2xl bg-orange-light/10 border border-orange-light/20 flex items-center justify-center">
-            <span className="text-orange-light font-mono text-xl">!</span>
+        <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-[#F7F7F5]">
+          <div className="w-16 h-16 mb-8 rounded-xl bg-white border border-[#E2E2DE] flex items-center justify-center">
+            <span className="text-[#111111] font-barlow font-black text-2xl">!</span>
           </div>
-          <h1 className="text-3xl font-black gradient-text mb-4 uppercase tracking-tighter">RECOVERY_MODE_ACTIVE</h1>
-          <p className="text-white/40 mb-8 max-w-md font-medium leading-relaxed">
-            The digital architecture encountered an unexpected sequence. Our systems are self-healing, but a manual return to the origin is required.
+          <h1 className="text-4xl font-black font-barlow mb-4 uppercase tracking-tightest text-[#111111]">SYSTEM_ERROR</h1>
+          <p className="text-[#555555] mb-8 max-w-md font-medium leading-relaxed font-dmsans">
+            Our systems are self-healing. A manual return to the origin is recommended.
           </p>
           <button 
-            onClick={() => window.location.reload()}
-            className="btn btn-primary px-10 py-4"
+            onClick={this.handleReset}
+            className="px-10 py-4 bg-[#E8FF3A] text-[#111111] font-black font-barlow uppercase tracking-tightest shadow-xl hover:scale-105 transition-transform"
           >
             RESTORE SYSTEM
           </button>
@@ -110,39 +113,48 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
   <m.section
     id="home-page"
     className="relative"
-    initial={{ opacity: 0, y: 6 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -6 }}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
+    <SEOMetadata 
+      title="Elite Web Design & Digital Solutions" 
+      description="Sazaan Studios: Premier digital agency building high-performance websites, SEO engines, and business automation for creative studios and modern brands."
+      canonical="https://sazaandigital.com/"
+    />
     <HeroSection setPage={setPage} />
-    <Suspense fallback={<div className="min-h-[400px] bg-white/[0.02] animate-pulse rounded-3xl mx-6" />}>
-      <HeroParallaxDemo />
-    </Suspense>
-    <Suspense fallback={<div className="min-h-[500px]" />}>
+    <Suspense fallback={<LoadingSkeleton className="h-[500px]" />}>
       <ServicesGlowingGrid setPage={setPage} />
     </Suspense>
-    <ErrorBoundary>
-      <Suspense fallback={<div className="min-h-[500px]" />}>
-        <TechStackSection />
-      </Suspense>
-      <Suspense fallback={<div className="min-h-[300px]" />}>
-        <AwardsSection />
-      </Suspense>
-    </ErrorBoundary>
-    <Suspense fallback={null}>
-      <TerminalSection />
+    <Suspense fallback={<LoadingSkeleton className="h-[600px]" />}>
+      <RevealImageList />
     </Suspense>
-    <Suspense fallback={null}>
+    <Suspense fallback={<LoadingSkeleton className="h-[400px]" />}>
+      <Testimonials />
+    </Suspense>
+    <Suspense fallback={<LoadingSkeleton className="h-[300px]" />}>
       <CTABannerSection setPage={setPage} />
     </Suspense>
   </m.section>
 );
 
+const ScrollProgress = React.memo(() => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
+  
+  return (
+    <m.div
+      aria-hidden="true"
+      className="fixed top-0 left-0 right-0 h-[5px] bg-[#E8FF3A] origin-[0%] z-[999999] pointer-events-none"
+      style={{ scaleX }}
+    />
+  );
+});
+
 export default function App() {
   const [page, setPageRaw] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      // Priority: 1. URL Hash, 2. localStorage, 3. Default 'home'
       const hash = window.location.hash.replace('#', '');
       const saved = localStorage.getItem('sazaan_pref_page');
       return hash || saved || 'home';
@@ -150,15 +162,16 @@ export default function App() {
     return 'home';
   });
 
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
+  const lenis = useLenis();
+
   const setPage = (newPage: string) => {
     if (newPage === page) return;
     setPageRaw(newPage);
     localStorage.setItem('sazaan_pref_page', newPage);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    lenis?.scrollTo(0, { immediate: true });
     window.history.pushState({ page: newPage }, '', `#${newPage}`);
   };
-
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     if (!isTouch) {
@@ -171,15 +184,14 @@ export default function App() {
         const hash = window.location.hash.replace('#', '');
         setPageRaw(hash || 'home');
       }
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      window.scrollTo(0, 0);
     };
     window.addEventListener('popstate', handlePopState);
     window.history.replaceState({ page }, '', window.location.hash || '#home');
     return () => window.removeEventListener('popstate', handlePopState);
   }, [page]);
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -199,120 +211,106 @@ export default function App() {
     dbService.syncPendingSubmissions();
   }, []);
 
-  useEffect(() => {
-    if (page) {
-      window.scrollTo(0, 0);
-      dbService.trackPageView(page);
-    }
-  }, [page]);
-
-  useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [selectedProject]);
-
-  const isValidPage = (VALID_PAGES as readonly string[]).includes(page);
+  const isValidPage = (VALID_PAGES as readonly string[]).includes(page as any);
   const showFooter = page !== 'contact' && isValidPage;
 
-  const lenisOptions = {
-    lerp: 0.12,
-    duration: 1,
-    smoothWheel: true,
-    smoothTouch: false,
-    wheelMultiplier: 1,
-    touchMultiplier: 2,
-    infinite: false,
-  };
-
-  const inner = (
-    <LazyMotion features={loadFeatures}>
-      <ErrorBoundary>
-        <m.div
-          aria-hidden="true"
-          className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-orange-300 origin-[0%] z-[99999] pointer-events-none"
-          style={{ scaleX }}
-        />
-        <StructuredData />
-        {isValidPage && <Navbar page={page} setPage={setPage} />}
-        <CustomCursor />
-        <Suspense fallback={null}><ScrollToTop /></Suspense>
-        <BackgroundWrapper />
-        <main id="main-content" role="main" className="relative min-h-screen">
-          <AnimatePresence mode="wait">
-              {page === 'home' && (
-                <m.div 
-                  key="home" 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }} 
-                  transition={{ duration: 0.15 }} 
-                  className="relative"
-                  style={{ contentVisibility: 'auto', containIntrinsicSize: '0 8000px' }}
-                >
-                  <HomePage setPage={setPage} />
-                </m.div>
-              )}
-              {page === 'services' && (
-                <m.div 
-                  key="services" 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }} 
-                  transition={{ duration: 0.15 }} 
-                  className="relative"
-                  style={{ contentVisibility: 'auto', containIntrinsicSize: '0 3000px' }}
-                >
-                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}><ServicesPage setPage={setPage} /></Suspense>
-                </m.div>
-              )}
-              {page === 'work' && (
-                <m.div 
-                  key="work" 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }} 
-                  transition={{ duration: 0.15 }} 
-                  className="relative"
-                  style={{ contentVisibility: 'auto', containIntrinsicSize: '0 4000px' }}
-                >
-                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}><WorkPage setPage={setPage} setSelectedProject={setSelectedProject} /></Suspense>
-                </m.div>
-              )}
-              {page === 'contact' && (
-                <m.div 
-                  key="contact" 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }} 
-                  transition={{ duration: 0.15 }} 
-                  className="relative"
-                  style={{ contentVisibility: 'auto', containIntrinsicSize: '0 1000px' }}
-                >
-                  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}><ContactPage setPage={setPage} /></Suspense>
-                </m.div>
-              )}
-              {!isValidPage && (
-                <Suspense fallback={<div className="min-h-screen" />}><NotFoundPage key="404" setPage={setPage} /></Suspense>
-              )}
-          </AnimatePresence>
-          {showFooter && <Footer setPage={setPage} />}
-        </main>
-        <AnimatePresence>
-          {selectedProject && (
-            <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-          )}
-        </AnimatePresence>
-      </ErrorBoundary>
-    </LazyMotion>
-  );
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <ReactLenis root options={lenisOptions}>
-      {inner}
-    </ReactLenis>
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
+      
+      {!isLoading && (
+        <LazyMotion features={loadFeatures}>
+          <ErrorBoundary>
+            <ScrollProgress />
+            <StructuredData />
+            {isValidPage && <Suspense fallback={null}><Navbar page={page} setPage={setPage} /></Suspense>}
+            <CustomCursor />
+            <Suspense fallback={null}><ScrollToTop /></Suspense>
+            <BackgroundWrapper />
+
+            <main id="main-content" role="main" className="relative min-h-screen overflow-x-hidden">
+              <AnimatePresence mode="wait">
+                  {page === 'home' && (
+                    <m.div 
+                      key="home" 
+                      initial={{ opacity: 0 }} 
+                      animate={{ opacity: 1 }} 
+                      exit={{ opacity: 0 }} 
+                      transition={{ duration: 0.15 }} 
+                      className="relative"
+                    >
+                      <HomePage setPage={setPage} />
+                    </m.div>
+                  )}
+                  {page === 'services' && (
+                    <m.div 
+                      key="services" 
+                      initial={{ opacity: 0 }} 
+                      animate={{ opacity: 1 }} 
+                      exit={{ opacity: 0 }} 
+                      transition={{ duration: 0.15 }} 
+                      className="relative"
+                    >
+                      <Suspense fallback={<LoadingSkeleton className="h-screen" />}><ServicesPage setPage={setPage} /></Suspense>
+                    </m.div>
+                  )}
+                  {page === 'work' && (
+                    <m.div 
+                      key="work" 
+                      initial={{ opacity: 0 }} 
+                      animate={{ opacity: 1 }} 
+                      exit={{ opacity: 0 }} 
+                      transition={{ duration: 0.15 }} 
+                      className="relative"
+                    >
+                      <Suspense fallback={<LoadingSkeleton className="h-screen" />}><WorkPage setPage={setPage} setSelectedProject={setSelectedProject} /></Suspense>
+                    </m.div>
+                  )}
+                  {page === 'contact' && (
+                    <m.div 
+                      key="contact" 
+                      initial={{ opacity: 0 }} 
+                      animate={{ opacity: 1 }} 
+                      exit={{ opacity: 0 }} 
+                      transition={{ duration: 0.15 }} 
+                      className="relative"
+                    >
+                      <Suspense fallback={<LoadingSkeleton className="h-screen" />}><ContactPage setPage={setPage} /></Suspense>
+                    </m.div>
+                  )}
+                  {page === 'privacy-policy' && (
+                    <m.div 
+                      key="privacy-policy" 
+                      initial={{ opacity: 0 }} 
+                      animate={{ opacity: 1 }} 
+                      exit={{ opacity: 0 }} 
+                      transition={{ duration: 0.15 }} 
+                      className="relative"
+                    >
+                      <Suspense fallback={<LoadingSkeleton className="h-screen" />}><PrivacyPolicyPage /></Suspense>
+                    </m.div>
+                  )}
+                  {!isValidPage && (
+                    <Suspense fallback={<LoadingSkeleton className="h-screen" />}><NotFoundPage key="404" setPage={setPage} /></Suspense>
+                  )}
+              </AnimatePresence>
+              {showFooter && <Suspense fallback={null}><Footer setPage={setPage} /></Suspense>}
+            </main>
+
+            <AnimatePresence>
+              {selectedProject && (
+                <Suspense fallback={null}>
+                  <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+                </Suspense>
+              )}
+            </AnimatePresence>
+          </ErrorBoundary>
+        </LazyMotion>
+      )}
+    </>
   );
 }

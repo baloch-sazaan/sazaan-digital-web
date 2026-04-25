@@ -3,47 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111111">
   
-  <title>Sazaan Studios | Architects of Digital Prestige</title>
-  <meta name="description" content="Sazaan Studios is a premier creative agency building elite websites, SEO growth engines, and business automation for local businesses. Based in Balochistan, serving globally." />
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/webp" href="/favicon.webp">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@800&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://esmochzrjoxsvgbcuhug.supabase.co" crossorigin />
-  
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-  <link rel="dns-prefetch" href="https://esmochzrjoxsvgbcuhug.supabase.co" />
 
-  <!-- Sazaan Design Tokens (Critical Inline CSS) -->
-  <style>
-    :root{--accent-orange:#FFB07C;--bg-black:#0a0a0a}body{background:var(--bg-black);color:#fff;margin:0;font-family:'Mosvita',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}#splash-screen{position:fixed;inset:0;z-index:9999999;background:var(--bg-black);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.4,0,.2,1),visibility .6s}.splash-logo{width:70px;height:70px;border-radius:20px;background:rgba(255,176,124,.05);padding:15px;border:1px solid rgba(255,176,124,.1);animation:s-pulse 2s infinite ease-in-out;display:flex;align-items:center;justify-content:center}.splash-logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,176,124,.3))}.splash-text{margin-top:1.5rem;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:.5em;color:rgba(255,255,255,.3)}.splash-text span{color:var(--accent-orange);animation:s-blink 1s infinite}@keyframes s-pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.03);opacity:1}}@keyframes s-blink{0%,100%{opacity:.3}50%{opacity:1}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}body.app-ready #splash-screen{opacity:0;visibility:hidden;pointer-events:none}
-  </style>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
+  </noscript>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/webp" href="/favicon.webp" />
+  <link rel="stylesheet" href="/assets/css/splash.css" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Sazaan Studios",
+      "url": "https://sazaandigital.com",
+      "logo": "https://sazaandigital.com/favicon.webp",
+      "description": "Elite web design, technical SEO, and business automation agency for creative studios and modern brands.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "hello@sazaandigital.com",
+        "contactType": "sales"
+      },
+      "sameAs": [
+        "https://instagram.com/sazaandigital",
+        "https://linkedin.com/company/sazaandigital"
+      ]
+    }
+  </script>
 </head>
 <body>
   <!-- Accessibility Skip Link -->
-  <a href="#root" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#FFB07C] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
-
-  <div id="splash-screen" aria-hidden="true">
-    <div class="splash-logo"><img src="/favicon.webp" alt="Sazaan Studios Logo" width="67" height="67" style="width: 67px; height: 67px;" /></div>
-    <div class="splash-text">Sazaan is <span>Active</span></div>
-  </div>
-
-  <section class="sr-only">
-    <h1>Sazaan Studios</h1>
-    <p>We build what your competitors can't ignore. Build. Rank. Automate. Digital systems that scale local businesses.</p>
-    <h2>Premium Web Development & Design</h2>
-    <p>At Sazaan Studios, we believe that the delta between "good" and "elite" is found in the details that others ignore. Our development stack is engineered for speed, utilizing React and Vite to deliver near-instantaneous navigation. We employ advanced motion design not just for decoration, but to guide user intent and reduce cognitive load. This commitment to technical perfection extends to our content strategy, where we craft narratives that resonate with high-value clients. Whether you are a clinic looking to scale your patient list or a cafe aiming to become a neighborhood staple, our digital architecture provides the scalable foundation you need to thrive in an increasingly crowded marketplace. We are architects of digital prestige, building the future of local commerce one pixel at a time.</p>
-    <h3>Data-Driven SEO Strategies for High-Authority Dominance</h3>
-    <p>The choice of a digital partner defines the trajectory of your brand. Sazaan Studios offers a unique synergy of world-class design aesthetics and deep technical mastery. We don't just build websites; we engineer digital growth engines that deliver measurable competitive advantages. Our commitment to 100/100 SEO scores, A+ security grades, and ultra-low memory footprints ensures your business benefits from the absolute pinnacle of modern web technology. Partner with us to transform your online presence into your greatest asset and build a lasting digital legacy in your local market. Our strategies are forged in the data of thousands of successful local searches, ensuring that your business doesn't just participate in the market—it leads it.</p>
-    <nav aria-label="SEO Navigation">
-      <a href="#home">Home</a> | <a href="#services">Services</a> | <a href="#work">Our Portfolio</a> | <a href="#contact">Get in Touch</a> | <a href="#services">Medical Web Design</a> | <a href="#services">Cafe Digital Branding</a> | <a href="#services">Local SEO Services</a> | <a href="#services">Custom CRM Development</a> | <a href="#services">Business Automation</a>
-    </nav>
-  </section>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#E8FF3A] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
 
   <div id="root"></div>
   
@@ -67,7 +69,16 @@
       }
     });
   </script>
-  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "af349514f2a54c078ea21d1a1c9ca436"}'></script><!-- End Cloudflare Web Analytics -->
+    <script>
+    // Disable Cloudflare Analytics on localhost to prevent CORS errors
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const cfScript = document.createElement('script');
+      cfScript.defer = true;
+      cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfScript.setAttribute('data-cf-beacon', '{"token": "af349514f2a54c078ea21d1a1c9ca436"}');
+      document.body.appendChild(cfScript);
+    }
+  </script>
 </body>
 </html>
 

@@ -1,5 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { m, useMotionValue, useSpring } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
+
+export interface SEOMetadataProps {
+  title: string;
+  description: string;
+  keywords?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+}
+
+export const SEOMetadata = ({ 
+  title, 
+  description, 
+  keywords = "web design, digital agency, small business websites, SEO, automation, digital solutions, Sazaan Studios",
+  canonical,
+  ogImage = "https://sazaandigital.com/og-image.jpg",
+  ogType = "website",
+  noindex = false
+}: SEOMetadataProps) => {
+  const fullTitle = `${title} | Sazaan Studios`;
+  const siteUrl = "https://sazaandigital.com";
+  const fullCanonical = canonical ? (canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`) : siteUrl;
+
+  return (
+    <Helmet>
+      {/* Basic Meta Tags */}
+      <title>{fullTitle}</title>
+      <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
+      <link rel="canonical" href={fullCanonical} />
+      {noindex && <meta name="robots" content="noindex, follow" />}
+
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content={ogType} />
+      <meta property="og:url" content={fullCanonical} />
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:site_name" content="Sazaan Studios" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={fullCanonical} />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
+    </Helmet>
+  );
+};
 
 export const Icon = ({ name, size = 16, stroke = 2, className = '', style = {} }: { name: string, size?: number, stroke?: number, className?: string, style?: React.CSSProperties }) => {
   const s = { width: size, height: size, ...style };
@@ -61,16 +112,16 @@ export const Reveal = ({
   style?: React.CSSProperties 
 }) => {
   const motionProps = {
-    initial: { opacity: 0, y: 14 },
+    initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-8% 0px" },
+    viewport: { once: true, margin: "-100px" },
     transition: {
-      duration: 0.7,
-      delay: Math.min(delay, 0.4),
-      ease: [0.22, 1, 0.36, 1]
+      duration: 0.8,
+      delay: delay,
+      ease: [0.16, 1, 0.3, 1]
     },
-    className,
-    style: { ...style, transform: 'translateZ(0)', willChange: 'transform, opacity' }
+    className: `${className} will-change-[transform,opacity]`,
+    style: { ...style, transform: 'translateZ(0)' }
   };
 
   if (as === 'li') return <m.li {...motionProps}>{children}</m.li>;
@@ -124,3 +175,46 @@ export const Magnetic = ({ children }: { children: React.ReactNode }) => {
 };
 
 
+export const TextReveal = ({ 
+  children, 
+  delay = 0, 
+  className = "" 
+}: { 
+  children: string, 
+  delay?: number, 
+  className?: string 
+}) => {
+  const characters = children.split("");
+  
+  return (
+    <m.span 
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={{
+        hidden: { opacity: 0 },
+        show: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.02,
+            delayChildren: delay,
+          }
+        }
+      }}
+      className={`inline-block whitespace-pre-wrap ${className}`}
+    >
+      {characters.map((char, i) => (
+        <m.span
+          key={i}
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+          }}
+          className="inline-block will-change-[transform,opacity]"
+        >
+          {char === " " ? "\u00A0" : char}
+        </m.span>
+      ))}
+    </m.span>
+  );
+};

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { ChevronUp } from "lucide-react";
+import { useLenis } from '@studio-freight/react-lenis';
 
 export const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,18 +15,33 @@ export const ScrollToTop = () => {
     }
   };
 
-  // Set the top coordinate to 0
-  // make scrolling smooth
+  const lenis = useLenis();
+  
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.5 });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    let rafId: number | null = null;
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        toggleVisibility();
+        rafId = null;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -38,7 +54,7 @@ export const ScrollToTop = () => {
             exit={{ opacity: 0, scale: 0.5, y: 20 }}
             onClick={scrollToTop}
             aria-label="Scroll to top of page"
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/60 backdrop-blur-md text-orange-light shadow-[0_0_20px_rgba(255,176,124,0.15)] transition-all hover:bg-black/80 active:scale-95"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E2E2DE] bg-white backdrop-blur-md text-[#111111] transition-all hover:bg-[#E8FF3A] hover:border-[#111111] active:scale-95"
           >
             <ChevronUp size={24} strokeWidth={3} />
           </m.button>

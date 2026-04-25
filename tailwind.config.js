@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./App.tsx",
@@ -9,69 +9,51 @@ export default {
   theme: {
     extend: {
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: "#E2E2DE",
+        background: "#F7F7F5",
+        foreground: "#111111",
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
-        },
-        secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
-        },
-        destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: "#E8FF3A",
+          foreground: "#111111",
         },
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+          DEFAULT: "#555555",
+          foreground: "#555555",
         },
-        accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
-        },
-        popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
-        },
-        card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
-        },
-        orange: {
-          DEFAULT: "var(--orange)",
-          light: "var(--orange-light)",
-          border: "var(--border)",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        ink: "#111111",
+        ash: "#555555",
+        lime: "#E8FF3A",
+        offwhite: "#F7F7F5",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "sans-serif"],
-        display: ["var(--font-display)", "sans-serif"],
-        heading: ["var(--font-heading)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        barlow: ["Barlow Condensed", "sans-serif"],
+        dmsans: ["DM Sans", "sans-serif"],
+        sans: ["DM Sans", "sans-serif"],
+        heading: ["Barlow Condensed", "sans-serif"],
+      },
+      letterSpacing: {
+        tightest: "-0.01em",
+        widest: "0.1em",
       },
       keyframes: {
-        "border-beam": {
+        "draw-ellipse": {
+          "0%": { "stroke-dashoffset": "1000" },
+          "100%": { "stroke-dashoffset": "0" },
+        },
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
           "100%": {
-            "offset-distance": "100%",
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
           },
         },
       },
       animation: {
-        "border-beam": "border-beam calc(var(--duration)*1s) infinite linear var(--delay)",
+        "draw-ellipse": "draw-ellipse 1.2s ease-in-out forwards",
+        meteor: "meteor 5s linear infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 }
-

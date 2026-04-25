@@ -1,11 +1,22 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-
+import compression from 'vite-plugin-compression';
 import { cloudflare } from "@cloudflare/vite-plugin";
 
 export default defineConfig({
-  plugins: [react(), cloudflare()],
+  plugins: [
+    react(), 
+    cloudflare(),
+    compression({
+      algorithm: 'gzip',
+      ext: '.gz',
+    }),
+    compression({
+      algorithm: 'brotliCompress',
+      ext: '.br',
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./"),
@@ -16,25 +27,25 @@ export default defineConfig({
     open: true
   },
   esbuild: {
-    // Strip all console.log / debugger calls from the production bundle
     drop: ['console', 'debugger'],
   },
   build: {
     target: 'esnext',
     minify: 'esbuild',
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 400,
-    assetsInlineLimit: 10240,
+    chunkSizeWarningLimit: 200,
+    assetsInlineLimit: 4096,
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react-dom')) return 'react-dom';
-            if (id.includes('react/')) return 'react';
-            if (id.includes('framer-motion')) return 'framer';
-            if (id.includes('lucide-react')) return 'lucide';
-            if (id.includes('lenis') || id.includes('studio-freight')) return 'lenis';
-            return 'vendor';
+            if (id.includes('@supabase')) {
+              return 'vendor-supabase';
+            }
+            if (id.includes('framer-motion')) {
+              return 'vendor-framer';
+            }
+            return 'vendor-core';
           }
         },
         compact: true

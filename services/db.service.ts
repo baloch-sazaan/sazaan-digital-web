@@ -19,7 +19,6 @@ function loadPending(): ContactSubmission[] {
     const data = localStorage.getItem(PENDING_KEY);
     return data ? JSON.parse(data) : [];
   } catch (e) {
-    console.warn('[DB] Failed to load pending submissions:', e);
     return [];
   }
 }
@@ -29,7 +28,6 @@ function savePending(items: ContactSubmission[]) {
   try {
     localStorage.setItem(PENDING_KEY, JSON.stringify(items));
   } catch (e) {
-    console.warn('[DB] Failed to save pending submissions:', e);
   }
 }
 
@@ -106,9 +104,9 @@ export const dbService = {
         const { error } = await client
           .from('page_events')
           .insert({ page, timestamp: new Date().toISOString() });
-        if (error) console.error('[Analytics] Failed to track page view:', error.message);
+        if (error) { /* Silent for production */ }
       } catch (err) {
-        console.error('[Analytics] Error tracking page view:', err);
+        /* Silent for production */
       }
     };
 

@@ -1,38 +1,46 @@
 .card {
-  background: rgba(12, 12, 12, 0.6);
-  border: 1px solid rgba(255, 176, 124, 0.1);
-  border-radius: 24px;
-  padding: 2rem;
+  background: #FFFFFF;
+  border: 1px solid #E2E2DE;
+  border-radius: 0;
+  padding: 2.5rem;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
 
 .card:hover {
-  border-color: rgba(255, 176, 124, 0.4);
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255, 176, 124, 0.1);
+  border-color: #111111;
+  background: #FFFFFF;
+  transform: translateY(-4px);
+  box-shadow: none;
 }
 
 .card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 176, 124, 0.08) 0%, transparent 80%);
+  background: #E8FF3A;
   opacity: 0;
   transition: opacity 0.5s;
   pointer-events: none;
+  z-index: 0;
 }
 
-.card:hover::before { opacity: 1; }
+.card:hover::before { opacity: 0.05; }
 
 .icon-tile-sm {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: rgba(255, 176, 124, 0.1);
-  border: 1px solid rgba(255, 176, 124, 0.2);
+  width: 44px; height: 44px; border-radius: 0;
+  background: #F7F7F5;
+  border: 1px solid #E2E2DE;
   display: inline-flex; align-items: center; justify-content: center;
-  color: var(--accent-sunset);
-  transition: transform 0.3s ease;
+  color: #111111;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
-.card:hover .icon-tile-sm { transform: scale(1.1) rotate(-5deg); }
+
+.card:hover .icon-tile-sm { 
+  background: #111111;
+  color: #E8FF3A;
+  border-color: #111111;
+}

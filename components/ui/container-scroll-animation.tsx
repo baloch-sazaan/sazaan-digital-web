@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useScroll, useTransform, useSpring, m as motion, MotionValue } from "framer-motion";
+import { useScroll, useTransform, useSpring, useInView, m as motion, MotionValue } from "framer-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -9,6 +9,7 @@ export const ContainerScroll = ({
   children: React.ReactNode;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "200px 0px" });
   const { scrollYProgress } = useScroll({ target: containerRef });
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.innerWidth <= 768
@@ -21,14 +22,12 @@ export const ContainerScroll = ({
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Spring config: high damping = slow/smooth settle, low stiffness = weighted feel
-  const springConfig = isMobile
-    ? { stiffness: 80, damping: 40, restDelta: 0.001 }
-    : { stiffness: 140, damping: 35, restDelta: 0.001 };
+  // Simplified spring config for better performance
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
-  const rawRotate    = useTransform(scrollYProgress, [0, 1], isMobile ? [18, 0] : [20, 0]);
-  const rawScale     = useTransform(scrollYProgress, [0, 1], isMobile ? [0.88, 1] : [1.05, 1]);
-  const rawTranslate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -60 : -100]);
+  const rawRotate    = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const rawScale     = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const rawTranslate = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   const rotate    = useSpring(rawRotate,    springConfig);
   const scale     = useSpring(rawScale,     springConfig);
@@ -38,6 +37,7 @@ export const ContainerScroll = ({
     <div
       className="h-[54rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
       ref={containerRef}
+      style={{ position: 'relative' }}
     >
       <div
         className="py-10 md:py-40 w-full relative"
@@ -57,6 +57,7 @@ export const Header = ({ translate, titleComponent }: { translate: MotionValue<n
     <motion.div
       style={{
         translateY: translate,
+        willChange: 'transform',
       }}
       className="max-w-5xl mx-auto text-center relative"
     >
@@ -84,13 +85,12 @@ export const Card = ({
         rotateX: rotate,
         translateY: translate,
         scale,
-        boxShadow: isMobile 
-          ? "0 10px 30px rgba(0,0,0,0.5)"
-          : "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
+        willChange: 'transform',
+        transform: 'translateZ(0)'
       }}
-      className="max-w-5xl mt-12 mx-auto h-[22rem] md:h-[40rem] w-full border-4 border-[#1a1a1a] p-1 md:p-2 bg-[#050505] rounded-[30px] shadow-2xl overflow-hidden relative"
+      className="max-w-5xl mt-12 mx-auto h-[22rem] md:h-[40rem] w-full border border-[#E2E2DE] p-1 md:p-2 bg-white rounded-[30px] overflow-hidden relative shadow-none"
     >
-      <div className="h-full w-full overflow-hidden rounded-2xl bg-black md:rounded-2xl relative">
+      <div className="h-full w-full overflow-hidden rounded-2xl bg-[#F7F7F5] md:rounded-2xl relative">
         {children}
       </div>
     </motion.div>

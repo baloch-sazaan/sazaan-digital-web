@@ -1,176 +1,154 @@
-/* ============ Sazaan Studios — Mobile-First Design System ============ */
+/* ============ Sazaan Studios — Creative Digital Agency ============ */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Mosvita';
-  src: url('/fonts/Mosvita-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Mosvita';
-  src: url('/fonts/Mosvita-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Mosvita';
-  src: url('/fonts/Mosvita-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Mosvita';
-  src: url('/fonts/Mosvita-ExtraBold.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AfterRegular';
-  src: url('/fonts/after-regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'OffBit101';
-  src: url('/fonts/OffBitTrial-101.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'OffBit101';
-  src: url('/fonts/OffBitTrial-101Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  /* Typography — Mosvita is primary; JetBrains Mono for code/mono */
-  --font-sans: 'Mosvita', sans-serif;
-  --font-display: 'Mosvita', sans-serif;
-  --font-heading: 'Mosvita', sans-serif;
-  --font-body: 'Mosvita', sans-serif;
-  --font-button: 'Mosvita', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* Typography */
+  --font-heading: 'Barlow Condensed', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
 
   /* Color Palette */
-  --bg-onyx: #0A0A0A;
-  --bg-surface: #161616;
-  --accent-sunset: #FFB07C;
-  --text-primary: #F5F5F7;
-  --text-muted: #A0A0A0;
+  --bg-offwhite: #F7F7F5;
+  --bg-white: #FFFFFF;
+  --ink-black: #111111;
+  --ash-gray: #555555;
+  --electric-lime: #E8FF3A;
+  --border-gray: #E2E2DE;
 
   /* Sazaan Tokens */
-  --bg-primary: var(--bg-onyx);
-  --bg-secondary: var(--bg-surface);
-  --border: rgba(255, 176, 124, 0.1);
-  --orange-light: #FFC99D;
-  --accent-sunset: #FFB07C;
-  --purple-border: rgba(255, 176, 124, 0.35);
+  --bg-primary: var(--bg-offwhite);
+  --bg-secondary: var(--bg-white);
+  --border: var(--border-gray);
+  --text-primary: var(--ink-black);
+  --text-muted: var(--ash-gray);
 }
 
 .section-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--accent-sunset);
+  letter-spacing: 0.1em;
+  color: var(--ink-black);
   margin-bottom: 1.5rem;
-  opacity: 0.8;
-}
-
-.section-label::before {
-  content: '';
-  width: 1rem;
-  height: 1px;
-  background: var(--accent-sunset);
-  opacity: 0.4;
 }
 
 /* Accessibility: Focus States */
 :focus-visible {
-  outline: 2px solid var(--accent-sunset);
+  outline: 2px solid var(--ink-black);
   outline-offset: 4px;
 }
 
 /* Base Styles */
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; border-color: var(--border); }
 
 html {
-  /* Disable native smooth scroll to prevent conflict with Lenis "Butter" engine */
-  scroll-behavior: auto !important;
+  scroll-behavior: initial !important;
   font-size: 16px; 
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
-  background-color: #000000;
+  background-color: var(--bg-offwhite);
   color: var(--text-primary);
   font-family: var(--font-body);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  width: 100%;
   min-height: 100dvh;
-  position: relative;
 }
 
-/* Grain removed from body::after to save GPU memory; consolidated into App.tsx BackgroundWrapper */
+/* Premium Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-/* Typography - Fluid by default */
+::-webkit-scrollbar-track {
+  background: var(--bg-offwhite);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #111111;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--electric-lime);
+}
+
+/* Typography */
 h1, h2, h3, h4, h5, h6, .h1, .h2 {
   font-family: var(--font-heading);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.0;
   margin-bottom: 1rem;
 }
 
-body, p, li, input, textarea, select {
+p, li, input, textarea, select {
   font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--ash-gray);
 }
 
-.display { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; }
-.h1 { font-size: clamp(2rem, 6vw, 4.5rem); }
-.h2 { font-size: clamp(1.5rem, 4vw, 3rem); }
+.display { font-size: clamp(3rem, 10vw, 8rem); }
+.h1 { font-size: clamp(2.5rem, 8vw, 6rem); }
+.h2 { font-size: clamp(2rem, 6vw, 4.5rem); }
 
 /* Containers */
 .container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-/* Sections - Mobile First */
+/* Sections */
 .section { 
-  padding: 4rem 0; 
+  padding: 6rem 0; 
   position: relative;
-  content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
+  background-color: var(--bg-offwhite);
+}
+
+.section:nth-of-type(even) {
+  background-color: var(--bg-white);
 }
 
 @media (min-width: 768px) {
   .section { padding: 10rem 0; }
-  .container { padding-left: 2rem; padding-right: 2rem; max-width: 1400px; }
-}
-
-@media (max-width: 640px) {
-  .section { padding: 3rem 0; }
-  .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .container { max-width: 1400px; }
 }
 
 /* Components */
@@ -179,315 +157,132 @@ body, p, li, input, textarea, select {
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
-  padding: 0.875rem 1.75rem;
+  padding: 1rem 2rem;
   border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
   white-space: nowrap;
+  border: 1px solid var(--border);
 }
 
 .btn-primary {
-  background: var(--accent-sunset);
-  color: var(--bg-onyx);
-  box-shadow: 0 0 20px rgba(255, 176, 124, 0.2);
+  background: var(--electric-lime);
+  color: var(--ink-black);
+  border-color: var(--electric-lime);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
-  box-shadow: 0 5px 25px rgba(255, 176, 124, 0.35);
+  filter: brightness(1.05);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #fff;
+  background: transparent;
+  color: var(--ink-black);
+  border-color: var(--border);
 }
-.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.28); }
 
-/* Section Labels & Utilities */
+.btn-ghost:hover {
+  background: var(--bg-offwhite);
+  border-color: var(--ink-black);
+}
 
-.chip {
+.card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: 0; /* Strict angular look unless circular pill elements are specified */
+  padding: 2rem;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--ink-black);
+}
+
+.pill {
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(255, 176, 124, 0.08);
-  border: 1px solid rgba(255, 176, 124, 0.2);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  color: var(--accent-sunset);
   letter-spacing: 0.1em;
+  color: var(--ink-black);
 }
 
-/* Premium "Diminished" Image Styling */
+/* Specific UI Elements */
+.circle-element {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Image Styling */
 img {
-  filter: grayscale(15%) brightness(90%) contrast(105%);
-  transition: filter 0.25s ease;
-  border-radius: 1rem;
+  border-radius: 0;
+  border: 1px solid var(--border);
 }
 
-img:hover {
-  filter: none;
-}
-
-/* Reveal animations are now handled by Framer Motion in Primitives.tsx */
-
-/* Staggered reveals handled via Framer Motion delay props */
-
-/* Stagger Delays */
-.delay-1 { transition-delay: 100ms; }
-.delay-2 { transition-delay: 200ms; }
-.delay-3 { transition-delay: 300ms; }
-
-
-.grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-sunset) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.warm-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 176, 124, 0.08) 0%, transparent 75%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.glow-dot {
-  position: absolute;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(255, 176, 124, 0.1) 0%, transparent 80%);
-  filter: blur(100px);
-  pointer-events: none;
-}
-
-
-/* Preloader Restoration */
-
-/* Email Modal & Forms */
-/* Email Modal & Forms */
-
-/* Footer icon buttons — CSS hover instead of inline JS style mutations */
+/* Footer Components */
 .footer-icon-btn {
-  width: 44px; height: 44px; border-radius: 10px;
+  width: 44px; height: 44px; border-radius: 50%;
   border: 1px solid var(--border);
   display: inline-flex; align-items: center; justify-content: center;
-  color: var(--text-muted);
+  color: var(--ink-black);
   background: transparent;
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: all 0.2s ease;
 }
 .footer-icon-btn:hover {
-  color: var(--orange-light);
-  border-color: rgba(255,176,124,0.3);
-  background: rgba(255,176,124,0.05);
-}
-.footer-icon-btn:focus-visible {
-  outline: 2px solid var(--accent-sunset);
-  outline-offset: 4px;
+  background: var(--electric-lime);
+  border-color: var(--electric-lime);
 }
 
-/* Footer nav text buttons */
 .footer-nav-btn {
   text-align: left;
-  color: var(--text-muted);
+  color: var(--ash-gray);
   font-size: 14px;
   background: transparent;
   cursor: pointer;
   transition: color 0.2s ease;
   padding: 2px 0;
 }
-.footer-nav-btn:hover { color: #fff; }
-.footer-nav-btn:focus-visible {
-  outline: 2px solid var(--accent-sunset);
-  outline-offset: 4px;
-  border-radius: 4px;
+.footer-nav-btn:hover { color: var(--ink-black); }
+
+/* Remove old gradients/glows */
+.grid-bg, .gradient-text, .warm-glow, .glow-dot, .noise {
+  display: none !important;
 }
 
-.caption {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  display: block;
+/* Animation utilities */
+.draw-on {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-ellipse 1.2s ease-in-out forwards;
 }
 
-/* ============ GPU Performance Optimizations ============ */
-
-/*
-  Only promote elements that ARE actively animating — blanket will-change on all
-  rounded-* elements creates hundreds of stale GPU layers and increases VRAM usage.
-  Framer Motion sets will-change automatically during animation; we only need
-  to hint the nav and preloader which are always present and transform-animated.
-*/
-.card {
-  /* Applied on-hover via JS if needed; removed from static state */
-  will-change: auto;
-}
-
-/* ============ Reduced Motion ============ */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  /* Kill aurora blobs — heaviest animation on page */
-  [data-aurora] {
-    display: none;
-  }
-
-  /* Reveal elements: skip the slide-up, just show them immediately */
-  [data-reveal],
-  [data-reveal-parent] > * {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  /* Framer Motion scroll-linked transforms */
-  [data-framer-appear-id] {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  /* Stop card hover lifts and button transforms */
-  .card:hover,
-  .btn:hover {
-    transform: none !important;
-  }
-
-  /* Preloader: hide instantly instead of fading */
-  .preloader-root.hide {
-    transition: none !important;
+@keyframes draw-ellipse {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-/* Only the root preloader needs a compositing hint — not every child */
-.preloader-root {
-  will-change: opacity;
-}
-
-/* Contain paint only — strict containment can cause isolation bugs on abs-positioned elements */
-.noise,
-.warm-glow,
-.glow-dot,
-.grid-bg {
-  contain: layout paint;
-  will-change: auto;
-}
-
-/* btn hover uses transform only — no layout-triggering properties */
-.btn {
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-/* Fixed/sticky elements: force GPU layer to prevent repaint on scroll */
-nav,
-[data-fixed],
-.preloader-root {
-  transform: translateZ(0);
-}
-
-/* Reveal animation base — GPU-only properties */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-}
-[data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ============ Mobile Touch Optimisations ============ */
-@media (hover: none) and (pointer: coarse) {
-  html {
-    scroll-behavior: auto;
-    /* Native momentum scrolling on iOS */
-    -webkit-overflow-scrolling: touch;
+/* Global Cursor Override for Desktop/Mouse users only (1024px+) */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  html, body, *, a, button, input, textarea, select {
+    cursor: none !important;
   }
-
-  /* Remove backdrop-blur on cards — expensive on mobile GPUs */
-  .card {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  /* Remove hover lift — no hover on touch; avoids stuck states */
-  .card:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: rgba(255, 176, 124, 0.1);
-    background: rgba(255, 255, 255, 0.02);
-  }
-  .card:hover::before { opacity: 0; }
-  .card:hover .icon-tile-sm { transform: none; }
-
-  /* Enlarge tap targets */
-  .btn {
-    min-height: 48px;
-    padding: 0.875rem 1.5rem;
-  }
-
-  /* Remove tap highlight flash */
-  a, button, [role="button"] {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  /* Subtle press feedback instead of hover */
-  .btn:active {
-    transform: scale(0.97);
-    transition: transform 0.1s ease;
-  }
-
-  /* Disable mouse-only glow tracking on cards */
-  .card::before { display: none; }
-
-  /* Disable blur on mobile nav — smoother open/close */
-  nav .backdrop-blur-2xl {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(0, 0, 0, 0.95) !important;
-  }
-}
-
-  * {
-    border-color: rgba(255, 176, 124, 0.1);
-  }
-  body {
-    background-color: #000;
-    color: #fff;
-  }
-
-.will-change-transform {
-  will-change: transform;
-}
-
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000;
 }
 
