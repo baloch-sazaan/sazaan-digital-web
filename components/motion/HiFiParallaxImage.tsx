@@ -5,6 +5,9 @@ import { cn } from '@/lib/utils';
 interface HiFiParallaxImageProps {
   src: string;
   alt: string;
+  width?: number | string;
+  height?: number | string;
+  loading?: "lazy" | "eager";
   className?: string;
   containerClassName?: string;
   overlayColor?: string;
@@ -15,6 +18,9 @@ interface HiFiParallaxImageProps {
 export const HiFiParallaxImage: React.FC<HiFiParallaxImageProps> = ({
   src,
   alt,
+  width,
+  height,
+  loading,
   className,
   containerClassName,
   overlayColor = "#000000",
@@ -60,7 +66,10 @@ export const HiFiParallaxImage: React.FC<HiFiParallaxImageProps> = ({
         <img 
           src={src} 
           alt={alt}
-          {...(priority ? { fetchpriority: "high" } : { loading: "lazy" })}
+          width={width}
+          height={height}
+          loading={loading || (priority ? undefined : "lazy")}
+          {...(priority ? { fetchpriority: "high" } : {})}
           className={cn(
             "w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700",
             className

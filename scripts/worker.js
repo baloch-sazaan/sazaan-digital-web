@@ -74,6 +74,7 @@ export default {
       });
 
       response.headers.set('Content-Type', 'text/html; charset=utf-8');
+      response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
       response.headers.set('Content-Security-Policy', cspRules);
       response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
       response.headers.set('X-Frame-Options', 'DENY');

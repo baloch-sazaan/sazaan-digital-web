@@ -38,9 +38,9 @@ const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' 
           />
         </div>
 
-        <h3 className="text-4xl sm:text-5xl font-black text-[#111111] mb-6 uppercase tracking-tightest leading-none font-barlow italic">
+        <h2 className="text-4xl sm:text-5xl font-black text-[#111111] mb-6 uppercase tracking-tightest leading-none font-barlow italic">
           {title || (status === 'success' ? 'TRANSMITTED' : status === 'info' ? 'HOLD UP' : 'ERROR')}
-        </h3>
+        </h2>
         
         <p className="text-[#555555] font-bold font-dmsans leading-relaxed mb-12 text-base sm:text-lg">
           {message || (status === 'success' 

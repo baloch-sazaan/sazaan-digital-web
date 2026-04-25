@@ -120,8 +120,8 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
             >
                 <ScrollScrubText 
                   text="We engineer high-performance systems for those who demand technical excellence. Explore our architecture."
-                  className="text-lg font-dmsans text-[#888888] leading-relaxed mb-8"
-                  wordClassName="opacity-20"
+                  className="text-lg font-dmsans text-[#A0A0A0] leading-relaxed mb-8"
+                  wordClassName="opacity-25"
                 />
                 <div className="flex flex-col gap-6">
                     <div className="text-xl md:text-2xl font-black font-barlow tracking-tight text-white uppercase leading-tight">
@@ -182,15 +182,16 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
             layout
           >
             {visible.map((w) => (
-              <m.div
+              <m.a
                 key={w.id}
+                href="#work"
                 layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileHover={{ y: -5, scale: 1.01 }}
-                className="group bg-[#111111] border border-[#222222] rounded-none overflow-hidden flex flex-col hover:border-[#E8FF3A] transition-all duration-500 cursor-pointer shadow-sm hover:shadow-xl"
-                onClick={() => setSelectedProject(w)}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedProject(w); }}
+                className="group bg-[#111111] border border-[#222222] rounded-none overflow-hidden flex flex-col hover:border-[#E8FF3A] transition-all duration-500 cursor-pointer shadow-sm hover:shadow-xl no-underline"
+                onClick={(e) => { e.preventDefault(); setSelectedProject(w); }}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedProject(w); } }}
                 role="button"
                 tabIndex={0}
                 aria-label={`View project: ${w.title}`}
@@ -199,6 +200,9 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                   <HiFiParallaxImage 
                     src={w.screenshot_url || ''} 
                     alt={w.title} 
+                    width={800}
+                    height={500}
+                    loading="lazy"
                     parallaxStrength={0.1}
                     containerClassName="rounded-none h-full"
                     className="grayscale group-hover:grayscale-0 transition-all duration-700"
@@ -211,10 +215,10 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                 </div>
 
                 <div className="p-8 flex-1 flex flex-col">
-                  <h3 className="text-2xl font-black font-barlow text-white uppercase tracking-tight group-hover:text-[#E8FF3A] inline-block self-start transition-all">
+                  <h2 className="text-2xl font-black font-barlow text-white uppercase tracking-tight group-hover:text-[#E8FF3A] inline-block self-start transition-all">
                     {w.title}
-                  </h3>
-                  <p className="text-sm font-dmsans text-[#888888] mt-4 mb-8 leading-relaxed">
+                  </h2>
+                  <p className="text-sm font-dmsans text-[#A0A0A0] mt-4 mb-8 leading-relaxed">
                     {w.description}
                   </p>
                   <div className="mt-auto pt-6 border-t border-[#222222] flex justify-between items-center">
@@ -228,7 +232,7 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                     </div>
                   </div>
                 </div>
-              </m.div>
+              </m.a>
             ))}
           </m.div>
         </div>

@@ -25,7 +25,7 @@ const RevealImageListItem = React.memo(({ text, images }: ShowImageListItemProps
       }}
       className="group relative h-fit w-full overflow-visible py-8 md:py-10 border-b border-[#111111]/10 last:border-0 cursor-crosshair flex flex-col sm:block will-change-[transform,opacity]"
     >
-      <h3 className="text-3xl sm:text-6xl md:text-8xl font-black text-[#555555] transition-all duration-700 sm:group-hover:translate-x-8 sm:group-hover:text-[#111111] uppercase font-barlow italic leading-none pr-16 md:pr-0">
+      <h3 className="text-3xl sm:text-6xl md:text-8xl font-black text-[#222222] transition-all duration-700 sm:group-hover:translate-x-8 sm:group-hover:text-[#111111] uppercase font-barlow italic leading-none pr-16 md:pr-0">
         {text}
       </h3>
       
@@ -147,7 +147,7 @@ function RevealImageList() {
   return (
     <div className="flex flex-col gap-1 bg-[#F7F7F5] px-4 md:px-24 py-32 max-w-[1400px] mx-auto">
       <div className="mb-16">
-        <h3 className="text-sm font-black uppercase text-[#111111]/40 tracking-[0.3em]">Core Capabilities</h3>
+        <h3 className="text-sm font-black uppercase text-[#111111]/60 tracking-[0.3em]">Core Capabilities</h3>
         <h2 className="text-4xl font-black text-[#111111] mt-4 uppercase font-barlow">WHAT WE PROVIDE</h2>
       </div>
       <motion.div 

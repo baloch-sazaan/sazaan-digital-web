@@ -179,7 +179,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12">
           <div>
             <Logo />
-            <p className="text-sm leading-relaxed text-[#888888] max-w-[300px] mt-6 font-dmsans">
+            <p className="text-sm leading-relaxed text-[#A0A0A0] max-w-[300px] mt-6 font-dmsans">
               Digital solutions for creative studios and modern businesses. We build high-performance systems for brands that demand technical excellence.
             </p>
             <div className="flex gap-3 mt-8">
@@ -247,8 +247,8 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
               >
                 baloch@sazaandigital.com
               </a>
-              <p className="text-[#888888] text-sm font-dmsans">Available Worldwide</p>
-              <p className="text-[#888888] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-40">© 2026 Sazaan Studio</p>
+              <p className="text-[#A0A0A0] text-sm font-dmsans">Available Worldwide</p>
+              <p className="text-[#A0A0A0] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-60">© 2026 Sazaan Studio</p>
             </div>
           </div>
         </div>

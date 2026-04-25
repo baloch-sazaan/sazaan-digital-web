@@ -132,8 +132,11 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
         <HiFiParallaxImage 
           src={laptopImg}
           alt="Sazaan Studios — Digital Architecture"
+          width={1200}
+          height={800}
           parallaxStrength={0.15}
           priority={true}
+          loading="eager"
           containerClassName="rounded-none border border-[#222222]"
         />
       </ContainerScroll>

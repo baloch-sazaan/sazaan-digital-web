@@ -121,26 +121,28 @@ interface GridItemProps {
 
 const GridItem = React.memo(({ icon, title, description, onClick }: GridItemProps) => {
   return (
-    <div 
-      onClick={onClick}
-        className="relative h-full rounded-none border border-[#222222] p-1 group hover:border-[#E8FF3A] transition-colors duration-500 cursor-pointer bg-[#0A0A0A]"
-      >
+    <a 
+      href="#services"
+      onClick={(e) => { e.preventDefault(); if(onClick) onClick(); }}
+      className="relative block h-full rounded-none border border-[#222222] p-1 group hover:border-[#E8FF3A] transition-colors duration-500 cursor-pointer bg-[#0A0A0A] no-underline"
+      aria-label={`Learn more about ${title}`}
+    >
         <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-none p-8 bg-[#111111]">
           <div className="relative flex flex-1 flex-col justify-between gap-6">
             <div className="w-fit rounded-lg border border-[#222222] bg-[#0A0A0A] p-3 text-white group-hover:bg-[#E8FF3A] group-hover:border-[#E8FF3A] transition-all duration-500 group-hover:text-black">
               {icon}
             </div>
             <div className="space-y-4">
-              <h3 className="tracking-tight font-barlow text-2xl font-black text-white uppercase leading-tight">
+              <h2 className="tracking-tight font-barlow text-2xl font-black text-white uppercase leading-tight">
                 {title}
-              </h3>
+              </h2>
               <p className="text-sm md:text-base text-[#888888] font-dmsans leading-relaxed">
                 {description}
               </p>
             </div>
           </div>
         </div>
-      </div>
+      </a>
   );
 });
 

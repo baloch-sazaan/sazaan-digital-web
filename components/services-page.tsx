@@ -91,7 +91,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
             }} className="max-w-md">
-                <p className="text-lg font-dmsans text-[#888888] leading-relaxed mb-8">
+                <p className="text-lg font-dmsans text-[#A0A0A0] leading-relaxed mb-8">
                   We provide comprehensive digital solutions tailored for creative studios and modern businesses. We bridge the gap between vision and execution.
                 </p>
                 <div className="flex gap-4">
@@ -128,7 +128,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
                   <h3 className="text-3xl font-black font-barlow text-white uppercase leading-none tracking-tight mb-6 group-hover:text-[#E8FF3A] transition-colors">
                     {s.title}
                   </h3>
-                  <p className="text-sm font-dmsans text-[#888888] leading-relaxed mb-10 group-hover:text-white/80">
+                  <p className="text-sm font-dmsans text-[#A0A0A0] leading-relaxed mb-10 group-hover:text-white/90">
                     {s.desc}
                   </p>
 
