@@ -1,2 +1,2 @@
-# Force HTTPS
-http://* https://:placeholder 301!
+# SPA Fallback for client-side routing
+/* /index.html 200
