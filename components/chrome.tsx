@@ -9,7 +9,7 @@ const Logo = () => (
   <div className="flex items-center gap-1">
     <div className="flex flex-col items-start leading-[0.85]">
       <span className="text-white text-2xl md:text-3xl font-black font-barlow tracking-tightest uppercase">Sazaan</span>
-      <span className="text-[#E8FF3A] text-[10px] font-bold font-barlow tracking-[0.4em] uppercase">Studios</span>
+      <span className="text-[#E8FF3A] text-[10px] font-bold font-barlow tracking-[0.4em] uppercase">Studio</span>
     </div>
   </div>
 );
@@ -94,7 +94,7 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
           <a
             href="#home"
             onClick={(e) => { e.preventDefault(); navigate('home'); }}
-            aria-label="Sazaan Studios — Home"
+            aria-label="Sazaan Studio — Home"
             className="flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8FF3A] hover:opacity-80 transition-opacity active:scale-95 min-h-[44px]"
           >
             <Logo />
@@ -248,7 +248,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
                 baloch@sazaandigital.com
               </a>
               <p className="text-[#888888] text-sm font-dmsans">Available Worldwide</p>
-              <p className="text-[#888888] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-40">© 2026 Sazaan Studios</p>
+              <p className="text-[#888888] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-40">© 2026 Sazaan Studio</p>
             </div>
           </div>
         </div>
