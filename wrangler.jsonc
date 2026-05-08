@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sazaan-digital-web",
+  "main": "scripts/worker.js",
+  "compatibility_date": "2024-09-23",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS"
+  },
+  "routes": [
+    {
+      "pattern": "sazaanstudio.space",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.sazaanstudio.space",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false
+    }
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}

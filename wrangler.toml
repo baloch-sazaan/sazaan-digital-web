@@ -1,8 +1,0 @@
-#:schema node_modules/wrangler/config-schema.json
-name = "sazaan-digital-web"
-compatibility_date = "2024-09-23"
-pages_build_output_dir = "./out" # Vite production build directory
-
-compatibility_flags = [
-  "nodejs_compat"
-]
