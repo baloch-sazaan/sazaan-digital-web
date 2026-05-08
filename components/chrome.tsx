@@ -164,8 +164,8 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
 
 export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
   const socialLinks = [
-    { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaandigital' },
-    { name: 'mail', label: 'Email', url: 'mailto:baloch@sazaandigital.com' }
+    { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaanstudio' },
+    { name: 'mail', label: 'Email', url: 'mailto:baloch@sazaanstudio.space' }
   ];
 
 
@@ -242,10 +242,10 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
             <div className="section-label">Contact</div>
             <div className="flex flex-col items-start gap-4 mt-6">
               <a
-                href="mailto:baloch@sazaandigital.com"
+                href="mailto:baloch@sazaanstudio.space"
                 className="text-white text-lg font-black font-barlow uppercase tracking-tight hover:text-[#E8FF3A] transition-colors"
               >
-                baloch@sazaandigital.com
+                baloch@sazaanstudio.space
               </a>
               <p className="text-[#A0A0A0] text-sm font-dmsans">Available Worldwide</p>
               <p className="text-[#A0A0A0] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-60">© 2026 Sazaan Studio</p>

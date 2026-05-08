@@ -120,7 +120,7 @@ export const ProjectModal = ({ project, onClose }: { project: Project, onClose: 
           )}
 
           <button 
-            onClick={() => window.location.href = 'mailto:baloch@sazaandigital.com?subject=Architecture Inquiry: ' + project.title}
+            onClick={() => window.location.href = 'mailto:baloch@sazaanstudio.space?subject=Architecture Inquiry: ' + project.title}
             className="btn btn-primary w-full md:w-auto px-10 py-5"
           >
             Inquire about architecture <Icon name="arrowRight" size={14} />

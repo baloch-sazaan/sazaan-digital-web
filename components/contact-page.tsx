@@ -123,7 +123,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     const sanitizedPhone = formData.phone?.trim() || "-";
 
     const templateParams = {
-      to_email: 'baloch@sazaandigital.com',
+      to_email: 'baloch@sazaanstudio.space',
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
       company: sanitizedCompany,
@@ -175,9 +175,10 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="relative isolate bg-[#F7F7F5] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
     >
       <SEOMetadata 
-        title="Contact Our Studio" 
-        description="Ready to scale? Secure your industry authority today. We architect high-performance digital experiences for creative studios and scaling enterprises."
-        canonical="https://sazaandigital.com/#contact"
+        title="Contact Our AI Studio" 
+        description="Ready to scale your US medical clinic or cafe with AI? Secure your industry authority today with our premium automation and lead generation solutions."
+        keywords="contact AI automation agency, medical clinic marketing USA, cafe automation inquiry, hospitality AI solutions"
+        canonical="https://sazaanstudio.space/#contact"
       />
       {/* Back Button */}
       <div className="max-w-2xl mx-auto mb-12">

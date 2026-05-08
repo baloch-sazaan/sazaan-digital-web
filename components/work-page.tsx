@@ -83,8 +83,9 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
     >
       <SEOMetadata 
         title="Our Work & Case Studies" 
-        description="Explore our portfolio of elite digital systems. From technical SEO growth to complex business automations and bespoke web architecture."
-        canonical="https://sazaandigital.com/#work"
+        description="Elite case studies in AI automation and lead generation. Discover how we've scaled medical clinics and hospitality businesses in the USA."
+        keywords="medical automation case studies, clinic lead generation portfolio, cafe AI solutions work, healthcare digital systems"
+        canonical="https://sazaanstudio.space/#work"
       />
       <section className="pt-40 pb-24 border-b border-[#222222]">
         <div className="container">

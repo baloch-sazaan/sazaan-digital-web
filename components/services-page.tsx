@@ -64,9 +64,10 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
-        title="Our Services" 
-        description="Explore our elite digital solutions: Full-Stack Development, Strategic SEO, and Advanced Business Automation designed for modern enterprises."
-        canonical="https://sazaandigital.com/#services"
+        title="AI Automation Services" 
+        description="Transform your medical clinic or cafe with advanced AI automation, smart lead generation, and workflow systems designed for maximum efficiency."
+        keywords="AI automation for medical clinics, cafe workflow optimization, medical practice lead generation, automated healthcare systems, restaurant business automation"
+        canonical="https://sazaanstudio.space/#services"
       />
       <section className="pt-40 pb-24 border-b border-[#222222]">
         <div className="container">

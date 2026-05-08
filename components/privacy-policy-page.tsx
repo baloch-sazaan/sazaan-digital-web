@@ -117,8 +117,9 @@ export const PrivacyPolicyPage = () => {
     >
       <SEOMetadata 
         title="Privacy Policy"
-        description="Privacy policy for Sazaan Studios. Learn how we collect, use, and protect your information when you use our web design and digital services."
-        canonical="https://sazaandigital.com/privacy-policy"
+        description="Privacy policy for Sazaan Studios. Learn how we handle data for our AI automation, lead generation, and digital architecture services for clinics and hospitality."
+        keywords="Sazaan Studios privacy, data protection clinics, cafe data security, AI data privacy"
+        canonical="https://sazaanstudio.space/privacy-policy"
         noindex={true}
       />
 
@@ -183,7 +184,7 @@ export const PrivacyPolicyPage = () => {
             <PrivacySection id="introduction" number="01" title="INTRODUCTION">
               <p>This is the privacy policy of Sazaan Studios, a digital agency providing web design, development, local SEO, Google Business Profile optimization, business automation, and custom CRM solutions.</p>
               <p>This policy explains what data we collect, why we collect it, and how we handle it. By using our website or engaging our services, you agree to the practices described here.</p>
-              <p>For any questions regarding your data, contact us at <a href="mailto:hello@sazaandigital.com" className="text-[#111111] underline hover:opacity-70 transition-opacity">hello@sazaandigital.com</a>.</p>
+              <p>For any questions regarding your data, contact us at <a href="mailto:hello@sazaanstudio.space" className="text-[#111111] underline hover:opacity-70 transition-opacity">hello@sazaanstudio.space</a>.</p>
             </PrivacySection>
 
             <PrivacySection id="information-we-collect" number="02" title="INFORMATION WE COLLECT">
@@ -331,7 +332,7 @@ export const PrivacyPolicyPage = () => {
                   <span>Withdraw consent for data processing at any time.</span>
                 </li>
               </ul>
-              <p className="mt-6">To exercise any of these rights, contact us at <a href="mailto:hello@sazaandigital.com" className="text-[#111111] underline hover:opacity-70 transition-opacity">hello@sazaandigital.com</a>. We will respond within 30 days.</p>
+              <p className="mt-6">To exercise any of these rights, contact us at <a href="mailto:hello@sazaanstudio.space" className="text-[#111111] underline hover:opacity-70 transition-opacity">hello@sazaanstudio.space</a>. We will respond within 30 days.</p>
             </PrivacySection>
 
             <PrivacySection id="childrens-privacy" number="09" title="CHILDREN'S PRIVACY">
@@ -352,8 +353,8 @@ export const PrivacyPolicyPage = () => {
             <PrivacySection id="contact-us" number="12" title="CONTACT US">
               <p>If you have questions about this privacy policy or how we handle your data:</p>
               <div className="mt-4 space-y-2">
-                <p><strong>Email:</strong> <a href="mailto:hello@sazaandigital.com" className="text-[#111111] underline hover:opacity-70 transition-opacity">hello@sazaandigital.com</a></p>
-                <p><strong>Website:</strong> <a href="https://sazaandigital.com" target="_blank" rel="noopener noreferrer" className="text-[#111111] underline hover:opacity-70 transition-opacity">sazaandigital.com</a></p>
+                <p><strong>Email:</strong> <a href="mailto:hello@sazaanstudio.space" className="text-[#111111] underline hover:opacity-70 transition-opacity">hello@sazaanstudio.space</a></p>
+                <p><strong>Website:</strong> <a href="https://sazaanstudio.space" target="_blank" rel="noopener noreferrer" className="text-[#111111] underline hover:opacity-70 transition-opacity">sazaanstudio.space</a></p>
               </div>
             </PrivacySection>
           </div>

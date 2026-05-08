@@ -26,7 +26,7 @@ export const CTABannerSection = ({ setPage }: { setPage: (p: string) => void }) 
               <Magnetic>
                 <a 
                   className="px-10 py-4 border border-[#E2E2DE] text-[#111111] font-bold font-dmsans text-xs uppercase tracking-widest hover:border-[#111111] transition-all"
-                  href="mailto:baloch@sazaandigital.com?subject=Project%20Inquiry"
+                  href="mailto:baloch@sazaanstudio.space?subject=Project%20Inquiry"
                 >
                   Email Manifesto
                 </a>

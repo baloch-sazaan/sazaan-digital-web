@@ -51,19 +51,20 @@ const StructuredData = React.memo(() => {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Sazaan Studios",
-    "description": "Sazaan Studios: Creative Digital Agency. Elite Web Design, SEO, and Automation Agency for creative studios and modern businesses.",
-    "url": "https://sazaandigital.com",
-    "logo": "https://sazaandigital.com/favicon.webp",
+    "description": "Premium AI-driven lead generation and workflow automation for healthcare providers and hospitality businesses in the USA. Specialized in AI automation for cafes and medical clinic lead generation.",
+    "url": "https://sazaanstudio.space",
+    "logo": "https://sazaanstudio.space/favicon.webp",
     "sameAs": [
-      "https://dribbble.com/sazaandigital",
-      "https://instagram.com/sazaandigital"
+      "https://dribbble.com/sazaanstudio",
+      "https://instagram.com/sazaanstudio"
     ],
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Remote",
       "addressRegion": "Global",
       "addressCountry": "US"
-    }
+    },
+    "keywords": "AI automation for cafes, medical clinic lead generation, healthcare AI solutions, hospitality automation USA"
   };
 
   return (
@@ -119,9 +120,10 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <SEOMetadata 
-      title="Elite Web Design & Digital Solutions" 
-      description="Sazaan Studios: Premier digital agency building high-performance websites, SEO engines, and business automation for creative studios and modern brands."
-      canonical="https://sazaandigital.com/"
+      title="Sazaan Studios | AI Automation for US Medical Clinics & Cafes" 
+      description="Premium AI-driven lead generation and workflow automation for healthcare providers and hospitality businesses in the USA."
+      keywords="AI automation for cafes, medical clinic lead generation, healthcare AI, hospitality automation, business automation USA"
+      canonical="https://sazaanstudio.space/"
     />
     <HeroSection setPage={setPage} />
     <Suspense fallback={<LoadingSkeleton className="h-[500px]" />}>
