@@ -123,7 +123,8 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
     const sanitizedPhone = formData.phone?.trim() || "-";
 
     const templateParams = {
-      to_email: 'baloch@sazaanstudio.space',
+      to_email: formData.email,
+      from_email: 'hello@sazaanstudio.space',
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
       company: sanitizedCompany,
@@ -134,6 +135,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
 
     const autoReplyParams = {
       to_email: formData.email,
+      from_email: 'hello@sazaanstudio.space',
       name: formData.firstName,
       email: formData.email,
       message: formData.message,

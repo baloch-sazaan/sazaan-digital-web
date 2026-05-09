@@ -53,7 +53,7 @@ export const dbService = {
       const pending = loadPending();
       pending.push(data);
       savePending(pending);
-      throw error;
+      console.warn('Failed to save to database, queued to pending:', error);
     }
   },
 
