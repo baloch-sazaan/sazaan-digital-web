@@ -158,8 +158,7 @@ export default function App() {
   const [page, setPageRaw] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
-      const saved = localStorage.getItem('sazaan_pref_page');
-      return hash || saved || 'home';
+      return hash || 'home';
     }
     return 'home';
   });
@@ -170,7 +169,6 @@ export default function App() {
   const setPage = (newPage: string) => {
     if (newPage === page) return;
     setPageRaw(newPage);
-    localStorage.setItem('sazaan_pref_page', newPage);
     lenis?.scrollTo(0, { immediate: true });
     window.history.pushState({ page: newPage }, '', `#${newPage}`);
   };
