@@ -255,7 +255,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
       </div>
 
       <div
-        className="text-center mt-24 select-none pointer-events-none text-[#444444]"
+        className="text-center mt-24 select-none pointer-events-none text-[#666666]"
         role="presentation"
         aria-hidden="true"
         style={{
