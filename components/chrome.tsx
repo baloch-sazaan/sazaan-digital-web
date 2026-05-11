@@ -165,7 +165,7 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
 export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
   const socialLinks = [
     { name: 'share', label: 'Instagram', url: 'https://instagram.com/sazaanstudio' },
-    { name: 'mail', label: 'Email', url: 'mailto:baloch@sazaanstudio.space' }
+    { name: 'mail', label: 'Email', url: 'mailto:hello@sazaanstudio.space' }
   ];
 
 
@@ -179,7 +179,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12">
           <div>
             <Logo />
-            <p className="text-sm leading-relaxed text-[#A0A0A0] max-w-[300px] mt-6 font-dmsans">
+            <p className="text-sm leading-relaxed text-[#CCCCCC] max-w-[300px] mt-6 font-dmsans">
               Digital solutions for creative studios and modern businesses. We build high-performance systems for brands that demand technical excellence.
             </p>
             <div className="flex gap-3 mt-8">
@@ -242,20 +242,21 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
             <div className="section-label">Contact</div>
             <div className="flex flex-col items-start gap-4 mt-6">
               <a
-                href="mailto:baloch@sazaanstudio.space"
+                href="mailto:hello@sazaanstudio.space"
                 className="text-white text-lg font-black font-barlow uppercase tracking-tight hover:text-[#E8FF3A] transition-colors"
               >
-                baloch@sazaanstudio.space
+                hello@sazaanstudio.space
               </a>
-              <p className="text-[#A0A0A0] text-sm font-dmsans">Available Worldwide</p>
-              <p className="text-[#A0A0A0] text-[10px] mt-8 font-bold uppercase tracking-widest opacity-60">© 2026 Sazaan Studio</p>
+              <p className="text-[#BBBBBB] text-sm font-dmsans">Available Worldwide</p>
+              <p className="text-[#BBBBBB] text-[10px] mt-8 font-bold uppercase tracking-widest">© 2026 Sazaan Studio</p>
             </div>
           </div>
         </div>
       </div>
 
       <div
-        className="text-center mt-24 select-none pointer-events-none opacity-[0.15]"
+        className="text-center mt-24 select-none pointer-events-none text-[#444444]"
+        role="presentation"
         aria-hidden="true"
         style={{
           fontFamily: 'var(--font-heading)',
@@ -263,7 +264,6 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
           fontSize: 'clamp(60px, 20vw, 300px)',
           lineHeight: 0.8,
           letterSpacing: '-0.05em',
-          color: '#ffffff',
           textTransform: 'uppercase'
         }}
       >

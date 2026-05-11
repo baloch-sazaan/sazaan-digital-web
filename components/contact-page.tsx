@@ -199,9 +199,35 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
         <h1 className="text-[clamp(2.5rem,8vw,7rem)] font-black tracking-tightest text-[#111111] font-barlow uppercase leading-none">
           Build Your <span className="italic whitespace-nowrap">Digital Presence</span>
         </h1>
-        <p className="mt-8 text-lg font-dmsans text-[#555555] leading-relaxed max-w-lg mx-auto uppercase tracking-wider">
+        <p className="mt-8 text-lg font-dmsans text-[#555555] leading-relaxed max-w-lg mx-auto uppercase tracking-wider mb-16">
           Secure your industry authority. We architect high-performance experiences for creative studios and scaling enterprises.
         </p>
+
+        {/* Contact Info Details */}
+        <div className="bg-white border border-[#E2E2DE] p-8 md:p-12 mb-16 grid grid-cols-1 md:grid-cols-2 gap-10 text-left w-full max-w-4xl mx-auto">
+
+          <div className="flex flex-col">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 bg-[#111111] flex items-center justify-center rounded-full border border-[#222222]">
+                <Icon name="mail" size={20} className="text-[#E8FF3A]" />
+              </div>
+              <h3 className="font-barlow font-bold text-xl text-[#111111]">Email Address</h3>
+            </div>
+            <p className="text-[#555555] font-dmsans text-[13px] mb-2">Have a project in mind? send a message.</p>
+            <a href="mailto:hello@sazaanstudio.space" className="font-bold text-[#111111] font-dmsans hover:text-[#555555] transition-colors underline decoration-[#E8FF3A] decoration-2 underline-offset-4 text-sm">hello@sazaanstudio.space</a>
+          </div>
+
+          <div className="flex flex-col">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 bg-[#111111] flex items-center justify-center rounded-full border border-[#222222]">
+                <Icon name="phone" size={20} className="text-[#E8FF3A]" />
+              </div>
+              <h3 className="font-barlow font-bold text-xl text-[#111111]">Phone No</h3>
+            </div>
+            <p className="text-[#555555] font-dmsans text-[13px] mb-2">We're interested in working together</p>
+            <p className="font-bold text-[#111111] font-dmsans text-sm">(603) 555-0123</p>
+          </div>
+        </div>
       </div>
 
       <form onSubmit={handleFormSubmit} className="mx-auto mt-16 max-w-xl sm:mt-24 relative z-10">

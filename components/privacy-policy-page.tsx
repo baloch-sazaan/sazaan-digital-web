@@ -37,24 +37,24 @@ const PrivacySection = ({
   const y = useTransform(scrollYProgress, [0, 1], [-20, 20]);
 
   return (
-    <section id={id} ref={ref} className="relative py-16 md:py-20 first:pt-0 last:pb-0">
+    <section id={id} ref={ref} className="relative py-12 md:py-16 first:pt-0 last:pb-0">
       <m.div 
         style={{ y }}
-        className="absolute -top-10 -left-4 md:-left-12 pointer-events-none select-none"
+        className="absolute -top-6 -left-2 md:-left-8 pointer-events-none select-none"
       >
-        <span className="font-barlow font-black text-[80px] md:text-[120px] text-[#111111] opacity-[0.06] leading-none">
+        <span className="font-barlow font-black text-[64px] md:text-[100px] text-[#111111] opacity-[0.04] leading-none">
           {number}
         </span>
       </m.div>
       <div className="relative z-10">
-        <h2 className="font-barlow font-bold text-xl md:text-2xl text-[#111111] uppercase tracking-tightest mb-8">
+        <h2 className="font-barlow font-bold text-lg md:text-xl text-[#111111] uppercase tracking-tightest mb-6">
           {title}
         </h2>
-        <div className="font-dmsans text-[#555555] leading-[1.7] space-y-5 text-[15px] md:text-16px">
+        <div className="font-dmsans text-[#555555] leading-[1.6] space-y-4 text-sm md:text-[15px]">
           {children}
         </div>
       </div>
-      <div className="mt-16 md:mt-20 border-b border-[#E2E2DE] opacity-50" />
+      <div className="mt-12 md:mt-16 border-b border-[#E2E2DE] opacity-50" />
     </section>
   );
 };
@@ -153,7 +153,7 @@ export const PrivacyPolicyPage = () => {
         </aside>
 
         {/* Mobile Navigation Pill Bar */}
-        <div className="lg:hidden fixed top-[73px] left-0 w-full z-40 bg-white/80 backdrop-blur-md border-b border-[#E2E2DE] overflow-x-auto scrollbar-hide py-3 px-4 flex gap-3 pointer-events-auto">
+        <div className="lg:hidden sticky top-[73px] -mx-4 px-4 w-[calc(100%+2rem)] z-40 bg-[#F7F7F5]/95 backdrop-blur-md border-b border-[#E2E2DE] overflow-x-auto scrollbar-hide py-3 flex gap-3 pointer-events-auto mb-8">
           {SECTIONS.map((section) => (
             <button
               key={section.id}
@@ -171,12 +171,12 @@ export const PrivacyPolicyPage = () => {
 
         {/* Content Card */}
         <Reveal>
-          <div className="bg-white border border-[#E2E2DE] rounded-[16px] p-8 md:p-16 shadow-sm">
-            <header className="mb-16">
-              <h1 className="font-barlow font-black text-[40px] md:text-[64px] text-[#111111] uppercase tracking-tightest leading-none mb-4">
+          <div className="bg-white border border-[#E2E2DE] rounded-[16px] p-6 md:p-12 shadow-sm">
+            <header className="mb-12">
+              <h1 className="font-barlow font-black text-3xl md:text-[56px] text-[#111111] uppercase tracking-tightest leading-none mb-3">
                 PRIVACY POLICY
               </h1>
-              <p className="font-dmsans text-[14px] text-[#555555]">
+              <p className="font-dmsans text-xs md:text-[14px] text-[#555555]">
                 Last updated: {currentMonthYear}
               </p>
             </header>

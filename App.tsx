@@ -27,7 +27,7 @@ const ProjectModal = lazy(() => import('./components/project-modal').then(m => (
 
 const Testimonials = lazy(() => import('./components/ui/unique-testimonial').then((m) => ({ default: m.Testimonials })));
 const RevealImageList = lazy(() => import('./components/ui/reveal-images').then((m) => ({ default: m.RevealImageList })));
-import CustomCursor from './components/ui/custom-cursor';
+const CustomCursor = lazy(() => import('./components/ui/custom-cursor'));
 import Preloader from './components/ui/preloader';
 const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m => ({ default: m.ScrollToTop })));
 

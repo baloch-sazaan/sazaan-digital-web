@@ -16,12 +16,18 @@ const lenisOptions = {
   easing: (t: number) => 1 - Math.pow(1 - t, 4), 
 };
 
+const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
-      <ReactLenis root options={lenisOptions}>
+      {isMobile ? (
         <App />
-      </ReactLenis>
+      ) : (
+        <ReactLenis root options={lenisOptions}>
+          <App />
+        </ReactLenis>
+      )}
     </HelmetProvider>
   </React.StrictMode>
 );
