@@ -120,9 +120,9 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <SEOMetadata 
-      title="Sazaan Studios | AI Automation for US Medical Clinics & Cafes" 
-      description="Premium AI-driven lead generation and workflow automation for healthcare providers and hospitality businesses in the USA."
-      keywords="AI automation for cafes, medical clinic lead generation, healthcare AI, hospitality automation, business automation USA"
+      title="Modern Web Design for Islamabad Businesses | Sazaan Digital" 
+      description="Scale your clinic or cafe with premium web design and AI workflow automation tailored for Islamabad businesses. Drive leads and scale effortlessly today."
+      keywords="modern web design Islamabad, AI automation for businesses, medical clinic marketing Pakistan, cafe automation, Sazaan Digital"
       canonical="https://sazaanstudio.space/"
     />
     <HeroSection setPage={setPage} />

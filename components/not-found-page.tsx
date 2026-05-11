@@ -1,9 +1,15 @@
 import React from 'react';
-import { Icon } from './primitives';
+import { Icon, SEOMetadata } from './primitives';
 
 export const NotFoundPage = ({ setPage }: { setPage: (p: string) => void }) => {
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 bg-[#F7F7F5]">
+      <SEOMetadata 
+        title="Page Not Found | Sazaan Digital" 
+        description="The page you are looking for does not exist. Return to the home page of Sazaan Digital."
+        keywords="404, not found, Sazaan Digital"
+        noindex={true}
+      />
       <div className="relative z-10 text-center max-w-lg mx-auto">
         <div
           className="font-barlow font-black leading-none tracking-tightest mb-4 select-none text-[#111111] opacity-10"

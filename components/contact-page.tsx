@@ -177,9 +177,9 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="relative isolate bg-[#F7F7F5] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
     >
       <SEOMetadata 
-        title="Contact Our AI Studio" 
-        description="Ready to scale your US medical clinic or cafe with AI? Secure your industry authority today with our premium automation and lead generation solutions."
-        keywords="contact AI automation agency, medical clinic marketing USA, cafe automation inquiry, hospitality AI solutions"
+        title="Contact Sazaan | Top Web Design & Automation in Islamabad" 
+        description="Ready to scale your business? Partner with the leading web design and AI automation agency in Islamabad. Contact us today for a free consultation."
+        keywords="contact web design agency Islamabad, AI automation experts Pakistan, hire web developers Islamabad, business scaling solutions"
         canonical="https://sazaanstudio.space/#contact"
       />
       {/* Back Button */}
