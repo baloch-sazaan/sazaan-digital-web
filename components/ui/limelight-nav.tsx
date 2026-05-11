@@ -24,6 +24,7 @@ export type NavItem = {
   id: string | number;
   icon: React.ReactElement;
   label?: string;
+  href?: string;
   onClick?: () => void;
 };
 
@@ -57,7 +58,7 @@ export const LimelightNav = ({
 }: LimelightNavProps) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [isReady, setIsReady] = useState(false);
-  const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const navItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const limelightRef = useRef<HTMLDivElement | null>(null);
 
   // Sync internal state when prop changes (e.g. navigation from footer)
@@ -93,13 +94,16 @@ export const LimelightNav = ({
 
   return (
     <nav className={`relative inline-flex items-center h-14 rounded-full bg-white/50 backdrop-blur-sm border border-[#E2E2DE] px-2 ${className}`}>
-      {items.map(({ id, icon, label, onClick }, index) => (
-          <button
+      {items.map(({ id, icon, label, href, onClick }, index) => (
+          <a
             key={id}
-            type="button"
+            href={href || `#${id}`}
             ref={(el) => { navItemRefs.current[index] = el; }}
             className={`relative z-20 flex h-full cursor-pointer items-center justify-center p-4 ${iconContainerClassName}`}
-            onClick={() => handleItemClick(index, onClick)}
+            onClick={(e) => {
+              if (onClick) e.preventDefault();
+              handleItemClick(index, onClick);
+            }}
             aria-label={label}
           >
             {cloneElement(icon, {
@@ -107,7 +111,7 @@ export const LimelightNav = ({
                 activeIndex === index ? 'opacity-100 scale-110 text-[#111111]' : 'opacity-40 text-[#555555]'
               } ${(icon.props as any)?.className || ''} ${iconClassName || ''}`,
             } as any)}
-          </button>
+          </a>
       ))}
 
       <div 
