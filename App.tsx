@@ -231,7 +231,7 @@ export default function App() {
             <ScrollProgress />
             <StructuredData />
             {isValidPage && <Suspense fallback={null}><Navbar page={page} setPage={setPage} /></Suspense>}
-            <CustomCursor />
+            <Suspense fallback={null}><CustomCursor /></Suspense>
             <Suspense fallback={null}><ScrollToTop /></Suspense>
             <BackgroundWrapper />
 
