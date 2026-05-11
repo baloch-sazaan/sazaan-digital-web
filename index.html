@@ -35,19 +35,50 @@
 
   <link rel="stylesheet" href="/assets/css/splash.css" />
 
-  <!-- Structured Data -->
+  <!-- Structured Data: Semantic Architecture for Sazaan Studio -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": ["ProfessionalService", "Organization"],
       "name": "Sazaan Studio",
       "url": "https://sazaanstudio.space",
       "logo": "https://sazaanstudio.space/favicon.webp",
-      "description": "Premium AI-driven lead generation and workflow automation for healthcare providers and hospitality businesses in the USA.",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "hello@sazaanstudio.space",
-        "contactType": "sales"
+      "image": "https://sazaanstudio.space/favicon.webp",
+      "description": "Systems-driven Web Development, CRM Integration, and Workflow Automation for US businesses.",
+      "telephone": "",
+      "email": "hello@sazaanstudio.space",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "areaServed": "US",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Sazaan Studio Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "WebDesign",
+              "name": "Systems-driven Web Development & UI/UX"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "SoftwareApplication",
+              "name": "CRM Systems & Client Retention Setups",
+              "applicationCategory": "BusinessApplication"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Workflow Automation & Lead Generation Systems"
+            }
+          }
+        ]
       },
       "sameAs": [
         "https://instagram.com/sazaanstudio",
