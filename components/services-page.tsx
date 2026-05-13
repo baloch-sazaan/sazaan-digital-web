@@ -64,7 +64,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
-        title="Digital Solutions & Services" 
+        title="UI/UX Design & AI Automation Services — Sazaan Studio" 
         description="Explore our range of digital services, from high-performance web design to AI-driven business automation systems."
         keywords="web design services, AI automation, CRM systems, Sazaan Studios services"
         canonical="https://sazaanstudio.space/services"

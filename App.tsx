@@ -173,7 +173,7 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <SEOMetadata 
-      title="Modern Web Design & Digital Solutions" 
+      title="Sazaan Studio — UI/UX & AI Automation for US Brands" 
       description="We build custom digital experiences for creative studios and modern businesses. Ready to scale your digital presence? Let's get started."
       keywords="custom web design, digital agency, creative studio websites, modern business systems, Sazaan Studios"
       canonical="https://sazaanstudio.space/"

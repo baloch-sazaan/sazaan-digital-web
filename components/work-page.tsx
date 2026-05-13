@@ -82,7 +82,7 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
       className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
-        title="Our Systems & Architecture" 
+        title="Our Work — Design & Automation Projects — Sazaan Studio" 
         description="View our latest projects in digital architecture, custom system design, and high-performance web development."
         keywords="web design portfolio, system architecture, Sazaan Studios projects"
         canonical="https://sazaanstudio.space/work"

@@ -116,7 +116,7 @@ export const PrivacyPolicyPage = () => {
       className="bg-[#F7F7F5] min-h-screen pt-32 pb-24 px-4"
     >
       <SEOMetadata 
-        title="Privacy Policy | Data Security for Web & AI Services"
+        title="Privacy Policy — Sazaan Studio"
         description="Review the privacy policy for Sazaan Studios. Learn how we handle your data securely for our custom web design, AI automation, and lead generation services."
         keywords="Sazaan privacy policy, data protection Islamabad, website data security, AI automation privacy"
         canonical="https://sazaanstudio.space/privacy-policy"
