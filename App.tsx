@@ -75,37 +75,57 @@ const StructuredData = React.memo(() => {
   );
 });
 
-class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, { hasError: boolean }> {
-  state = { hasError: false };
-  static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch(_error: Error, _info: ErrorInfo) { /* Silent for production - handled by ErrorBoundary UI */ }
+class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, { hasError: boolean; error: Error | null }> {
+  constructor(props: { children: ReactNode; fallback?: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
 
-  handleReset = () => {
-    this.setState({ hasError: false });
-    // Redirect to home and clear state
-    window.location.href = '/'; 
-  };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("System Runtime Crash:", error, errorInfo);
+    
+    // Auto-recovery for chunk load errors (common in SPAs after deployment)
+    const isChunkError = error.message.includes('fetch') || 
+                        error.message.includes('dynamically imported') ||
+                        error.message.includes('Loading chunk');
+    
+    if (isChunkError) {
+      console.warn("Detected chunk load failure. Self-healing via reload...");
+      window.location.reload();
+    }
+  }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback ?? (
-        <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center bg-[#0A0A0A]">
-          <div className="w-16 h-16 mb-8 rounded-xl bg-[#111111] border border-[#222222] flex items-center justify-center">
-            <span className="text-white font-barlow font-black text-2xl">!</span>
+      if (this.props.fallback) return this.props.fallback;
+      return (
+        <div className="fixed inset-0 z-[1000000] bg-black flex flex-col items-center justify-center p-8 text-center">
+          <div className="w-16 h-16 border-2 border-[#E8FF3A] flex items-center justify-center mb-8 animate-pulse">
+             <span className="text-[#E8FF3A] font-barlow font-black text-2xl">!</span>
           </div>
-          <h1 className="text-4xl font-black font-barlow mb-4 uppercase tracking-tightest text-white">SYSTEM_ERROR</h1>
-          <p className="text-[#888888] mb-8 max-w-md font-medium leading-relaxed font-dmsans uppercase tracking-widest text-[10px]">
-            Our systems are self-healing. A manual return to the origin is recommended.
+          <h1 className="text-[#E8FF3A] font-barlow font-black text-5xl uppercase tracking-tightest italic mb-4">
+            SYSTEM_ERROR
+          </h1>
+          <p className="text-[#BBBBBB] font-dmsans max-w-md mb-12 uppercase tracking-widest text-[10px] leading-relaxed">
+            Our systems encountered a runtime interruption. This usually occurs during background updates or synchronization cycles.
           </p>
           <button 
-            onClick={this.handleReset}
-            className="px-10 py-4 bg-[#E8FF3A] text-black font-black font-barlow uppercase tracking-tightest shadow-xl hover:scale-105 transition-transform"
+            onClick={() => {
+              this.setState({ hasError: false, error: null });
+              window.location.href = '/'; 
+            }}
+            className="px-8 py-4 bg-[#E8FF3A] text-black font-barlow font-black uppercase tracking-widest hover:bg-white transition-colors"
           >
             RESTORE SYSTEM
           </button>
         </div>
       );
     }
+
     return this.props.children;
   }
 }
@@ -158,7 +178,13 @@ export default function App() {
   const [page, setPageRaw] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
-      return hash || 'home';
+      if (hash && (VALID_PAGES as readonly string[]).includes(hash)) return hash;
+      
+      const path = window.location.pathname.replace('/', '');
+      if (path && (VALID_PAGES as readonly string[]).includes(path)) return path;
+      if (path === 'privacy') return 'privacy-policy'; // Alias
+      
+      return 'home';
     }
     return 'home';
   });
@@ -168,9 +194,13 @@ export default function App() {
 
   const setPage = (newPage: string) => {
     if (newPage === page) return;
-    setPageRaw(newPage);
-    lenis?.scrollTo(0, { immediate: true });
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
     window.history.pushState({ page: newPage }, '', `#${newPage}`);
+    setPageRaw(newPage);
   };
 
   useEffect(() => {

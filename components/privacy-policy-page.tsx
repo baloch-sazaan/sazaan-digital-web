@@ -153,7 +153,7 @@ export const PrivacyPolicyPage = () => {
         </aside>
 
         {/* Mobile Navigation Pill Bar */}
-        <div className="lg:hidden sticky top-[73px] -mx-4 px-4 w-[calc(100%+2rem)] z-40 bg-[#F7F7F5]/95 backdrop-blur-md border-b border-[#E2E2DE] overflow-x-auto scrollbar-hide py-3 flex gap-3 pointer-events-auto mb-8">
+        <div className="lg:hidden sticky top-0 md:top-[73px] -mx-4 px-4 w-[calc(100%+2rem)] z-[100] bg-[#F7F7F5]/95 backdrop-blur-md border-b border-[#E2E2DE] overflow-x-auto scrollbar-hide py-3 flex gap-3 pointer-events-auto mb-8">
           {SECTIONS.map((section) => (
             <button
               key={section.id}
