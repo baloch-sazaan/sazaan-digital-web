@@ -6,12 +6,12 @@ import App from './App';
 import './assets/css/styles.css';
 
 const lenisOptions = {
-  lerp: 0.1, // Increased for snappier response
-  duration: 1.2, // Reduced for less 'laggy' feel
+  lerp: 0.1,
+  duration: 1.0,
   smoothWheel: true,
-  smoothTouch: false, 
-  wheelMultiplier: 1,
-  touchMultiplier: 1,
+  smoothTouch: true,
+  touchMultiplier: 1.5,
+  wheelMultiplier: 1.2,
   infinite: false,
   easing: (t: number) => 1 - Math.pow(1 - t, 4), 
 };
@@ -21,13 +21,9 @@ const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width:
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
-      {isMobile ? (
+      <ReactLenis root options={lenisOptions}>
         <App />
-      ) : (
-        <ReactLenis root options={lenisOptions}>
-          <App />
-        </ReactLenis>
-      )}
+      </ReactLenis>
     </HelmetProvider>
   </React.StrictMode>
 );

@@ -33,9 +33,13 @@ export const ContainerScroll = ({
   const scale     = useSpring(rawScale,     springConfig);
   const translate = useSpring(rawTranslate, springConfig);
 
+  // Subtle rotation for mobile to prevent lag
+  const mobileRotate = useTransform(scrollYProgress, [0, 1], [10, 0]);
+  const activeRotate = isMobile ? mobileRotate : rotate;
+
   return (
     <div
-      className="h-[54rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
+      className="h-[40rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
       ref={containerRef}
       style={{ position: 'relative' }}
     >
@@ -44,7 +48,7 @@ export const ContainerScroll = ({
         style={{ perspective: '1000px' }}
       >
         <Header translate={translate} titleComponent={titleComponent} />
-        <Card rotate={rotate} translate={translate} scale={scale} isMobile={isMobile}>
+        <Card rotate={activeRotate} translate={translate} scale={scale} isMobile={isMobile}>
           {children}
         </Card>
       </div>
