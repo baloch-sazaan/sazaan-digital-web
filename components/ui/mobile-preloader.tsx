@@ -10,26 +10,24 @@ const MobilePreloader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Mobile progress is much faster
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(onComplete, 400); // Shorter exit delay
+          setTimeout(onComplete, 200); // Super short exit delay
           return 100;
         }
-        // Big jumps for mobile to feel "shooting fast"
-        const inc = Math.random() > 0.5 ? 25 : 10;
+        const inc = Math.random() > 0.4 ? 30 : 15; // Even faster jumps
         return Math.min(100, prev + inc);
       });
-    }, 60); // Faster interval
+    }, 50); // Faster interval
     return () => clearInterval(timer);
   }, [onComplete]);
 
   return (
     <m.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.3 } }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
       className="fixed inset-0 z-[9999999] bg-[#0A0A0A] flex flex-col items-center justify-center font-barlow"
     >
       {/* Minimalist Progress Line */}

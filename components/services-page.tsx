@@ -64,9 +64,9 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
-        title="Custom Web Design & AI Automation Services" 
-        description="Transform your local business with advanced AI automation, smart lead generation, and custom web design systems. Scale your clinic or cafe with Sazaan Studios."
-        keywords="web design services, AI automation for business, custom website development, medical clinic automation, Sazaan Studios"
+        title="Digital Solutions & Services" 
+        description="Explore our range of digital services, from high-performance web design to AI-driven business automation systems."
+        keywords="web design services, AI automation, CRM systems, Sazaan Studios services"
         canonical="https://sazaanstudio.space/services"
       />
       <section className="pt-40 pb-24 border-b border-[#222222]">

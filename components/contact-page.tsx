@@ -177,9 +177,9 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="relative isolate bg-[#F7F7F5] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
     >
       <SEOMetadata 
-        title="Get a Free Audit | Contact Sazaan Studios" 
-        description="Ready to scale your business? Contact Sazaan Studios today for a free audit of your web presence and automation systems. Specialized in US and UK local businesses."
-        keywords="contact Sazaan Studios, free business audit, web design consultation, automation systems audit"
+        title="Contact | Scale Your Presence" 
+        description="Ready to build your digital future? Contact Sazaan Studios today to start your project."
+        keywords="contact sazaan studios, start project, digital solutions contact"
         canonical="https://sazaanstudio.space/contact"
       />
       {/* Back Button */}

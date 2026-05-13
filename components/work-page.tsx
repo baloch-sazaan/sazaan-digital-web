@@ -82,9 +82,9 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
       className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
-        title="Portfolio & Case Studies | Web Design & Automation" 
-        description="Explore elite case studies in custom web design and AI automation. Discover how Sazaan Studios has scaled local businesses, clinics, and cafes globally."
-        keywords="web design portfolio, AI automation case studies, business growth systems, Sazaan Studios projects"
+        title="Our Systems & Architecture" 
+        description="View our latest projects in digital architecture, custom system design, and high-performance web development."
+        keywords="web design portfolio, system architecture, Sazaan Studios projects"
         canonical="https://sazaanstudio.space/work"
       />
       <section className="pt-40 pb-24 border-b border-[#222222]">

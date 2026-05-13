@@ -28,8 +28,6 @@ const ProjectModal = lazy(() => import('./components/project-modal').then(m => (
 const Testimonials = lazy(() => import('./components/ui/unique-testimonial').then((m) => ({ default: m.Testimonials })));
 const RevealImageList = lazy(() => import('./components/ui/reveal-images').then((m) => ({ default: m.RevealImageList })));
 const CustomCursor = lazy(() => import('./components/ui/custom-cursor'));
-import Preloader from './components/ui/preloader';
-import MobilePreloader from './components/ui/mobile-preloader';
 const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m => ({ default: m.ScrollToTop })));
 
 const VALID_PAGES = ['home', 'services', 'work', 'contact', 'privacy-policy'] as const;
@@ -53,9 +51,9 @@ const StructuredData = React.memo(() => {
     "@type": "ProfessionalService",
     "name": "Sazaan Studios",
     "url": "https://sazaanstudio.space",
-    "logo": "https://sazaanstudio.space/favicon.webp",
-    "image": "https://sazaanstudio.space/favicon.webp",
-    "description": "Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit.",
+    "logo": "https://sazaanstudio.space/favicon.webp?v=6",
+    "image": "https://sazaanstudio.space/favicon.webp?v=6",
+    "description": "We build custom digital experiences for creative studios and modern businesses. Ready to scale your digital presence? Let's get started.",
     "priceRange": "$$$",
     "email": "hello@sazaanstudio.space",
     "address": {
@@ -175,9 +173,9 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <SEOMetadata 
-      title="Sazaan Studios | Web Design & Automation for Local Businesses" 
-      description="Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit."
-      keywords="custom web design, AI business automation, medical clinic websites, cafe website systems, Sazaan Studios, US UK digital agency"
+      title="Modern Web Design & Digital Solutions" 
+      description="We build custom digital experiences for creative studios and modern businesses. Ready to scale your digital presence? Let's get started."
+      keywords="custom web design, digital agency, creative studio websites, modern business systems, Sazaan Studios"
       canonical="https://sazaanstudio.space/"
     />
     <HeroSection setPage={setPage} />
@@ -282,29 +280,15 @@ export default function App() {
   const isValidPage = (VALID_PAGES as readonly string[]).includes(page as any);
   const showFooter = page !== 'contact' && isValidPage;
 
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          isTouch ? (
-            <MobilePreloader onComplete={() => setIsLoading(false)} />
-          ) : (
-            <Preloader onComplete={() => setIsLoading(false)} />
-          )
-        )}
-      </AnimatePresence>
-      
-      {!isLoading && (
-        <LazyMotion features={loadFeatures}>
-          <ErrorBoundary>
-            <ScrollProgress />
-            <StructuredData />
-            {isValidPage && <Suspense fallback={null}><Navbar page={page} setPage={setPage} /></Suspense>}
-            <Suspense fallback={null}><CustomCursor /></Suspense>
-            <Suspense fallback={null}><ScrollToTop /></Suspense>
-            <BackgroundWrapper />
+    <LazyMotion features={loadFeatures}>
+      <ErrorBoundary>
+        <ScrollProgress />
+        <StructuredData />
+        {isValidPage && <Suspense fallback={null}><Navbar page={page} setPage={setPage} /></Suspense>}
+        <Suspense fallback={null}><CustomCursor /></Suspense>
+        <Suspense fallback={null}><ScrollToTop /></Suspense>
+        <BackgroundWrapper />
 
             <main id="main-content" role="main" className="relative min-h-screen overflow-x-hidden">
               <AnimatePresence mode="wait">
@@ -382,9 +366,7 @@ export default function App() {
                 </Suspense>
               )}
             </AnimatePresence>
-          </ErrorBoundary>
-        </LazyMotion>
-      )}
-    </>
+        </ErrorBoundary>
+      </LazyMotion>
   );
 }

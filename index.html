@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#111111">
   
-  <link rel="icon" type="image/webp" href="/favicon.webp?v=5" sizes="32x32">
-  <link rel="icon" type="image/webp" href="/favicon.webp?v=5" sizes="192x192">
-  <link rel="icon" type="image/webp" href="/favicon.webp?v=5" sizes="512x512">
-  <link rel="apple-touch-icon" href="/favicon.webp?v=5">
-  <link rel="manifest" href="/site.webmanifest?v=5">
+  <link rel="icon" type="image/webp" href="/favicon.webp?v=6">
+  <link rel="apple-touch-icon" href="/favicon.webp?v=6">
+  <link rel="manifest" href="/site.webmanifest?v=6">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,21 +18,57 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=DM+Sans:wght@400;500;700&display=swap">
   </noscript>
 
-  <title>Sazaan Studios | Web Design & Automation for Local Businesses</title>
-  <script>
-    (function() {
-      var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 768);
-      document.documentElement.style.backgroundColor = isMobile ? '#0A0A0A' : '#E8FF3A';
-    })();
-  </script>
-  <meta name="description" content="Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit." />
+  <title>Sazaan Studios | Modern Web Design & Digital Solutions</title>
+  <style>
+    #splash-screen-v2 {
+      position: fixed;
+      inset: 0;
+      background: #E8FF3A;
+      z-index: 9999999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+    }
+    .splash-box {
+      width: 100px;
+      height: 100px;
+      background: #111111;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      animation: splash-pulse 2s infinite ease-in-out;
+    }
+    @keyframes splash-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .splash-text {
+      margin-top: 24px;
+      font-family: sans-serif;
+      font-weight: 900;
+      letter-spacing: 0.3em;
+      color: #111111;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    body.app-ready #splash-screen-v2 {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+  <meta name="description" content="We build custom digital experiences for creative studios and modern businesses. Ready to scale your digital presence? Let's get started." />
   
   <!-- Open Graph -->
-  <meta property="og:title" content="Sazaan Studios | Web Design & Automation for Local Businesses" />
-  <meta property="og:description" content="Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit." />
-  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Sazaan Studios | Modern Web Design & Digital Solutions" />
+  <meta property="og:description" content="We build custom digital experiences for creative studios and modern businesses. Ready to scale your digital presence? Let's get started." />
+  <meta property="og:image" content="https://sazaanstudio.space/favicon.webp?v=6" />
   <meta property="og:url" content="https://sazaanstudio.space" />
-  <meta property="og:image" content="https://sazaanstudio.space/favicon.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sazaan Studios" />
 
   <link rel="stylesheet" href="/assets/css/splash.css" />
 
@@ -94,6 +128,14 @@
   </script>
 </head>
 <body>
+  <div id="splash-screen-v2">
+    <div class="splash-box">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="#E8FF3A">
+        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+      </svg>
+    </div>
+    <div class="splash-text">INITIALIZING SYSTEM</div>
+  </div>
   <!-- Accessibility Skip Link -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000001] focus:px-4 focus:py-2 focus:bg-[#E8FF3A] focus:text-black focus:font-bold focus:rounded-lg">Skip to content</a>
 
