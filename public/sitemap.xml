@@ -3,28 +3,35 @@
   <!-- Homepage -->
   <url>
     <loc>https://sazaanstudio.space/</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- Main Silos -->
+  <!-- Main Services -->
   <url>
     <loc>https://sazaanstudio.space/services</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <!-- Portfolio / Work -->
   <url>
     <loc>https://sazaanstudio.space/work</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- Contact / Policies -->
+  <!-- Contact -->
   <url>
     <loc>https://sazaanstudio.space/contact</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Privacy Policy -->
   <url>
-    <loc>https://sazaanstudio.space/privacy</loc>
+    <loc>https://sazaanstudio.space/privacy-policy</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

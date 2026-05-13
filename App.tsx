@@ -51,20 +51,54 @@ const StructuredData = React.memo(() => {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Sazaan Studios",
-    "description": "Premium AI-driven lead generation and workflow automation for healthcare providers and hospitality businesses in the USA. Specialized in AI automation for cafes and medical clinic lead generation.",
     "url": "https://sazaanstudio.space",
     "logo": "https://sazaanstudio.space/favicon.webp",
-    "sameAs": [
-      "https://dribbble.com/sazaanstudio",
-      "https://instagram.com/sazaanstudio"
-    ],
+    "image": "https://sazaanstudio.space/favicon.webp",
+    "description": "Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit.",
+    "priceRange": "$$$",
+    "email": "hello@sazaanstudio.space",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Remote",
-      "addressRegion": "Global",
-      "addressCountry": "US"
+      "addressLocality": "Islamabad",
+      "addressCountry": "PK"
     },
-    "keywords": "AI automation for cafes, medical clinic lead generation, healthcare AI solutions, hospitality automation USA"
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "33.6844",
+      "longitude": "73.0479"
+    },
+    "areaServed": ["US", "UK", "Islamabad"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Sazaan Studios Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Medical Clinic Web Design",
+            "description": "Custom high-converting websites for medical clinics and healthcare providers."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Cafe & Restaurant Systems",
+            "description": "Modern website and ordering systems for cafes and local hospitality businesses."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "AI Workflow Automation",
+            "description": "Custom AI integration to streamline local business operations and lead generation."
+          }
+        }
+      ]
+    },
+    "keywords": "web design, AI automation, clinic websites, cafe automation, Sazaan Studios, US UK local business marketing"
   };
 
   return (
@@ -140,9 +174,9 @@ const HomePage = ({ setPage }: { setPage: (page: string) => void }) => (
     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   >
     <SEOMetadata 
-      title="Modern Web Design for Islamabad Businesses | Sazaan Digital" 
-      description="Scale your clinic or cafe with premium web design and AI workflow automation tailored for Islamabad businesses. Drive leads and scale effortlessly today."
-      keywords="modern web design Islamabad, AI automation for businesses, medical clinic marketing Pakistan, cafe automation, Sazaan Digital"
+      title="Sazaan Studios | Web Design & Automation for Local Businesses" 
+      description="Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit."
+      keywords="custom web design, AI business automation, medical clinic websites, cafe website systems, Sazaan Studios, US UK digital agency"
       canonical="https://sazaanstudio.space/"
     />
     <HeroSection setPage={setPage} />

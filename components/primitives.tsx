@@ -17,11 +17,11 @@ export const SEOMetadata = ({
   description, 
   keywords = "web design, digital agency, small business websites, SEO, automation, digital solutions, Sazaan Studios",
   canonical,
-  ogImage = "https://sazaanstudio.space/og-image.jpg",
+  ogImage = "https://sazaanstudio.space/favicon.webp",
   ogType = "website",
   noindex = false
 }: SEOMetadataProps) => {
-  const fullTitle = `${title} | Sazaan Studios`;
+  const fullTitle = title.includes('Sazaan') ? title : `${title} | Sazaan Studios`;
   const siteUrl = "https://sazaanstudio.space";
   const fullCanonical = canonical ? (canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`) : siteUrl;
 

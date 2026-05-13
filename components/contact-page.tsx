@@ -177,10 +177,10 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="relative isolate bg-[#F7F7F5] px-6 py-24 sm:py-32 lg:px-8 overflow-hidden min-h-screen pt-40"
     >
       <SEOMetadata 
-        title="Contact Sazaan | Top Web Design & Automation in Islamabad" 
-        description="Ready to scale your business? Partner with the leading web design and AI automation agency in Islamabad. Contact us today for a free consultation."
-        keywords="contact web design agency Islamabad, AI automation experts Pakistan, hire web developers Islamabad, business scaling solutions"
-        canonical="https://sazaanstudio.space/#contact"
+        title="Get a Free Audit | Contact Sazaan Studios" 
+        description="Ready to scale your business? Contact Sazaan Studios today for a free audit of your web presence and automation systems. Specialized in US and UK local businesses."
+        keywords="contact Sazaan Studios, free business audit, web design consultation, automation systems audit"
+        canonical="https://sazaanstudio.space/contact"
       />
       {/* Back Button */}
       <div className="max-w-2xl mx-auto mb-12">

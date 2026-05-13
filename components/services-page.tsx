@@ -64,10 +64,10 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
       className="bg-[#0A0A0A]"
     >
       <SEOMetadata 
-        title="AI Automation & Custom Web Design in Islamabad | Sazaan" 
-        description="Transform your business with advanced AI automation, smart lead generation, and custom web design systems designed for Islamabad clinics and cafes."
-        keywords="Islamabad web design, AI automation Islamabad, custom website development, digital agency Pakistan, business automation"
-        canonical="https://sazaanstudio.space/#services"
+        title="Custom Web Design & AI Automation Services" 
+        description="Transform your local business with advanced AI automation, smart lead generation, and custom web design systems. Scale your clinic or cafe with Sazaan Studios."
+        keywords="web design services, AI automation for business, custom website development, medical clinic automation, Sazaan Studios"
+        canonical="https://sazaanstudio.space/services"
       />
       <section className="pt-40 pb-24 border-b border-[#222222]">
         <div className="container">
