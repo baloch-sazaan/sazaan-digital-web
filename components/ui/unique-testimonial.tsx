@@ -62,7 +62,7 @@ export function Testimonials() {
 
         <p
           className={cn(
-            "text-4xl md:text-6xl lg:text-7xl font-black font-barlow uppercase text-[#111111] text-center max-w-5xl mx-auto leading-[0.95] tracking-tightest transition-all duration-400 ease-out",
+            "text-[clamp(2rem,6vw,4.5rem)] font-black font-barlow uppercase text-[#111111] text-center max-w-5xl mx-auto leading-[0.95] tracking-tightest transition-all duration-400 ease-out",
             isAnimating ? "opacity-0 blur-md scale-[0.98]" : "opacity-100 blur-0 scale-100",
           )}
         >
@@ -77,7 +77,7 @@ export function Testimonials() {
       <div className="flex flex-col items-center gap-6 mt-2">
         <p
           className={cn(
-            "text-[10px] font-bold font-dmsans text-[#555555] tracking-[0.3em] uppercase transition-all duration-500 ease-out",
+            "text-[clamp(0.85rem,1.5vw,1rem)] font-bold font-dmsans text-[#555555] tracking-[0.3em] uppercase transition-all duration-500 ease-out",
             isAnimating ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0",
           )}
         >
@@ -128,7 +128,7 @@ export function Testimonials() {
                   <div className="overflow-hidden">
                     <span
                       className={cn(
-                        "text-[10px] font-bold font-dmsans tracking-widest uppercase whitespace-nowrap block",
+                        "text-[clamp(0.85rem,1.5vw,1rem)] font-bold font-dmsans tracking-widest uppercase whitespace-nowrap block",
                         "transition-colors duration-300",
                         isActive ? "text-white" : "text-[#111111]",
                       )}

@@ -42,15 +42,15 @@ const PrivacySection = ({
         style={{ y }}
         className="absolute -top-6 -left-2 md:-left-8 pointer-events-none select-none"
       >
-        <span className="font-barlow font-black text-[64px] md:text-[100px] text-[#111111] opacity-[0.04] leading-none">
+        <span className="font-barlow font-black text-[clamp(3rem,10vw,8rem)] text-[#111111] opacity-[0.04] leading-none">
           {number}
         </span>
       </m.div>
       <div className="relative z-10">
-        <h2 className="font-barlow font-bold text-lg md:text-xl text-[#111111] uppercase tracking-tightest mb-6">
+        <h2 className="font-barlow font-bold text-[clamp(1.2rem,3vw,2rem)] text-[#111111] uppercase tracking-tightest mb-6">
           {title}
         </h2>
-        <div className="font-dmsans text-[#555555] leading-[1.6] space-y-4 text-sm md:text-[15px]">
+        <div className="font-dmsans text-[#555555] leading-[1.6] space-y-4 text-[clamp(0.9rem,2vw,1.1rem)]">
           {children}
         </div>
       </div>
@@ -137,10 +137,10 @@ export const PrivacyPolicyPage = () => {
                       activeSection === section.id ? 'opacity-100' : 'opacity-40 hover:opacity-70'
                     }`}
                   >
-                    <span className="font-barlow font-bold text-sm tracking-widest text-[#111111] mt-0.5">
+                    <span className="font-barlow font-bold text-[clamp(0.85rem,1.5vw,1rem)] tracking-widest text-[#111111] mt-0.5">
                       {section.number}
                     </span>
-                    <span className={`font-dmsans font-medium text-[13px] uppercase tracking-wider leading-tight ${
+                    <span className={`font-dmsans font-medium text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-wider leading-tight ${
                       activeSection === section.id ? 'text-[#111111]' : 'text-[#555555]'
                     }`}>
                       {section.title}
@@ -158,7 +158,7 @@ export const PrivacyPolicyPage = () => {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className={`whitespace-nowrap px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all ${
+              className={`whitespace-nowrap px-4 py-1.5 rounded-full text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest transition-all ${
                 activeSection === section.id 
                   ? 'bg-[#111111] text-white' 
                   : 'bg-[#E2E2DE]/50 text-[#555555]'
@@ -173,10 +173,10 @@ export const PrivacyPolicyPage = () => {
         <Reveal>
           <div className="bg-white border border-[#E2E2DE] rounded-[16px] p-6 md:p-12 shadow-sm">
             <header className="mb-12">
-              <h1 className="font-barlow font-black text-3xl md:text-[56px] text-[#111111] uppercase tracking-tightest leading-none mb-3">
+              <h1 className="font-barlow font-black text-[clamp(2rem,6vw,4.5rem)] text-[#111111] uppercase tracking-tightest leading-none mb-3">
                 PRIVACY POLICY
               </h1>
-              <p className="font-dmsans text-xs md:text-[14px] text-[#555555]">
+              <p className="font-dmsans text-[clamp(0.85rem,1.5vw,1rem)] text-[#555555]">
                 Last updated: {currentMonthYear}
               </p>
             </header>

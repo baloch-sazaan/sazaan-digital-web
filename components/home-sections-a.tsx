@@ -82,7 +82,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
               className="relative inline-block px-4 sm:px-12 py-4"
             >
               <h1
-                className="text-white text-[clamp(2.5rem,10vw,8rem)] font-black mt-0 leading-[0.9] tracking-tightest text-center uppercase font-barlow relative z-10"
+                className="text-white text-[clamp(2rem,6vw,4.5rem)] font-black mt-0 leading-[0.9] tracking-tightest text-center uppercase font-barlow relative z-10"
               >
                 <TextReveal>Modern</TextReveal><br />
                 <span className="italic">
@@ -101,7 +101,7 @@ export const HeroSection = ({ setPage }: { setPage: (p: string) => void }) => {
             >
               <ScrollScrubText 
                 text="Full-stack engineering and UI/UX design for creative studios and modern businesses. We build the tools that power your vision."
-                className="text-[#888888] font-dmsans text-lg leading-relaxed uppercase tracking-wider justify-center"
+                className="text-[#888888] font-dmsans text-[clamp(0.9rem,2vw,1.1rem)] leading-relaxed uppercase tracking-wider justify-center"
                 wordClassName="opacity-20"
               />
             </motion.div>

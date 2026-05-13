@@ -11,7 +11,7 @@ export default function ServicesGlowingGrid({ setPage }: { setPage: (p: string) 
           <div className="mb-6">
             <SectionLabel>Our Expertise</SectionLabel>
           </div>
-          <h2 className="text-5xl md:text-8xl font-black tracking-tightest text-white max-w-4xl leading-[0.9] uppercase font-barlow">
+          <h2 className="text-[clamp(2rem,6vw,4.5rem)] font-black tracking-tightest text-white max-w-4xl leading-[0.9] uppercase font-barlow">
             Building <br />
             <span className="text-white italic">Digital Authority</span>
           </h2>
@@ -133,10 +133,10 @@ const GridItem = React.memo(({ icon, title, description, onClick }: GridItemProp
               {icon}
             </div>
             <div className="space-y-4">
-              <h2 className="tracking-tight font-barlow text-2xl font-black text-white uppercase leading-tight">
+              <h2 className="tracking-tight font-barlow text-[clamp(1.2rem,3vw,2rem)] font-black text-white uppercase leading-tight">
                 {title}
               </h2>
-              <p className="text-sm md:text-base text-[#888888] font-dmsans leading-relaxed">
+              <p className="text-[clamp(0.9rem,2vw,1.1rem)] text-[#888888] font-dmsans leading-relaxed">
                 {description}
               </p>
             </div>

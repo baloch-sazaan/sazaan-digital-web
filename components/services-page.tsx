@@ -83,7 +83,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
               hidden: { opacity: 0, y: 30 },
               show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
             }}>
-              <h1 className="text-[clamp(2.5rem,9vw,8rem)] font-black text-white font-barlow uppercase leading-[0.85] tracking-tightest">
+              <h1 className="text-[clamp(2rem,6vw,4.5rem)] font-black text-white font-barlow uppercase leading-[0.85] tracking-tightest">
                 <TextReveal>Digital</TextReveal> <span className="italic whitespace-nowrap"><TextReveal delay={0.2}>Solutions.</TextReveal></span>
               </h1>
             </m.div>
@@ -92,12 +92,12 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
             }} className="max-w-md">
-                <p className="text-lg font-dmsans text-[#A0A0A0] leading-relaxed mb-8">
+                <p className="text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans text-[#A0A0A0] leading-relaxed mb-8">
                   We provide comprehensive digital solutions tailored for creative studios and modern businesses. We bridge the gap between vision and execution.
                 </p>
                 <div className="flex gap-4">
                     <div className="w-12 h-[1px] bg-[#222222] mt-3" />
-                    <span className="text-[10px] font-bold text-[#888888] uppercase tracking-[0.3em]">Modern Development Agency</span>
+                    <span className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold text-[#888888] uppercase tracking-[0.3em]">Modern Development Agency</span>
                 </div>
             </m.div>
           </div>
@@ -121,21 +121,21 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
                     <div className="w-10 h-10 border border-[#222222] flex items-center justify-center group-hover:border-[#E8FF3A] transition-colors">
                         <Icon name={s.icon} size={16} className="text-[#888888] group-hover:text-[#E8FF3A]" />
                     </div>
-                    <span className="text-[10px] font-bold font-dmsans tracking-widest text-[#555555] uppercase group-hover:text-[#E8FF3A]">
+                    <span className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold font-dmsans tracking-widest text-[#555555] uppercase group-hover:text-[#E8FF3A]">
                         {s.cat}
                     </span>
                   </div>
 
-                  <h3 className="text-3xl font-black font-barlow text-white uppercase leading-none tracking-tight mb-6 group-hover:text-[#E8FF3A] transition-colors">
+                  <h3 className="text-[clamp(1.2rem,3vw,2rem)] font-black font-barlow text-white uppercase leading-none tracking-tight mb-6 group-hover:text-[#E8FF3A] transition-colors">
                     {s.title}
                   </h3>
-                  <p className="text-sm font-dmsans text-[#A0A0A0] leading-relaxed mb-10 group-hover:text-white/90">
+                  <p className="text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans text-[#A0A0A0] leading-relaxed mb-10 group-hover:text-white/90">
                     {s.desc}
                   </p>
 
                   <ul className="space-y-4 mb-12">
                     {s.bullets.map(b => (
-                      <li key={b} className="flex items-center gap-3 text-[11px] font-bold font-dmsans text-[#888888] uppercase tracking-wider group-hover:text-white transition-colors">
+                      <li key={b} className="flex items-center gap-3 text-[clamp(0.85rem,1.5vw,1rem)] font-bold font-dmsans text-[#888888] uppercase tracking-wider group-hover:text-white transition-colors">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#E8FF3A] border border-black group-hover:bg-white" />
                         {b}
                       </li>
@@ -143,7 +143,7 @@ export const ServicesPage = ({ setPage }: { setPage: (p: string) => void }) => {
                   </ul>
 
                   <div className="mt-auto pt-8 border-t border-[#222222] flex justify-between items-center group-hover:border-[#E8FF3A]/20">
-                    <span className="text-[10px] font-bold text-[#888888] uppercase tracking-widest group-hover:text-[#E8FF3A]">Inquire Now</span>
+                    <span className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold text-[#888888] uppercase tracking-widest group-hover:text-[#E8FF3A]">Inquire Now</span>
                     <Icon name="arrowUpRight" size={14} className="text-[#888888] group-hover:text-[#E8FF3A]" />
                   </div>
                 </div>

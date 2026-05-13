@@ -8,8 +8,8 @@ import { Icon } from './primitives';
 const Logo = () => (
   <div className="flex items-center gap-1">
     <div className="flex flex-col items-start leading-[0.85]">
-      <span className="text-white text-2xl md:text-3xl font-black font-barlow tracking-tightest uppercase">Sazaan</span>
-      <span className="text-[#E8FF3A] text-[10px] font-bold font-barlow tracking-[0.4em] uppercase">Studio</span>
+      <span className="text-white text-[clamp(1.2rem,3vw,2rem)] font-black font-barlow tracking-tightest uppercase">Sazaan</span>
+      <span className="text-[#E8FF3A] text-[clamp(0.85rem,1.5vw,1rem)] font-bold font-barlow tracking-[0.4em] uppercase">Studio</span>
     </div>
   </div>
 );
@@ -113,7 +113,7 @@ export const Navbar = ({ page, setPage }: { page: string; setPage: (p: string) =
               href="#contact"
               onClick={(e) => { e.preventDefault(); navigate('contact'); }}
               aria-label="Get in touch"
-              className="hidden lg:flex btn btn-primary py-2 px-6 text-xs min-h-[44px] items-center"
+              className="hidden lg:flex btn btn-primary py-2 px-6 text-[clamp(0.85rem,1.5vw,1rem)] min-h-[44px] items-center"
             >
               Start a Project
             </a>
@@ -179,7 +179,7 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12">
           <div>
             <Logo />
-            <p className="text-sm leading-relaxed text-[#CCCCCC] max-w-[300px] mt-6 font-dmsans">
+            <p className="text-[clamp(0.9rem,2vw,1.1rem)] leading-relaxed text-[#CCCCCC] max-w-[300px] mt-6 font-dmsans">
               Digital solutions for creative studios and modern businesses. We build high-performance systems for brands that demand technical excellence.
             </p>
             <div className="flex gap-3 mt-8">
@@ -243,12 +243,12 @@ export const Footer = ({ setPage }: { setPage: (p: string) => void }) => {
             <div className="flex flex-col items-start gap-4 mt-6">
               <a
                 href="mailto:hello@sazaanstudio.space"
-                className="text-white text-lg font-black font-barlow uppercase tracking-tight hover:text-[#E8FF3A] transition-colors"
+                className="text-white text-[clamp(0.9rem,2vw,1.1rem)] font-black font-barlow uppercase tracking-tight hover:text-[#E8FF3A] transition-colors"
               >
                 hello@sazaanstudio.space
               </a>
-              <p className="text-[#BBBBBB] text-sm font-dmsans">Available Worldwide</p>
-              <p className="text-[#BBBBBB] text-[10px] mt-8 font-bold uppercase tracking-widest">© 2026 Sazaan Studio</p>
+              <p className="text-[#BBBBBB] text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans">Available Worldwide</p>
+              <p className="text-[#BBBBBB] text-[clamp(0.85rem,1.5vw,1rem)] mt-8 font-bold uppercase tracking-widest">© 2026 Sazaan Studio</p>
             </div>
           </div>
         </div>

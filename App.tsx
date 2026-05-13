@@ -140,10 +140,10 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
           <div className="w-16 h-16 border-2 border-[#E8FF3A] flex items-center justify-center mb-8 animate-pulse">
              <span className="text-[#E8FF3A] font-barlow font-black text-2xl">!</span>
           </div>
-          <h1 className="text-[#E8FF3A] font-barlow font-black text-5xl uppercase tracking-tightest italic mb-4">
+          <h1 className="text-[#E8FF3A] font-barlow font-black text-[clamp(1.5rem,4vw,3rem)] uppercase tracking-tightest italic mb-4">
             SYSTEM_ERROR
           </h1>
-          <p className="text-[#BBBBBB] font-dmsans max-w-md mb-12 uppercase tracking-widest text-[10px] leading-relaxed">
+          <p className="text-[#BBBBBB] font-dmsans max-w-md mb-12 uppercase tracking-widest text-[clamp(0.85rem,1.5vw,1rem)] leading-relaxed">
             Our systems encountered a runtime interruption. This usually occurs during background updates or synchronization cycles.
           </p>
           <button 

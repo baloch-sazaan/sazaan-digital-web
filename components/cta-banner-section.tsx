@@ -11,13 +11,13 @@ export const CTABannerSection = ({ setPage }: { setPage: (p: string) => void }) 
             <h2 className="text-[clamp(2rem,6vw,4.5rem)] font-black font-barlow text-[#111111] uppercase tracking-tightest leading-[0.95]">
               Building your <span className="italic whitespace-nowrap">digital presence.</span>
             </h2>
-            <p className="text-lg font-dmsans text-[#555555] mt-6 max-w-md mx-auto">
+            <p className="text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans text-[#555555] mt-6 max-w-md mx-auto">
               We specialize in custom solutions for creative studios and modern businesses. Ready to scale your digital presence?
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-6">
               <Magnetic>
                 <button 
-                  className="px-10 py-4 bg-[#111111] text-white font-bold font-dmsans text-xs uppercase tracking-widest hover:bg-[#E8FF3A] hover:text-[#111111] transition-all"
+                  className="px-10 py-4 bg-[#111111] text-white font-bold font-dmsans text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-widest hover:bg-[#E8FF3A] hover:text-[#111111] transition-all"
                   onClick={() => setPage('contact')}
                 >
                   Start Project <Icon name="arrowRight" size={14} />
@@ -25,7 +25,7 @@ export const CTABannerSection = ({ setPage }: { setPage: (p: string) => void }) 
               </Magnetic>
               <Magnetic>
                 <a 
-                  className="px-10 py-4 border border-[#E2E2DE] text-[#111111] font-bold font-dmsans text-xs uppercase tracking-widest hover:border-[#111111] transition-all"
+                  className="px-10 py-4 border border-[#E2E2DE] text-[#111111] font-bold font-dmsans text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-widest hover:border-[#111111] transition-all"
                   href="mailto:hello@sazaanstudio.space?subject=Project%20Inquiry"
                 >
                   Email Manifesto

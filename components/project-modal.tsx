@@ -80,38 +80,38 @@ export const ProjectModal = ({ project, onClose }: { project: Project, onClose: 
         {/* Right Side: Content */}
         <div className="flex-1 overflow-y-auto p-8 md:p-12 custom-scrollbar bg-[#111111]">
           <SectionLabel>{project.cat}</SectionLabel>
-          <h2 className="text-4xl md:text-6xl font-black text-white mt-6 mb-8 leading-none font-barlow uppercase tracking-tightest">
+          <h2 className="text-[clamp(1.5rem,4vw,3rem)] font-black text-white mt-6 mb-8 leading-none font-barlow uppercase tracking-tightest">
             {project.title}
           </h2>
           
           <div className="grid grid-cols-2 gap-8 mb-12 pb-10 border-b border-[#222222]">
             <div>
-              <div className="text-[11px] uppercase tracking-widest text-[#888888] mb-2 font-dmsans font-bold">Metric Peak</div>
-              <div className="text-2xl md:text-3xl font-black text-black font-barlow uppercase bg-[#E8FF3A] inline-block px-2">
+              <div className="text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-widest text-[#888888] mb-2 font-dmsans font-bold">Metric Peak</div>
+              <div className="text-[clamp(1.2rem,3vw,2rem)] font-black text-black font-barlow uppercase bg-[#E8FF3A] inline-block px-2">
                 {project.metric}
               </div>
             </div>
             <div>
-              <div className="text-[11px] uppercase tracking-widest text-[#888888] mb-2 font-dmsans font-bold">Lifecycle</div>
-              <div className="text-2xl md:text-3xl font-black text-white font-barlow uppercase">
+              <div className="text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-widest text-[#888888] mb-2 font-dmsans font-bold">Lifecycle</div>
+              <div className="text-[clamp(1.2rem,3vw,2rem)] font-black text-white font-barlow uppercase">
                 {project.status}
               </div>
             </div>
           </div>
 
           <div className="mb-12">
-            <h4 className="text-[11px] uppercase tracking-widest text-[#888888] mb-4 font-dmsans font-bold">Summary</h4>
-            <p className="text-lg leading-relaxed text-white font-dmsans">
+            <h4 className="text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-widest text-[#888888] mb-4 font-dmsans font-bold">Summary</h4>
+            <p className="text-[clamp(0.9rem,2vw,1.1rem)] leading-relaxed text-white font-dmsans">
               {project.fullSummary || project.description}
             </p>
           </div>
 
           {project.features && (
             <div className="mb-12">
-              <h4 className="text-[11px] uppercase tracking-widest text-[#888888] mb-4 font-dmsans font-bold">Core Features</h4>
+              <h4 className="text-[clamp(0.85rem,1.5vw,1rem)] uppercase tracking-widest text-[#888888] mb-4 font-dmsans font-bold">Core Features</h4>
               <div className="flex flex-wrap gap-3">
                 {project.features.map(f => (
-                  <span key={f} className="px-4 py-2 rounded-none bg-[#0A0A0A] border border-[#222222] text-[11px] text-white font-bold font-dmsans uppercase tracking-wider">
+                  <span key={f} className="px-4 py-2 rounded-none bg-[#0A0A0A] border border-[#222222] text-[clamp(0.85rem,1.5vw,1rem)] text-white font-bold font-dmsans uppercase tracking-wider">
                     {f}
                   </span>
                 ))}

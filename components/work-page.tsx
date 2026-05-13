@@ -104,7 +104,7 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
               }}
               className="lg:col-span-8"
             >
-              <h1 className="text-[clamp(2.5rem,8vw,6.5rem)] font-black text-white font-barlow uppercase leading-[1.05] tracking-tightest">
+              <h1 className="text-[clamp(2rem,6vw,4.5rem)] font-black text-white font-barlow uppercase leading-[1.05] tracking-tightest">
                 <TextReveal>Build Your</TextReveal> <br />
                 <span className="italic text-[#E8FF3A] bg-black px-6 -ml-4 inline-block whitespace-nowrap">
                   <TextReveal delay={0.3}>Digital Presence</TextReveal>
@@ -121,11 +121,11 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
             >
                 <ScrollScrubText 
                   text="We engineer high-performance systems for those who demand technical excellence. Explore our architecture."
-                  className="text-lg font-dmsans text-[#A0A0A0] leading-relaxed mb-8"
+                  className="text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans text-[#A0A0A0] leading-relaxed mb-8"
                   wordClassName="opacity-25"
                 />
                 <div className="flex flex-col gap-6">
-                    <div className="text-xl md:text-2xl font-black font-barlow tracking-tight text-white uppercase leading-tight">
+                    <div className="text-[clamp(1.5rem,4vw,3rem)] font-black font-barlow tracking-tight text-white uppercase leading-tight">
                       The best way to grow is to{' '}
                       <PointerHighlight>
                         <span className="bg-[#E8FF3A] px-2">collaborate</span>
@@ -146,7 +146,7 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                         accent: '#E8FF3A',
                         published: true
                       })}
-                      className="group flex items-center gap-3 text-white font-bold tracking-widest text-xs uppercase"
+                      className="group flex items-center gap-3 text-white font-bold tracking-widest text-[clamp(0.85rem,1.5vw,1rem)] uppercase"
                     >
                       <div className="w-10 h-10 rounded-full border border-[#222222] flex items-center justify-center group-hover:bg-[#E8FF3A] group-hover:border-[#E8FF3A] transition-all">
                         <Icon name="zap" size={14} />
@@ -169,7 +169,7 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 onClick={() => setFilter(k)} 
-                className={`px-8 py-3 rounded-none text-xs font-bold font-dmsans tracking-widest uppercase transition-all border ${
+                className={`px-8 py-3 rounded-none text-[clamp(0.85rem,1.5vw,1rem)] font-bold font-dmsans tracking-widest uppercase transition-all border ${
                   filter === k ? 'bg-[#E8FF3A] border-[#111111] text-black' : 'bg-[#111111] border-[#222222] text-[#888888] hover:border-white'
                 }`}
               >
@@ -209,27 +209,27 @@ export const WorkPage = ({ setPage, setSelectedProject }: { setPage: (p: string)
                     className="grayscale group-hover:grayscale-0 transition-all duration-700"
                   />
                   <div className="absolute bottom-4 left-6 z-50">
-                    <span className="text-[10px] font-bold tracking-widest text-[#888888] uppercase font-dmsans bg-black px-2 py-1 border border-[#222222]">
+                    <span className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold tracking-widest text-[#888888] uppercase font-dmsans bg-black px-2 py-1 border border-[#222222]">
                       {w.cat}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-8 flex-1 flex flex-col">
-                  <h2 className="text-2xl font-black font-barlow text-white uppercase tracking-tight group-hover:text-[#E8FF3A] inline-block self-start transition-all">
+                  <h2 className="text-[clamp(1.5rem,4vw,3rem)] font-black font-barlow text-white uppercase tracking-tight group-hover:text-[#E8FF3A] inline-block self-start transition-all">
                     {w.title}
                   </h2>
-                  <p className="text-sm font-dmsans text-[#A0A0A0] mt-4 mb-8 leading-relaxed">
+                  <p className="text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans text-[#A0A0A0] mt-4 mb-8 leading-relaxed">
                     {w.description}
                   </p>
                   <div className="mt-auto pt-6 border-t border-[#222222] flex justify-between items-center">
                     <div>
-                      <div className="text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1">Result</div>
-                      <div className="text-lg font-black font-barlow text-[#E8FF3A] uppercase">{w.metric}</div>
+                      <div className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold text-[#555555] uppercase tracking-widest mb-1">Result</div>
+                      <div className="text-[clamp(0.9rem,2vw,1.1rem)] font-black font-barlow text-[#E8FF3A] uppercase">{w.metric}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1">Status</div>
-                      <div className="text-lg font-black font-barlow text-white uppercase">{w.status}</div>
+                      <div className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold text-[#555555] uppercase tracking-widest mb-1">Status</div>
+                      <div className="text-[clamp(0.9rem,2vw,1.1rem)] font-black font-barlow text-white uppercase">{w.status}</div>
                     </div>
                   </div>
                 </div>

@@ -38,11 +38,11 @@ const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' 
           />
         </div>
 
-        <h2 className="text-4xl sm:text-5xl font-black text-[#111111] mb-6 uppercase tracking-tightest leading-none font-barlow italic">
+        <h2 className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#111111] mb-6 uppercase tracking-tightest leading-none font-barlow italic">
           {title || (status === 'success' ? 'TRANSMITTED' : status === 'info' ? 'HOLD UP' : 'ERROR')}
         </h2>
         
-        <p className="text-[#555555] font-bold font-dmsans leading-relaxed mb-12 text-base sm:text-lg">
+        <p className="text-[#555555] font-bold font-dmsans leading-relaxed mb-12 text-[clamp(0.9rem,2vw,1.1rem)]">
           {message || (status === 'success' 
             ? "Your architecture inquiry is received. Expect a response within 24 hours."
             : status === 'info' ? "Please accept the privacy policy to continue your transmission." : "Architecture transmission failed. Verify details and retry.")}
@@ -50,7 +50,7 @@ const FeedbackModal = ({ status, onClose, title, message }: { status: 'success' 
 
         <button 
           onClick={onClose}
-          className="w-full py-6 rounded-none bg-[#E8FF3A] text-[#111111] font-black text-xl uppercase font-barlow tracking-widest hover:bg-[#111111] hover:text-white transition-all border border-[#111111]"
+          className="w-full py-6 rounded-none bg-[#E8FF3A] text-[#111111] font-black text-[clamp(0.85rem,1.5vw,1rem)] uppercase font-barlow tracking-widest hover:bg-[#111111] hover:text-white transition-all border border-[#111111]"
         >
           {status === 'info' ? 'ACCEPT & CLOSE' : 'CONTINUE'}
         </button>
@@ -186,7 +186,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       <div className="max-w-2xl mx-auto mb-12">
         <button 
           onClick={() => { setPage('home'); }}
-          className="group flex items-center gap-4 text-[#111111]/40 hover:text-[#111111] transition-all duration-300 font-bold tracking-widest text-xs uppercase cursor-pointer"
+          className="group flex items-center gap-4 text-[#111111]/40 hover:text-[#111111] transition-all duration-300 font-bold tracking-widest text-[clamp(0.85rem,1.5vw,1rem)] uppercase cursor-pointer"
         >
           <div className="w-12 h-12 rounded-full border border-[#E2E2DE] bg-white flex items-center justify-center group-hover:border-[#E8FF3A] group-hover:bg-[#E8FF3A] transition-all">
             <Icon name="share" size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform text-[#111111]" />
@@ -196,10 +196,10 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       </div>
 
       <div className="mx-auto max-w-2xl text-center relative z-10">
-        <h1 className="text-[clamp(2.5rem,8vw,7rem)] font-black tracking-tightest text-[#111111] font-barlow uppercase leading-none">
+        <h1 className="text-[clamp(2rem,6vw,4.5rem)] font-black tracking-tightest text-[#111111] font-barlow uppercase leading-none">
           Build Your <span className="italic whitespace-nowrap">Digital Presence</span>
         </h1>
-        <p className="mt-8 text-lg font-dmsans text-[#555555] leading-relaxed max-w-lg mx-auto uppercase tracking-wider mb-16">
+        <p className="mt-8 text-[clamp(0.9rem,2vw,1.1rem)] font-dmsans text-[#555555] leading-relaxed max-w-lg mx-auto uppercase tracking-wider mb-16">
           Secure your industry authority. We architect high-performance experiences for creative studios and scaling enterprises.
         </p>
 
@@ -211,10 +211,10 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
               <div className="w-12 h-12 bg-[#111111] flex items-center justify-center rounded-full border border-[#222222]">
                 <Icon name="mail" size={20} className="text-[#E8FF3A]" />
               </div>
-              <h3 className="font-barlow font-bold text-xl text-[#111111]">Email Address</h3>
+              <h3 className="font-barlow font-bold text-[clamp(1.2rem,3vw,2rem)] text-[#111111]">Email Address</h3>
             </div>
-            <p className="text-[#555555] font-dmsans text-[13px] mb-2">Have a project in mind? send a message.</p>
-            <a href="mailto:hello@sazaanstudio.space" className="font-bold text-[#111111] font-dmsans hover:text-[#555555] transition-colors underline decoration-[#E8FF3A] decoration-2 underline-offset-4 text-sm">hello@sazaanstudio.space</a>
+            <p className="text-[#555555] font-dmsans text-[clamp(0.9rem,2vw,1.1rem)] mb-2">Have a project in mind? send a message.</p>
+            <a href="mailto:hello@sazaanstudio.space" className="font-bold text-[#111111] font-dmsans hover:text-[#555555] transition-colors underline decoration-[#E8FF3A] decoration-2 underline-offset-4 text-[clamp(0.85rem,1.5vw,1rem)]">hello@sazaanstudio.space</a>
           </div>
 
           <div className="flex flex-col">
@@ -222,10 +222,10 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
               <div className="w-12 h-12 bg-[#111111] flex items-center justify-center rounded-full border border-[#222222]">
                 <Icon name="phone" size={20} className="text-[#E8FF3A]" />
               </div>
-              <h3 className="font-barlow font-bold text-xl text-[#111111]">Phone No</h3>
+              <h3 className="font-barlow font-bold text-[clamp(1.2rem,3vw,2rem)] text-[#111111]">Phone No</h3>
             </div>
-            <p className="text-[#555555] font-dmsans text-[13px] mb-2">We're interested in working together</p>
-            <p className="font-bold text-[#111111] font-dmsans text-sm">(603) 555-0123</p>
+            <p className="text-[#555555] font-dmsans text-[clamp(0.9rem,2vw,1.1rem)] mb-2">We're interested in working together</p>
+            <p className="font-bold text-[#111111] font-dmsans text-[clamp(0.85rem,1.5vw,1rem)]">(603) 555-0123</p>
           </div>
         </div>
       </div>
@@ -233,7 +233,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
       <form onSubmit={handleFormSubmit} className="mx-auto mt-16 max-w-xl sm:mt-24 relative z-10">
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
           <div>
-            <label htmlFor="firstName" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+            <label htmlFor="firstName" className="block text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               First name
             </label>
             <div className="mt-2.5">
@@ -245,12 +245,12 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="given-name"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="lastName" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+            <label htmlFor="lastName" className="block text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Last name
             </label>
             <div className="mt-2.5">
@@ -262,12 +262,12 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="family-name"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="company" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+            <label htmlFor="company" className="block text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Niche / Company
             </label>
             <div className="mt-2.5">
@@ -279,12 +279,12 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="organization"
                 value={formData.company}
                 onChange={handleChange}
-                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans placeholder:text-[#BBBBBB]"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans placeholder:text-[#BBBBBB]"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+            <label htmlFor="email" className="block text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Email Address
             </label>
             <div className="mt-2.5">
@@ -296,12 +296,12 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+            <label htmlFor="phone" className="block text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Phone number
             </label>
             <div className="mt-2.5">
@@ -312,7 +312,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                     name="country"
                     autoComplete="country"
                     aria-label="Country"
-                    className="col-start-1 row-start-1 w-full appearance-none bg-transparent py-5 pr-10 pl-4 text-base text-[#111111] focus:outline-none sm:text-sm font-dmsans"
+                    className="col-start-1 row-start-1 w-full appearance-none bg-transparent py-5 pr-10 pl-4 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] focus:outline-none sm:text-[clamp(0.85rem,1.5vw,1rem)] font-dmsans"
                   >
                     <option value="US">US</option>
                     <option value="PK">PK</option>
@@ -329,13 +329,13 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                   placeholder="123-456-7890"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="block min-w-0 grow bg-transparent py-5 pr-4 pl-2 text-base text-[#111111] outline-none sm:text-sm font-dmsans placeholder:text-[#BBBBBB]"
+                  className="block min-w-0 grow bg-transparent py-5 pr-4 pl-2 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] outline-none sm:text-[clamp(0.85rem,1.5vw,1rem)] font-dmsans placeholder:text-[#BBBBBB]"
                 />
               </div>
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="message" className="block text-xs font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
+            <label htmlFor="message" className="block text-[clamp(0.85rem,1.5vw,1rem)] font-bold uppercase tracking-widest text-[#555555] mb-2 font-dmsans">
               Transmission Details
             </label>
             <div className="mt-2.5">
@@ -346,7 +346,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 rows={4}
                 value={formData.message}
                 onChange={handleChange}
-                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-base text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
+                className="block w-full rounded-none border border-[#E2E2DE] bg-white px-4 py-5 text-[clamp(0.9rem,2vw,1.1rem)] text-[#111111] outline-none focus:border-[#E8FF3A] transition-all font-dmsans"
               />
             </div>
           </div>
@@ -361,7 +361,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
                 className="size-5 h-5 w-5 rounded-none border-[#E2E2DE] text-[#E8FF3A] focus:ring-[#E8FF3A]"
               />
             </div>
-            <label htmlFor="agreed" className="text-xs font-bold text-[#555555] font-dmsans uppercase tracking-wider">
+            <label htmlFor="agreed" className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold text-[#555555] font-dmsans uppercase tracking-wider">
               I agree to the{' '}
               <button 
                 type="button"
@@ -378,7 +378,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="block w-full rounded-none bg-[#E8FF3A] px-6 py-6 text-center text-xl font-black text-[#111111] uppercase font-barlow tracking-widest hover:bg-[#111111] hover:text-white transition-all border border-[#111111] disabled:opacity-50"
+            className="block w-full rounded-none bg-[#E8FF3A] px-6 py-6 text-center text-[clamp(0.85rem,1.5vw,1rem)] font-black text-[#111111] uppercase font-barlow tracking-widest hover:bg-[#111111] hover:text-white transition-all border border-[#111111] disabled:opacity-50"
           >
             {status === 'sending' ? 'Transmitting...' : "Initiate Architecture"}
           </button>
@@ -388,7 +388,7 @@ export const ContactPage = ({ setPage }: { setPage: (p: string) => void }) => {
           <button 
             type="button"
             onClick={() => setPage('privacy-policy')}
-            className="text-[10px] font-bold text-[#555555]/40 uppercase tracking-widest hover:text-[#111111] transition-colors"
+            className="text-[clamp(0.85rem,1.5vw,1rem)] font-bold text-[#555555]/40 uppercase tracking-widest hover:text-[#111111] transition-colors"
           >
             Privacy Policy
           </button>
