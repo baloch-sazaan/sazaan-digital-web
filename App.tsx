@@ -29,6 +29,7 @@ const Testimonials = lazy(() => import('./components/ui/unique-testimonial').the
 const RevealImageList = lazy(() => import('./components/ui/reveal-images').then((m) => ({ default: m.RevealImageList })));
 const CustomCursor = lazy(() => import('./components/ui/custom-cursor'));
 import Preloader from './components/ui/preloader';
+import MobilePreloader from './components/ui/mobile-preloader';
 const ScrollToTop = lazy(() => import('./components/ui/scroll-to-top').then(m => ({ default: m.ScrollToTop })));
 
 const VALID_PAGES = ['home', 'services', 'work', 'contact', 'privacy-policy'] as const;
@@ -286,7 +287,13 @@ export default function App() {
   return (
     <>
       <AnimatePresence mode="wait">
-        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+        {isLoading && (
+          isTouch ? (
+            <MobilePreloader onComplete={() => setIsLoading(false)} />
+          ) : (
+            <Preloader onComplete={() => setIsLoading(false)} />
+          )
+        )}
       </AnimatePresence>
       
       {!isLoading && (

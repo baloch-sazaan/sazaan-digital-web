@@ -21,6 +21,12 @@
   </noscript>
 
   <title>Sazaan Studios | Web Design & Automation for Local Businesses</title>
+  <script>
+    (function() {
+      var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+      document.documentElement.style.backgroundColor = isMobile ? '#0A0A0A' : '#E8FF3A';
+    })();
+  </script>
   <meta name="description" content="Sazaan Studios builds fast, custom websites and automation systems for cafes, clinics, and local businesses in the US and UK. Based in Islamabad. Get a free audit." />
   
   <!-- Open Graph -->
