@@ -1,13 +1,21 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const origin = 'https://sazaanstudios.com';
+    const origin = 'https://sazaanstudio.space';
 
     if (url.protocol === 'http:') {
       return Response.redirect(`https://${url.host}${url.pathname}${url.search}`, 301);
     }
 
-    const assetResponse = await env.ASSETS.fetch(request);
+    let assetResponse = await env.ASSETS.fetch(request);
+    
+    // SPA Fallback: Serve index.html for non-file routes that don't exist
+    // This allows sub-routes like /services to work without triggering a 404
+    if (assetResponse.status === 404 && !url.pathname.split('/').pop().includes('.')) {
+      const indexRequest = new Request(new URL('/index.html', request.url), request);
+      assetResponse = await env.ASSETS.fetch(indexRequest);
+    }
+
     const contentType = assetResponse.headers.get('Content-Type') || '';
     const isHtml = contentType.includes('text/html');
 

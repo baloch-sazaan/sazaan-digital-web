@@ -1,5 +1,0 @@
-# SPA Routing Fallback
-# This ensures that direct navigation to subpages (e.g. /services) works by serving index.html
-# The 200 status code tells Cloudflare to REWRITE the request, not REDIRECT, avoiding loops.
-
-/*  /index.html  200
